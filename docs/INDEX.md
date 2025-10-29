@@ -36,6 +36,8 @@
 
 **[Multi-Dimensional Compression Matrix](patterns/multi-dimensional-compression-matrix.md)** - Active - Comprehensive operationalization (1,343 lines) of [Role × Layer × Phase] compression decision framework. Addresses Gap 1 (HIGH priority) from alignment review. Provides base compression target matrix for all role-layer combinations, phase adjustment guidance, multi-role document strategies (Union/Intersection/Layered), conflict resolution process, mode-switching overhead considerations, 6 worked examples (SESSION.md, DECISIONS.md, TASKS.md, config files, archive, research), edge cases, integration with existing framework, practical application guide, validation approach, and best practices. Enables explicit, repeatable, evidence-based compression decisions.
 
+**[Multi-Role Document Strategies](patterns/multi-role-document-strategies.md)** - Active - Comprehensive guide (1,208 lines) for optimizing documents serving multiple audience roles simultaneously. Addresses Gap 3 (HIGH priority, last HIGH priority gap) from alignment review. Provides systematic strategy selection framework: Union (<20% divergence), Intersection (20-40% divergence, primary role), Layered (>40% divergence, multiple representations). Includes divergence calculation methods, cost/benefit analysis for layered approaches, ROI formulas, break-even analysis, implementation templates (Progressive Detail, Role-Specific Views, Core+Extensions), validation and quality assurance processes, common scenarios (SESSION.md, PROJECT.md, TASKS.md, configs, archives, APIs, runbooks), best practices and anti-patterns, integration with Matrix and Framework. Completes operational foundation for multi-role optimization challenges.
+
 ### Methodology
 
 ---
