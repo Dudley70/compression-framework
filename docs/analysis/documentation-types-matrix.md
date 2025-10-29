@@ -1,16 +1,21 @@
 # Documentation Types and Context Requirements Analysis
 
 **Created**: 2025-10-29 21:40 AEDT
+**Updated**: 2025-10-29 22:15 AEDT (Added technical vs non-technical hybrid distinction)
 **Purpose**: Establish taxonomy of documentation types, audiences, and context preservation requirements to inform compression strategy selection
-**Status**: Initial framework - to be refined
+**Status**: Refined framework v1.1
 
 ---
 
 ## Executive Summary
 
-Compression strategy cannot be one-size-fits-all. Different document types serve different audiences (LLM-only, human-only, hybrid) with different context preservation needs. This analysis creates a matrix to guide optimal format selection.
+Compression strategy cannot be one-size-fits-all. Different document types serve different audiences with different context preservation needs. This analysis creates a matrix to guide optimal format selection.
 
 **Core Insight**: "Token efficiency" is not a single axis - it must balance against readability requirements, comprehension needs, and usage patterns.
+
+**Critical Refinement**: "Hybrid" documents split into two distinct categories based on human technical literacy:
+- **Hybrid-Technical**: Technical humans + LLMs (can read structured/code-like formats)
+- **Hybrid-General**: Non-technical humans + LLMs (need prose and explanations)
 
 ---
 
@@ -18,10 +23,12 @@ Compression strategy cannot be one-size-fits-all. Different document types serve
 
 ### Primary Dimensions
 
-1. **Audience**
-   - LLM-only (never read by humans)
-   - Human-only (never loaded to LLM context)
-   - Hybrid (both humans and LLMs interact)
+1. **Audience** (Refined)
+   - **LLM-only**: Never read by humans
+   - **Hybrid-Technical**: LLMs + technical humans (developers, engineers, architects)
+   - **Hybrid-General**: LLMs + non-technical humans (stakeholders, managers, clients)
+   - **Human-Technical-only**: Technical humans only (never loaded to LLM)
+   - **Human-General-only**: Non-technical humans only (never loaded to LLM)
 
 2. **Purpose**
    - Strategic context (decisions, principles, architecture)
@@ -38,8 +45,10 @@ Compression strategy cannot be one-size-fits-all. Different document types serve
 
 4. **Information Density Requirement**
    - Maximum compression (every token counts)
+   - High compression (structured but parseable)
    - Moderate compression (balance efficiency/readability)
-   - Verbose acceptable (clarity paramount)
+   - Low compression (technical clarity)
+   - Verbose acceptable (general audience clarity paramount)
 
 ---
 
@@ -79,22 +88,181 @@ Compression strategy cannot be one-size-fits-all. Different document types serve
 
 ---
 
-### 2. Human-Only Documents
+### 2. Hybrid-Technical Documents
 
 **Characteristics**:
+- Read by technical humans (developers, engineers, architects) AND loaded to LLM context
+- Audience understands code, structured formats, technical terminology
+- Can read JSON-like structures and concise technical language
+- Token efficiency important but must remain technically clear
+- Often specification or instruction documents
+
+**Examples**:
+- System architecture diagrams (with structured metadata)
+- API specifications (OpenAPI/Swagger style)
+- Technical coding standards
+- Infrastructure as Code configurations
+- Database schema definitions
+- CI/CD pipeline configurations
+- Technical workflow procedures
+- Test specifications (structured format)
+- Technical decision records (ADRs)
+
+**Context Preservation Requirements**:
+- ✅ Complete technical specifications (no ambiguity)
+- ✅ Structured format (parseable by both LLMs and developers)
+- ✅ Domain-specific terminology (audience knows it)
+- ✅ Code examples (when necessary for clarity)
+- ⚖️ Balance: precision vs brevity
+- ❌ Redundant explanations (technical audience infers)
+- ❌ Non-technical analogies (not needed)
+
+**Optimal Format**: Structured technical format
+- YAML/JSON for configurations
+- Markdown with code blocks
+- Structured tables for specifications
+- Short technical sentences
+- Domain terminology without explanation
+- Minimal prose, maximum structure
+
+**Compression Target**: 40-60% reduction vs verbose prose
+- More aggressive than general hybrid
+- Technical humans can parse dense information
+- Structure over explanation
+
+**Example**:
+```yaml
+# Technical hybrid - developers can read this easily
+auth:
+  strategy: JWT
+  refresh: true
+  expiry: 15m
+  rotation: 7d
+  mfa: optional
+```
+
+---
+
+### 3. Hybrid-General Documents
+
+**Characteristics**:
+- Read by non-technical humans (stakeholders, managers, clients) AND loaded to LLM context
+- Audience needs explanations and context
+- Cannot assume technical knowledge
+- Must balance token efficiency with comprehension
+- Often requirement or planning documents
+
+**Examples**:
+- Product requirements documents (PRDs)
+- Project plans (for mixed audiences)
+- User stories and acceptance criteria
+- Business logic specifications
+- Process documentation (for non-technical users)
+- Training materials (technical topics for general audience)
+- Onboarding documentation
+- Feature specifications (business perspective)
+- Testing scenarios (business cases)
+
+**Context Preservation Requirements**:
+- ✅ Complete specifications (no ambiguity)
+- ✅ Explanations for non-obvious points
+- ✅ Context for decisions
+- ✅ Examples when helpful for understanding
+- ✅ Structured but readable format
+- ⚖️ Balance: accessibility vs token efficiency
+- ❌ Technical jargon without explanation
+- ❌ Excessive verbosity (but can't be too terse)
+
+**Optimal Format**: Structured accessible prose
+- Clear section headers
+- Short paragraphs (3-5 sentences max)
+- Bullet points for lists
+- Plain language (avoid jargon or explain it)
+- Examples for clarity
+- Structured but readable
+
+**Compression Target**: 20-40% reduction vs verbose prose
+- Less aggressive than technical hybrid
+- Must maintain comprehension for non-technical readers
+- Cannot sacrifice clarity for tokens
+
+**Example**:
+```markdown
+## Authentication Strategy
+
+**Approach**: JSON Web Tokens (JWT) with refresh capability
+
+**Why**: JWTs allow secure, stateless authentication without 
+requiring server-side session storage.
+
+**User Experience**: Users stay logged in for 15 minutes of 
+activity. System automatically refreshes tokens in background.
+
+**Security**: Optional two-factor authentication available for 
+sensitive accounts.
+```
+
+---
+
+### 4. Human-Technical-Only Documents
+
+**Characteristics**:
+- Read only by technical humans (developers, engineers)
 - Never loaded into LLM context
-- Read and interpreted by humans
-- Clarity and comprehension paramount
-- Narrative flow important
+- Code-heavy or highly technical
+- Token count completely irrelevant
+- Can use technical depth and examples freely
+
+**Examples**:
+- Detailed architecture deep-dives
+- Code review guidelines (with extensive examples)
+- Performance optimization guides
+- Debugging playbooks
+- Technical blog posts
+- Deep-dive research papers
+- Infrastructure troubleshooting guides
+- Advanced technical tutorials
+
+**Context Preservation Requirements**:
+- ✅ Complete technical depth
+- ✅ Extensive code examples
+- ✅ Edge cases and gotchas
+- ✅ Performance considerations
+- ✅ Technical trade-offs explained in depth
+- ✅ Links to external resources
+
+**Optimal Format**: Rich technical prose
+- Detailed explanations
+- Multiple code examples
+- Diagrams and visualizations
+- Technical depth over brevity
+- Assume expert knowledge
+
+**Compression Target**: 0-10% (technical conciseness only)
+- Optimize for technical clarity, not tokens
+- Use technical shorthand naturally
+- Can be dense but must be clear
+
+---
+
+### 5. Human-General-Only Documents
+
+**Characteristics**:
+- Read only by non-technical humans
+- Never loaded into LLM context
+- Narrative and explanatory
 - Token count irrelevant
+- Persuasive or educational intent
 
 **Examples**:
 - Board papers and executive briefings
-- Detailed research reports (for humans)
 - Client-facing proposals
+- Marketing materials
 - User documentation and guides
-- Project retrospectives (team reading)
+- Project retrospectives (for teams)
 - Strategic plans (stakeholder communication)
+- Training materials (non-technical)
+- Business case documents
 
 **Context Preservation Requirements**:
 - ✅ Complete explanations and rationale
@@ -110,46 +278,37 @@ Compression strategy cannot be one-size-fits-all. Different document types serve
 - Visual hierarchy (headers, emphasis)
 - Examples and case studies
 - Accessible language for target audience
+- Storytelling where appropriate
 
-**Compression Target**: None - optimize for human comprehension
+**Compression Target**: 0% - optimize for human comprehension
+- Clarity is paramount
+- Use whatever length needed for understanding
+- Persuasion and engagement matter
 
 ---
 
-### 3. Hybrid Documents (Critical Category)
+### 6. Archival Documents
 
 **Characteristics**:
-- Read by both humans AND loaded to context
-- Must balance token efficiency with human comprehension
-- Need to remain understandable without being verbose
-- Often instruction-based or specification documents
+- Rarely or never loaded to context
+- Historical record
+- Storage efficiency matters
+- Searchability important
 
 **Examples**:
-- System instructions (project rules, behaviors)
-- API specifications (humans design, LLMs consume)
-- Workflow procedures (humans author, LLMs execute)
-- Coding standards (humans define, LLMs follow)
-- Test specifications (humans write, LLMs implement)
+- Completed session logs
+- Historical decision rationale
+- Old project versions
+- Deprecated specifications
 
-**Context Preservation Requirements**:
-- ✅ Complete specifications (no ambiguity)
-- ✅ Concise but clear language
-- ✅ Structured format (parseable)
-- ✅ Human-scannable (can quickly find sections)
-- ⚖️ Balance: explanations vs brevity
-- ❌ Verbose explanations (unless critical for understanding)
+**Token Impact**: Minimal (rarely accessed)
 
-**Optimal Format**: Structured concise prose
-- Clear section headers
-- Bullet points for lists (not paragraphs)
-- Consistent terminology
-- Minimal duplication
-- Short sentences (but complete thoughts)
-- Examples only when necessary for clarity
+**Compression Priority**: Storage efficiency only
 
-**Compression Target**: 30-50% reduction vs verbose prose
-- Not as aggressive as LLM-only
-- Not as verbose as human-only
-- Focus: information density without sacrificing comprehension
+**Recommended Approach**:
+- Conversational compression (99.5% reduction for verbose logs)
+- Structured summaries (decisions, outcomes, artifacts)
+- Compressed but searchable (can find when needed)
 
 ---
 
@@ -171,9 +330,9 @@ Compression strategy cannot be one-size-fits-all. Different document types serve
 - 50 sessions × 2,000 tokens = 100,000 token savings per 1,000 token reduction
 
 **Recommended Approach**:
-- Convert to LSC format (70-85% reduction)
+- Convert to LSC format (70-85% reduction) for LLM-only versions
+- Keep human-readable versions separate if needed
 - Use retrieval-augmented when available (load only relevant slices)
-- Keep only essential context
 
 ---
 
@@ -224,25 +383,74 @@ Compression strategy cannot be one-size-fits-all. Different document types serve
 
 ---
 
-## Comprehensive Mapping Matrix
+## Comprehensive Mapping Matrix (Refined)
 
 | Document Type | Audience | Access Pattern | Compression Priority | Optimal Format | Target Reduction |
 |--------------|----------|----------------|---------------------|----------------|------------------|
-| **Strategic Context** (PROJECT.md) | LLM-only (or hybrid) | Session startup | Critical | LSC format | 70-85% |
+| **Strategic Context** (PROJECT.md) | LLM-only | Session startup | Critical | LSC format | 70-85% |
 | **Session State** (SESSION.md) | LLM-only | Session startup | Critical | LSC format | 70-85% |
 | **Handover Protocol** (HANDOVER.md) | LLM-only | Session startup | Critical | LSC format | 70-85% |
-| **System Instructions** | Hybrid | Session startup | High | Structured concise | 30-50% |
-| **Decision Log** | LLM-primary | On-demand | Moderate | LSC or structured | 50-70% |
-| **API Reference** | Hybrid | On-demand | Moderate | Structured concise | 30-50% |
-| **Technical Specs** | Hybrid | On-demand | Moderate | Structured concise | 30-50% |
-| **Board Papers** | Human-only | Never loaded | None | Traditional prose | 0% (optimize clarity) |
-| **Client Proposals** | Human-only | Never loaded | None | Traditional prose | 0% (optimize persuasion) |
-| **User Documentation** | Human-only | Never loaded | None | Traditional prose | 0% (optimize comprehension) |
+| **System Instructions** | Hybrid-Technical | Session startup | High | Structured technical | 40-60% |
+| **API Specifications** | Hybrid-Technical | On-demand | Moderate | YAML/JSON | 40-60% |
+| **Technical Standards** | Hybrid-Technical | On-demand | Moderate | Structured technical | 40-60% |
+| **Product Requirements** | Hybrid-General | On-demand | Moderate | Structured accessible | 20-40% |
+| **User Stories** | Hybrid-General | On-demand | Moderate | Structured accessible | 20-40% |
+| **Feature Specs** | Hybrid-General | On-demand | Moderate | Structured accessible | 20-40% |
+| **Architecture Deep-Dives** | Human-Technical-only | Never loaded | None | Rich technical prose | 0-10% |
+| **Technical Tutorials** | Human-Technical-only | Never loaded | None | Rich technical prose | 0-10% |
+| **Board Papers** | Human-General-only | Never loaded | None | Traditional prose | 0% |
+| **Client Proposals** | Human-General-only | Never loaded | None | Traditional prose | 0% |
+| **User Documentation** | Human-General-only | Never loaded | None | Traditional prose | 0% |
 | **Session Logs** | Archival | Rarely | Low | Conversational compression | 95-99% |
-| **Research Notes** | Hybrid/Archival | Varies | Moderate | Structured summaries | 40-60% |
-| **Code Comments** | Human-primary | Never loaded | None | Concise prose | Minimal |
-| **Test Cases** | Hybrid | On-demand | Moderate | Structured format | 30-50% |
-| **Workflow Procedures** | Hybrid | Session startup | High | Structured concise | 40-60% |
+| **Decision Archives** | Archival | Rarely | Low | Structured summaries | 50-70% |
+| **Code Comments** | Human-Technical-only | Never loaded | None | Concise technical | Minimal |
+| **Test Cases** | Hybrid-Technical | On-demand | Moderate | Structured format | 40-60% |
+| **Infrastructure Config** | Hybrid-Technical | On-demand | Moderate | YAML/JSON | 40-60% |
+
+---
+
+## Audience Comprehension Requirements
+
+### Technical Humans (Developers, Engineers, Architects)
+
+**Can Understand**:
+- Structured formats (JSON, YAML, TOML)
+- Domain-specific terminology without explanation
+- Code examples as documentation
+- Dense technical specifications
+- Inferred relationships and context
+- Technical shorthand
+
+**Documentation Style**:
+- Minimal prose, maximum structure
+- Technical precision over accessibility
+- Assume foundational knowledge
+- Examples show edge cases and nuances
+- Can handle high information density
+
+**Compression Approach**: Aggressive (40-60% for hybrid, 0-10% for technical-only)
+
+---
+
+### Non-Technical Humans (Stakeholders, Managers, Clients)
+
+**Need**:
+- Plain language explanations
+- Context for decisions
+- Analogies and examples
+- Linear narrative structure
+- Visual formatting for scannability
+- Explicit connections and relationships
+
+**Documentation Style**:
+- Prose-based with clear structure
+- Explain technical terms when used
+- Provide context before details
+- Use examples for clarity
+- Progressive disclosure (summary → details)
+- Accessible language
+
+**Compression Approach**: Conservative (20-40% for hybrid, 0% for general-only)
 
 ---
 
@@ -276,36 +484,41 @@ Regardless of compression level, these must be preserved:
 
 Elements that can be compressed without losing essential information:
 
-1. **Explanatory Prose**
-   - Long explanations (→ concise statements)
-   - Repeated context (→ references)
-   - Scaffolding language ("As we discussed", "It's important to note")
+1. **Explanatory Prose** (Audience-Dependent)
+   - LLM-only: Remove all, generate on demand
+   - Hybrid-Technical: Minimize, technical audience infers
+   - Hybrid-General: Reduce but keep key explanations
+   - Human-only: Keep all necessary for understanding
 
-2. **Examples** (when non-critical)
-   - Illustrative examples (keep only essential ones)
-   - Analogies (unless core to understanding)
-   - Edge cases (document separately if needed)
+2. **Examples** (Context-Dependent)
+   - LLM-only: Remove unless essential for specification
+   - Hybrid-Technical: Keep critical edge cases only
+   - Hybrid-General: Keep examples that aid understanding
+   - Human-only: Include freely for comprehension
 
-3. **Formatting**
-   - Visual formatting (bold, emphasis)
-   - Whitespace (condense while maintaining structure)
-   - Narrative transitions (compress to structured sections)
+3. **Formatting** (Format-Dependent)
+   - LLM-only: Remove all visual formatting
+   - Hybrid-Technical: Minimal structural formatting
+   - Hybrid-General: Keep headers and structure
+   - Human-only: Rich formatting for readability
 
 4. **Redundancy**
-   - Information stated multiple times
-   - Context repeated across documents
-   - Verbose descriptions when IDs suffice
+   - All audiences: Remove information stated multiple times
+   - Use references (IDs) instead of repetition
+   - Eliminate context repeated across documents
 
 ---
 
 ## Compression Strategy Selection Guide
 
-### Decision Tree
+### Decision Tree (Refined)
 
 **Step 1: Who is the primary audience?**
 - LLM-only → Maximum compression (LSC, 70-85%)
-- Human-only → No compression (optimize clarity)
-- Both → Moderate compression (structured concise, 30-50%)
+- Technical humans + LLMs → High compression (structured technical, 40-60%)
+- Non-technical humans + LLMs → Moderate compression (structured accessible, 20-40%)
+- Technical humans only → Minimal compression (technical clarity, 0-10%)
+- Non-technical humans only → No compression (optimize clarity, 0%)
 
 **Step 2: What is the access pattern?**
 - Session startup → Critical compression (every token counts)
@@ -314,14 +527,14 @@ Elements that can be compressed without losing essential information:
 
 **Step 3: What is the information type?**
 - Strategic/principles → LSC format (ID-driven, structured)
-- Specifications → Structured concise (clear but not verbose)
+- Technical specs → Structured format (YAML/JSON for technical, tables for general)
 - Conversational logs → Conversational compression (summarize outcomes)
-- Instructions → Structured concise (unambiguous but efficient)
+- Instructions → Match to audience (technical: structured, general: accessible prose)
 
 **Step 4: What are the comprehension requirements?**
 - Machine-only parsing → Maximum structure (JSON/YAML)
-- Expert human reading → Technical concise (domain-specific terms okay)
-- General audience → Detailed explanations (clarity paramount)
+- Technical human reading → Technical concise (domain-specific terms okay)
+- General audience reading → Accessible prose (explain terms, provide context)
 
 ---
 
@@ -329,24 +542,28 @@ Elements that can be compressed without losing essential information:
 
 ### For New Projects
 
-1. **Start with audience identification**
+1. **Identify document audiences early**
    - Map each document type to primary audience
+   - Split hybrid into technical vs general
    - Identify which documents load to context vs human-only
 
 2. **Apply appropriate format from the start**
    - LLM-only docs: Use LSC format initially
-   - Hybrid docs: Use structured concise format
-   - Human-only: Traditional prose
+   - Hybrid-Technical docs: Use structured technical format (YAML, concise markdown)
+   - Hybrid-General docs: Use structured accessible format (clear prose with structure)
+   - Human-only: Traditional prose optimized for audience
 
 3. **Separate concerns**
    - Don't mix LLM context docs with human communication
    - Generate human-readable views from machine docs when needed
    - Keep source of truth in optimal format for primary use
+   - Create audience-specific versions when needed
 
 ### For Existing Projects
 
 1. **Audit current documentation**
    - Identify which documents load to context regularly
+   - Classify audiences (LLM/technical/general)
    - Measure current token consumption
    - Calculate compression opportunity
 
@@ -358,40 +575,80 @@ Elements that can be compressed without losing essential information:
 3. **Migrate incrementally**
    - Start with one document type
    - Validate information preservation
+   - Test with both LLMs and human audiences
    - Measure actual reduction achieved
    - Expand to other document types
 
-### Hybrid Document Guidelines
+### Hybrid-Technical Document Guidelines
 
-**Key Principle**: Optimize for scannability + parseability
+**Key Principle**: Optimize for technical scannability + machine parseability
 
 **Structure**:
-```markdown
-# Clear Section Headers
+```yaml
+# System Authentication Configuration
 
-## Purpose (2-3 sentences)
-Brief explanation of what this does and why it matters.
+strategy: jwt  # JSON Web Tokens
+refresh_enabled: true
+token_ttl: 15m
+refresh_ttl: 7d
 
-## Specification
-- Requirement: Clear statement
-- Constraint: Explicit limitation  
-- Success criteria: Measurable outcome
+security:
+  mfa: optional
+  rate_limit: 100/min
+  token_rotation: required
 
-## Examples (optional)
-Only include if essential for understanding.
+# Technical audience understands implications without prose
 ```
 
 **Language**:
-- Use domain-specific terms (audience knows them)
-- Complete sentences (but short)
-- Active voice
-- Avoid redundant phrases ("in order to" → "to")
-- Remove scaffolding language
+- Use domain-specific terms freely (audience knows them)
+- Structured over prose (prefer YAML/JSON where possible)
+- Code-like formats acceptable
+- Minimal explanation (technical context assumed)
+- Short technical sentences when prose needed
 
 **Lists vs Prose**:
-- Lists: For specifications, requirements, procedures
-- Prose: For explanations, rationale, context
-- Never: Long paragraphs in list format
+- Prefer structured formats (YAML, JSON, tables)
+- Use prose only for complex logic that needs explanation
+- Specifications in structured formats
+- Minimal narrative
+
+---
+
+### Hybrid-General Document Guidelines
+
+**Key Principle**: Balance comprehension + token efficiency
+
+**Structure**:
+```markdown
+# Authentication System
+
+## Overview
+Users authenticate using secure tokens (JWT - JSON Web Tokens). 
+Tokens expire after 15 minutes to protect against unauthorized access.
+
+## User Experience
+- Login once, stay authenticated for 15 minutes
+- System automatically refreshes in background
+- Optional two-factor authentication for sensitive accounts
+
+## Technical Details
+- Token expiry: 15 minutes
+- Refresh token expiry: 7 days
+- Rate limit: 100 requests per minute
+```
+
+**Language**:
+- Plain language with technical terms explained
+- Complete sentences (but concise)
+- Active voice
+- Provide context before technical details
+- Examples for clarity
+
+**Lists vs Prose**:
+- Lists: For specifications, features, requirements
+- Prose: For explanations, rationale, user impact
+- Mix as needed for comprehension
 
 ---
 
@@ -400,27 +657,42 @@ Only include if essential for understanding.
 ### ❌ Anti-Pattern 1: One-Size-Fits-All Compression
 **Problem**: Applying same compression level to all documents
 **Impact**: Over-compressed human docs become unreadable, under-compressed LLM docs waste tokens
-**Solution**: Use the matrix - match compression to audience and access pattern
+**Solution**: Use the refined matrix - match compression to audience (LLM/technical/general) and access pattern
 
-### ❌ Anti-Pattern 2: Premature Optimization
+### ❌ Anti-Pattern 2: Treating All Hybrid Documents the Same
+**Problem**: Not distinguishing between technical and non-technical human readers
+**Impact**: Technical docs too verbose for engineers, general docs too terse for stakeholders
+**Solution**: Split hybrid into technical (40-60%) and general (20-40%) compression targets
+
+### ❌ Anti-Pattern 3: Premature Optimization
 **Problem**: Compressing documents that are rarely loaded
 **Impact**: Wasted effort, potential information loss
 **Solution**: Focus on session startup docs first (highest cumulative impact)
 
-### ❌ Anti-Pattern 3: Destroying Comprehension for Tokens
-**Problem**: Compressing hybrid docs to point where humans can't understand them
-**Impact**: Maintenance becomes impossible, errors introduced
-**Solution**: Hybrid docs need balance - 30-50% reduction maintains comprehension
+### ❌ Anti-Pattern 4: Destroying Technical Comprehension for Tokens
+**Problem**: Over-compressing hybrid docs to point where humans can't understand them
+**Impact**: Maintenance becomes impossible, errors introduced, human audience alienated
+**Solution**: 
+- Hybrid-Technical: 40-60% reduction maintains technical comprehension
+- Hybrid-General: 20-40% reduction maintains general comprehension
 
-### ❌ Anti-Pattern 4: Mixing Audiences in Single Document
-**Problem**: Creating docs that try to serve both LLMs and humans equally
-**Impact**: Compromises both use cases, neither audience well-served
-**Solution**: Separate documents, or generate human views from machine source
+### ❌ Anti-Pattern 5: Mixing Audience Types in Single Document
+**Problem**: Creating docs that try to serve technical humans, non-technical humans, and LLMs equally
+**Impact**: Compromises all use cases, no audience well-served
+**Solution**: 
+- Create audience-specific versions (technical spec + general summary)
+- Or separate documents entirely
+- Or generate views from structured source
 
-### ❌ Anti-Pattern 5: Compressing Without Measurement
+### ❌ Anti-Pattern 6: Compressing Without Measurement
 **Problem**: Assuming compression worked without measuring
 **Impact**: May not achieve expected benefits, may lose essential information
-**Solution**: Measure token counts before/after, validate information preservation
+**Solution**: Measure token counts before/after, validate information preservation with both LLMs and target human audience
+
+### ❌ Anti-Pattern 7: Assuming Technical Literacy
+**Problem**: Writing for technical audience when stakeholders/clients will read
+**Impact**: Document becomes inaccessible, decisions made without understanding
+**Solution**: Identify actual audience early, create appropriate version for their literacy level
 
 ---
 
@@ -438,9 +710,12 @@ Only include if essential for understanding.
 - Calculate reduction percentage
 - Verify information density maintained or improved
 
-**Target Ranges**:
+**Target Ranges by Audience**:
 - LLM-only: 70-85% reduction
-- Hybrid: 30-50% reduction
+- Hybrid-Technical: 40-60% reduction
+- Hybrid-General: 20-40% reduction
+- Human-Technical-only: 0-10% (technical conciseness)
+- Human-General-only: 0% (optimize clarity)
 - Archival: 95-99% reduction (conversational logs)
 
 ### Information Preservation Validation
@@ -453,10 +728,21 @@ Only include if essential for understanding.
 - [ ] Can reconstruct understanding from compressed version
 
 **Testing Method**:
-1. Load compressed version to LLM
-2. Ask LLM to answer key questions about the content
-3. Compare answers to original version
-4. Verify no critical information lost
+1. **For LLM-only docs**:
+   - Load compressed version to LLM
+   - Ask LLM to answer key questions about the content
+   - Compare answers to original version
+   - Verify no critical information lost
+
+2. **For Hybrid-Technical docs**:
+   - Load to LLM (test machine readability)
+   - Have developer review (test human readability)
+   - Verify both audiences can extract needed information
+
+3. **For Hybrid-General docs**:
+   - Load to LLM (test machine readability)
+   - Have non-technical stakeholder review (test human readability)
+   - Verify comprehension without technical background
 
 ---
 
@@ -464,35 +750,39 @@ Only include if essential for understanding.
 
 ### Research Phase
 1. **Create test corpus**
-   - Select representative documents from each category
+   - Select representative documents from each refined category
+   - Include both technical and general hybrid examples
    - Measure baseline token counts
-   - Document information requirements
+   - Document information requirements per audience
 
 2. **Apply compression techniques**
    - LSC for LLM-only docs
-   - Structured concise for hybrid docs
+   - Structured technical for hybrid-technical docs
+   - Structured accessible for hybrid-general docs
    - Conversational compression for archives
 
 3. **Measure and compare**
-   - Token reduction achieved
-   - Information preservation validated
-   - Comprehension testing (for hybrid docs)
+   - Token reduction achieved per category
+   - Information preservation validated (LLM + appropriate human audience)
+   - Comprehension testing with target audiences
 
 ### Implementation Phase
 1. **Develop format templates**
    - LSC schema for strategic docs
-   - Structured concise templates for hybrid docs
+   - Structured technical templates (YAML/JSON patterns)
+   - Structured accessible templates (clear prose patterns)
    - Compression scripts for conversational logs
 
 2. **Create migration guides**
-   - Step-by-step conversion procedures
-   - Validation checklists
+   - Step-by-step conversion procedures per audience type
+   - Validation checklists (LLM + human audience testing)
    - Rollback procedures
 
 3. **Build tooling**
    - Token counters
-   - Format validators
+   - Format validators (per document type)
    - Compression utilities
+   - Audience comprehension testing tools
 
 ---
 
@@ -500,20 +790,25 @@ Only include if essential for understanding.
 
 **Core Insight**: Compression is not about "making everything smaller" - it's about **optimizing each document for its specific audience and access pattern**.
 
+**Critical Refinement**: Splitting "hybrid" into technical vs general audiences provides much more precise guidance.
+
 **Key Takeaways**:
-1. **Know your audience**: LLM-only, human-only, or hybrid determines strategy
-2. **Measure access patterns**: Session startup docs have highest compression ROI
-3. **Preserve information fidelity**: Compression must not lose essential context
-4. **Balance trade-offs**: Hybrid docs need human comprehension AND token efficiency
-5. **Validate results**: Measure token reduction AND information preservation
+1. **Know your audience precisely**: LLM-only, technical humans, non-technical humans, or combinations
+2. **Technical literacy matters**: Technical humans can handle 40-60% compression, general audiences need 20-40%
+3. **Measure access patterns**: Session startup docs have highest compression ROI
+4. **Preserve information fidelity**: Compression must not lose essential context
+5. **Balance trade-offs appropriately**: Different audiences have different comprehension requirements
+6. **Validate with actual users**: Test with both LLMs AND appropriate human audiences
 
 **Success Criteria**:
 - ✅ LLM-only docs achieve 70-85% reduction with zero information loss
-- ✅ Hybrid docs achieve 30-50% reduction while maintaining human comprehension
+- ✅ Hybrid-Technical docs achieve 40-60% reduction while remaining clear to developers
+- ✅ Hybrid-General docs achieve 20-40% reduction while remaining clear to stakeholders
+- ✅ Human-Technical-only docs optimized for technical depth (0-10% technical conciseness)
+- ✅ Human-General-only docs remain optimized for clarity (0%)
 - ✅ Archival conversational logs achieve 95-99% reduction with key outcomes preserved
-- ✅ Human-only docs remain optimized for clarity, not token count
 
-**Next Document**: Create test corpus with representative examples from each category to validate compression techniques against this framework.
+**Next Document**: Create test corpus with representative examples from each refined category to validate compression techniques against this framework.
 
 ---
 
@@ -543,11 +838,12 @@ tasks, and interact with the system while background work continues.
 {"id":"P1","rule":"async_first","why":"10-60min_blocking=fail","status":"mandatory"}
 ```
 
+**Audience**: LLM-only
 **Information Preserved**: ✅ All facts, ❌ explanatory prose (can be regenerated)
 
 ---
 
-### Example 2: System Instructions (Hybrid)
+### Example 2: System Instructions (Hybrid-Technical)
 
 **Before (Verbose)**: 89 tokens
 ```markdown
@@ -557,17 +853,144 @@ tool to check its existence. This is important because attempting operations
 on non-existent paths will result in errors and waste time.
 ```
 
-**After (Structured Concise)**: 28 tokens (69% reduction)
+**After (Structured Technical)**: 18 tokens (80% reduction)
+```yaml
+file_ops:
+  verify_exists: true  # check path before ops
+  tools: [list_directory, get_file_info]
+```
+
+**Audience**: Hybrid-Technical (developers)
+**Information Preserved**: ✅ Complete specification, ✅ Technical humans can parse, ❌ Verbose explanation
+
+**Alternative Format** (28 tokens, 69% reduction):
 ```markdown
 **File Operations**: Verify path exists (list/get_file_info) before operations. 
 Prevents errors on non-existent paths.
 ```
 
-**Information Preserved**: ✅ Complete specification, ✅ Human-readable, ❌ Verbose explanation
+---
+
+### Example 3: Product Requirements (Hybrid-General)
+
+**Before (Verbose)**: 156 tokens
+```markdown
+The authentication system should provide a secure login experience for our 
+users while maintaining ease of use. Users will log in using their email 
+and password, and the system will keep them authenticated for 15 minutes 
+of active use. After 15 minutes of inactivity, they will need to log in 
+again. This balance between security and convenience ensures that user 
+accounts remain protected while not requiring frequent re-authentication 
+during active sessions.
+```
+
+**After (Structured Accessible)**: 78 tokens (50% reduction)
+```markdown
+## Authentication Requirements
+
+**Login**: Email + password
+
+**Session Duration**: 15 minutes of active use
+
+**Security Model**: Sessions expire after 15 minutes of inactivity, 
+requiring re-login.
+
+**Rationale**: Balances account protection with user convenience during 
+active work sessions.
+```
+
+**Audience**: Hybrid-General (stakeholders + LLMs)
+**Information Preserved**: ✅ All requirements, ✅ Rationale, ✅ Clear to non-technical readers
 
 ---
 
-### Example 3: Conversational Log (Archival)
+### Example 4: API Specification (Hybrid-Technical)
+
+**Before (Verbose Documentation)**: 215 tokens
+```markdown
+The authentication endpoint accepts POST requests at /api/auth/login. 
+The request body should be a JSON object containing the user's email 
+address and password. The endpoint will validate the credentials and, 
+if successful, return a JSON response containing an access token and 
+a refresh token. The access token expires after 15 minutes and should 
+be included in the Authorization header of subsequent requests. The 
+refresh token can be used to obtain a new access token when the current 
+one expires.
+```
+
+**After (OpenAPI-Style)**: 65 tokens (70% reduction)
+```yaml
+POST /api/auth/login:
+  body:
+    email: string
+    password: string
+  response:
+    access_token: string  # expires 15m
+    refresh_token: string  # for renewal
+  auth:
+    header: "Authorization: Bearer {access_token}"
+```
+
+**Audience**: Hybrid-Technical (developers + LLMs)
+**Information Preserved**: ✅ Complete specification, ✅ Technical readers understand immediately
+
+---
+
+### Example 5: Feature Description (Hybrid-General)
+
+**Before (Technical)**: 124 tokens
+```markdown
+Implement JWT-based authentication with refresh token rotation. Access 
+tokens should have 15-minute TTL with RS256 signing algorithm. Refresh 
+tokens persist for 7 days with automatic rotation on use. Include rate 
+limiting at 100 req/min per IP. Optional TOTP-based MFA for enhanced security.
+```
+
+**After (Accessible)**: 95 tokens (23% reduction)
+```markdown
+## User Authentication
+
+**Login Security**: Users authenticate with encrypted tokens that 
+automatically expire after 15 minutes.
+
+**Stay Logged In**: System refreshes authentication automatically for 
+up to 7 days of regular use.
+
+**Protection**: Rate limiting prevents automated attacks (100 attempts 
+per minute maximum).
+
+**Optional**: Two-factor authentication available for sensitive accounts.
+```
+
+**Audience**: Hybrid-General (stakeholders, clients, LLMs)
+**Information Preserved**: ✅ All features, ✅ Understandable without technical background, ❌ Implementation details (can be in separate technical spec)
+
+---
+
+### Example 6: Technical Deep-Dive (Human-Technical-Only)
+
+**Before**: Would never compress this document type
+**Format**: Rich technical prose with extensive examples, diagrams, code samples
+
+**Example Content**:
+```markdown
+## JWT Token Validation Performance Analysis
+
+### Background
+JWT validation in Node.js applications can become a bottleneck under 
+high load. This analysis examines three validation strategies...
+
+[Extensive technical discussion with code examples, performance 
+benchmarks, trade-off analysis, edge cases, etc.]
+```
+
+**After**: No compression (0% reduction)
+**Audience**: Human-Technical-only (never loaded to LLM context)
+**Rationale**: Token count irrelevant, optimize for technical depth and learning
+
+---
+
+### Example 7: Conversational Log (Archival)
 
 **Before (Full Conversation)**: ~8,500 tokens
 ```markdown
@@ -586,7 +1009,21 @@ explanations, examples, and final implementation]
 }
 ```
 
+**Audience**: Archival (rarely retrieved)
 **Information Preserved**: ✅ Decision, ✅ Artifacts, ✅ Outcome, ❌ Verbose discussion (not needed for future reference)
+
+---
+
+## Summary Table: Audience Types and Compression Targets
+
+| Audience Type | Technical Literacy | Token Priority | Compression Target | Format Type | Example Use Case |
+|--------------|-------------------|----------------|-------------------|-------------|------------------|
+| **LLM-only** | N/A | Critical | 70-85% | Machine-first (LSC) | PROJECT.lsc, SESSION.lsc |
+| **Hybrid-Technical** | High | High | 40-60% | Structured technical | API specs, system config |
+| **Hybrid-General** | Low | Moderate | 20-40% | Structured accessible | Product requirements, user stories |
+| **Human-Technical-only** | High | None | 0-10% | Rich technical prose | Architecture deep-dives, tutorials |
+| **Human-General-only** | Low | None | 0% | Traditional prose | Board papers, client proposals |
+| **Archival** | N/A | Low | 95-99% | Conversational compression | Session logs, history |
 
 ---
 
