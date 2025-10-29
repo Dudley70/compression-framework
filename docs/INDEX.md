@@ -14,7 +14,9 @@
 
 ### Analysis
 
-**[Documentation Types Matrix](analysis/documentation-types-matrix.md)** - Active - Taxonomy of documentation types, audiences (LLM-only/human-only/hybrid), and context preservation requirements. Provides decision framework for selecting optimal compression strategy based on audience, access pattern, and purpose. Includes comprehensive mapping matrix and practical recommendations.
+**[Documentation Types Matrix](analysis/documentation-types-matrix.md)** - Active - Comprehensive taxonomy (1,030 lines) defining six audience categories (LLM-only, hybrid-technical, hybrid-general, human-technical, human-general, archival) with specific compression targets (70-85%, 40-60%, 20-40%, 0-10%, 0%, 95-99%). Includes decision framework, comprehension requirements, and 7 example transformations.
+
+**[Information Preservation Framework](analysis/information-preservation-framework.md)** - Active - Systematic framework (919 lines) for purpose-driven compression. Comprehensive taxonomy of 7 documentation purposes (execution, learning, reference, audit, communication, analysis, maintenance) with essential information mapping, preservation decision matrices, 5 compression methods, validation framework, and systematic analysis process. Answers "what can be safely stripped" based on "why we're documenting."
 
 ### Plans
 

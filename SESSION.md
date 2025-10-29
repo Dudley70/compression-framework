@@ -1,59 +1,77 @@
 # Session State - 2025-10-29
 
 ## WHERE WE ARE
-Framework refined with critical technical vs non-technical distinction for hybrid documents. Documentation Types Matrix now provides precise guidance for six audience categories instead of four.
+Major analytical frameworks complete. Two comprehensive analyses now provide systematic methods for determining what to preserve and how to compress based on audience and purpose.
 
 ## ACCOMPLISHED THIS SESSION
-- Initialized project structure at /Users/dudley/Projects/Compression
-- Imported two baseline compression methods:
-  - LSC (70-85% documentation compression, machine-first)
-  - Context Compression Method (99.5% conversational compression)
-- Created comprehensive Documentation Types Matrix (docs/analysis/)
-- **REFINED: Split "hybrid" into technical vs general audiences**
-  - Hybrid-Technical: 40-60% compression (developers can parse structured formats)
-  - Hybrid-General: 20-40% compression (stakeholders need accessible prose)
-- Updated matrix with six audience categories:
-  1. LLM-only (70-85%)
-  2. Hybrid-Technical (40-60%)
-  3. Hybrid-General (20-40%)
-  4. Human-Technical-only (0-10%)
-  5. Human-General-only (0%)
-  6. Archival (95-99%)
-- Added audience comprehension requirements
-- Created refined examples showing technical vs general compression
-- Updated decision tree and recommendations
-- Document now 1,030 lines with complete framework
+- Initialized project structure
+- Imported baseline compression methods (LSC + Context Compression)
+- Created Documentation Types Matrix (1,030 lines)
+  - Six audience categories with compression targets
+  - Technical vs general literacy distinction
+- **Created Information Preservation Framework (919 lines)**
+  - Comprehensive taxonomy of 7 documentation purposes
+  - Essential information mapping by purpose
+  - Systematic analysis method (6 steps)
+  - 5 compression methods with examples
+  - Validation framework
+  - Decision matrices and best practices
+
+## KEY FRAMEWORKS
+
+### Documentation Types Matrix
+**Question**: "Who is the audience and what's the format?"
+**Answer**: Six categories with compression targets
+- LLM-only: 70-85%
+- Hybrid-Technical: 40-60%
+- Hybrid-General: 20-40%
+- Human-Technical: 0-10%
+- Human-General: 0%
+- Archival: 95-99%
+
+### Information Preservation Framework
+**Question**: "What can be safely stripped based on why we're documenting?"
+**Answer**: Purpose-driven preservation with systematic method
+- 7 purposes: execution, learning, reference, audit, communication, analysis, maintenance
+- Essential information mapping per purpose
+- Preservation decision matrix (union of all purposes)
+- 5 compression methods: structural, summary, reference, layered, temporal
+- Validation framework with testing methods
 
 ## NEXT ACTIONS
-1. Create test corpus with examples from all six categories
-2. Include both technical and general hybrid examples
-3. Apply compression techniques per category
-4. Measure and validate with appropriate audiences
-5. Document findings and create empirical comparison
+1. Create test corpus with real document samples
+2. Apply both frameworks to examples
+3. Demonstrate systematic analysis method
+4. Validate compression against multiple purposes
+5. Create practical templates and tools
+6. Document empirical findings
 
 ## RECOVERY CONTEXT
 If session interrupted:
-- Documentation Types Matrix complete at 1,030 lines (docs/analysis/documentation-types-matrix.md)
-- Critical refinement: hybrid split into technical (40-60%) and general (20-40%)
-- Framework now provides precise guidance based on human technical literacy
-- Key insight: technical humans can handle aggressive compression (structured formats, domain terminology), non-technical humans need accessible prose
-- Six audience categories with specific compression targets
-- Ready for empirical testing with appropriate audience validation
+- Two major analytical frameworks complete
+- Documentation Types Matrix: audience-driven (who reads it)
+- Information Preservation Framework: purpose-driven (why it exists)
+- Frameworks are complementary: use both together
+- Types Matrix answers "how much compression for this audience"
+- Preservation Framework answers "what must be kept for these purposes"
+- Ready for practical application and testing
 
 ## FILES MODIFIED
-- Updated: docs/analysis/documentation-types-matrix.md (v1.1 - refined with technical/general split)
+- Created: docs/analysis/information-preservation-framework.md (919 lines)
+- Updated: docs/INDEX.md (added preservation framework)
 - Updated: SESSION.md (this file)
-- Ready to commit refinement
+- Ready to commit
 
 ## BLOCKERS
-None. Refined framework ready for testing phase.
+None. Analytical foundation complete, ready for empirical testing.
 
 ## NOTES
-- Critical improvement: recognizing technical literacy as key dimension
-- Hybrid-Technical can use YAML/JSON, structured formats, domain terminology
-- Hybrid-General needs plain language, explanations, accessible structure
-- Examples updated to show both technical and general approaches
-- Comprehensive mapping matrix now includes 19+ document type examples
-- Decision tree refined to include technical literacy assessment
-- Summary table added showing all six categories with compression targets
-- Framework provides actionable guidance for each audience type
+- Information Preservation Framework answers the critical question: "What can be stripped?"
+- Purpose determines what's essential (execution needs less than learning/audit)
+- Most documents serve multiple purposes → preserve union of essential info
+- Framework provides systematic 6-step analysis method
+- 5 compression methods with clear use cases
+- Validation framework prevents information loss
+- Best practices emphasize preservation over aggressive compression
+- Temporal compression: purpose changes over document lifecycle
+- Next phase: apply frameworks to real documents and validate empirically
