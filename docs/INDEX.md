@@ -1,6 +1,6 @@
 # Documentation Index
 
-**Last Updated**: 2025-10-29
+**Last Updated**: 2025-10-30
 
 ## Active Documents
 
@@ -20,9 +20,13 @@
 
 ### Plans
 
+**[CC_Projects Compression Tasks](plans/CC_PROJECTS_COMPRESSION_TASKS.md)** - Active - Structured 7-phase roadmap (270 lines) for systematically applying Compression framework to CC_Projects document types. Layer-by-layer approach (Session → Strategic → Control → Operational → Archive) with role-based optimization, phase-aware temporal compression, and framework refinement. Estimated 60-75 hours phased implementation.
+
 ### Proposals
 
 ### Reference
+
+**[CC_Projects Validated Architecture](reference/CC_PROJECTS_VALIDATED_ARCHITECTURE.md)** - Active - Comprehensive reference (994 lines) documenting CC_Projects Phase 2 validation (H1-H4). Provides evidence-based architectural context grounding Compression framework: 5-phase lifecycle, 6 roles, 5 layers, scalability validation. Includes document type mapping, compression implications, concrete test cases, and integration recommendations.
 
 ### Prompts
 
