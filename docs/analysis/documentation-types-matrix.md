@@ -1027,4 +1027,665 @@ explanations, examples, and final implementation]
 
 ---
 
+## Team-Size Scaling Considerations
+
+### Overview
+
+Team size significantly affects compression strategy selection. Larger teams have more specialized roles and can benefit from role-specific optimization, while smaller teams with overlapping roles may need more accessible formats.
+
+**Key Insight:** Compression targets should scale with team size and role specialization. Solo developers wearing multiple hats have different needs than specialized teams of 20+.
+
+### Team Size Categories
+
+#### Solo / Very Small Teams (1-3 people)
+
+**Characteristics:**
+- Individuals wear multiple roles (developer + architect + coordinator)
+- High context switching between roles
+- Personal memory supplements documentation
+- Minimal handover overhead
+
+**Compression Strategy:**
+- **Favor readability over extreme efficiency** (lower compression)
+- Use moderate compression even for LLM-only docs (60-70% vs 70-85%)
+- Minimize role-specific optimizations (individual reads all roles)
+- Prefer Union strategy for multi-role documents (single representation)
+
+**Recommended Adjustments:**
+```
+LLM-only: 60-75% compression (vs 70-85% for larger teams)
+Hybrid-Technical: 30-50% (vs 40-60%)
+Multi-role docs: Union strategy almost always (divergence tolerance higher)
+```
+
+**Rationale:** 
+- Context switching cost higher than token savings
+- Individual comprehension speed matters more
+- No specialization to leverage
+
+**Example:**
+```
+Solo Developer's PROJECT.md:
+- Don't create separate strategic/technical/operational sections
+- Single narrative that serves all purposes
+- Compression: 50-60% (readable, not ultra-optimized)
+- Reason: You're reading this in all your roles
+```
+
+#### Small Teams (4-8 people)
+
+**Characteristics:**
+- Some role specialization (2-3 developers, 1 coordinator, maybe architect)
+- Roles still overlap significantly
+- Handover becoming important
+- Documentation supports coordination
+
+**Compression Strategy:**
+- **Balance role optimization with accessibility**
+- Start using role-specific sections in multi-role docs
+- Intersection strategy for multi-role (primary role + accommodations)
+- Light use of layered strategy for critical docs only
+
+**Recommended Adjustments:**
+```
+LLM-only: 65-80% compression
+Hybrid-Technical: 35-55%
+Multi-role: Intersection strategy (clear primary role)
+Layered: Only for SESSION.md and PROJECT.md (highest frequency)
+```
+
+**Rationale:**
+- Some specialization justifies optimization
+- Still need cross-role comprehension
+- Coordination overhead increasing
+
+**Example:**
+```
+Small Team's TASKS.md:
+- Primary: Developer detail (35-45% compression)
+- Secondary: Coordinator status view (inline accommodations)
+- Strategy: Intersection with progressive sections
+- Reason: Mostly devs reading, coordinator needs status
+```
+
+#### Medium Teams (9-15 people)
+
+**Characteristics:**
+- Clear role specialization (multiple devs, dedicated coordinator, architect)
+- Less role overlap
+- Documentation critical for coordination
+- Multiple workstreams
+
+**Compression Strategy:**
+- **Optimize for roles, roles are distinct**
+- Full use of multi-role strategies (Union/Intersection/Layered)
+- Layered strategy justified for high-frequency docs
+- Role-specific views becoming cost-effective
+
+**Recommended Adjustments:**
+```
+LLM-only: 70-85% compression (full framework targets)
+Hybrid-Technical: 40-60%
+Multi-role: Use divergence thresholds exactly as defined
+Layered: Justified for 3-5 critical documents
+```
+
+**Rationale:**
+- Role specialization high
+- Token savings compound across team
+- Coordination complexity requires optimization
+
+**Example:**
+```
+Medium Team's PROJECT.md:
+- Layered: Progressive Detail
+- Strategic section (70% compression)
+- Architect section (50% compression)
+- Developer section (35% compression)
+- Each role reads their section primarily
+- Reason: Clear role separation, high access frequency
+```
+
+#### Large Teams (16+ people)
+
+**Characteristics:**
+- Highly specialized roles
+- Minimal role overlap
+- Multiple sub-teams
+- Documentation as primary coordination mechanism
+
+**Compression Strategy:**
+- **Aggressive role-specific optimization**
+- Layered strategy standard for multi-role docs
+- Role-specific views often separate documents
+- Ultra-aggressive compression for archives (high volume)
+
+**Recommended Adjustments:**
+```
+LLM-only: 75-85% compression (aggressive end of range)
+Hybrid-Technical: 45-60%
+Multi-role: Layered strategy for most shared docs
+Archive: 95-99% compression critical (volume management)
+```
+
+**Rationale:**
+- High specialization enables aggressive optimization
+- Documentation volume high (storage costs matter)
+- Coordination complexity requires clear role optimization
+
+**Example:**
+```
+Large Team's Documentation Suite:
+- Separate docs by role: Architecture/ Development/ Operations/
+- Core shared docs: Layered with role-specific views
+- SESSION.md: Role-tagged sections (Arch:, Dev:, Ops:)
+- Archive: Aggressive 95-99% compression (volume management)
+- Reason: Scale requires specialization, volume requires compression
+```
+
+### Role Overlap Analysis
+
+**Decision Framework:**
+
+```
+Calculate Role Overlap:
+  Single person wearing N roles → High overlap
+  N people each wearing 1 role → No overlap
+  
+If Overlap > 70%:
+  - Favor Union strategy
+  - Lower compression targets (readability priority)
+  - Minimize role-specific optimization
+  
+If Overlap 30-70%:
+  - Use Intersection strategy
+  - Standard compression targets
+  - Moderate role optimization
+  
+If Overlap < 30%:
+  - Use Layered strategy for multi-role docs
+  - Aggressive compression targets
+  - Full role-specific optimization
+```
+
+### Scaling Effects on Compression ROI
+
+**Token Savings Multiply with Team Size:**
+
+```
+PROJECT.md optimization saving 1,000 tokens per session:
+
+Solo (1 person):
+  1 person × 1,000 tokens × 50 sessions = 50,000 tokens/year saved
+  
+Small Team (5 people):
+  5 people × 1,000 tokens × 50 sessions = 250,000 tokens/year saved
+  
+Medium Team (12 people):
+  12 people × 1,000 tokens × 50 sessions = 600,000 tokens/year saved
+  
+Large Team (25 people):
+  25 people × 1,000 tokens × 50 sessions = 1,250,000 tokens/year saved
+```
+
+**ROI Justification for Layered Strategies:**
+
+```
+Layered Strategy overhead: 15 hours/year maintenance
+
+Solo Team:
+  Savings: 50K tokens (low value)
+  Cost: 15 hours
+  ROI: Negative (not worth it)
+
+Medium Team:
+  Savings: 600K tokens (significant value)
+  Cost: 15 hours
+  ROI: Positive (justified)
+
+Large Team:
+  Savings: 1.25M tokens (critical value)
+  Cost: 15 hours
+  ROI: Strongly positive (essential)
+```
+
+**Conclusion:** Team size directly affects compression strategy ROI. Larger teams justify more aggressive optimization.
+
+---
+
+## Edge Cases and Special Scenarios
+
+### Overview
+
+Most documents fit standard audience categories, but some scenarios require special consideration: compliance requirements, emergency access needs, multi-project shared documentation, and cross-organizational collaboration.
+
+### Edge Case 1: Compliance and Audit Requirements
+
+**Scenario:** Documents subject to legal, regulatory, or audit requirements.
+
+**Challenge:** Compression may conflict with retention or completeness requirements.
+
+**Affected Document Types:**
+- Legal agreements and contracts
+- Audit trails and logs
+- Compliance documentation (GDPR, HIPAA, SOX, etc.)
+- Security incident records
+- Financial records
+- Data governance decisions
+
+**Special Considerations:**
+
+**1. Retention Requirements**
+```
+Many regulations require retaining full, unmodified records.
+
+Ultra-aggressive compression (95-99%) often PROHIBITED.
+Even moderate compression (40-60%) may violate requirements.
+
+Example: SOX requires 7-year retention of audit trails
+Solution: Store full, uncompressed records for required period
+```
+
+**2. Immutability Requirements**
+```
+Some compliance frameworks require tamper-proof records.
+
+Compression must not alter original content.
+Post-compression, original must remain accessible.
+
+Example: HIPAA audit logs must be immutable
+Solution: Compress copies only, preserve originals
+```
+
+**3. Searchability Requirements**
+```
+Regulators may require keyword search across records.
+
+Ultra-aggressive compression loses searchability.
+
+Example: Legal discovery requires finding all mentions of topic
+Solution: Maintain search index alongside compressed versions
+```
+
+**Recommended Approach:**
+
+```yaml
+compliance_compression_strategy:
+  preservation:
+    - Store full uncompressed original (required retention period)
+    - Create compressed working copy (for daily use)
+    - Maintain keyword index (for discovery/search)
+  
+  compression_limits:
+    legal_docs: 0% (no compression, ever)
+    audit_trails: 0-20% (structured only, lossless)
+    compliance_records: 20-40% (preserve all information)
+    security_incidents: 30-50% (technical detail preserved)
+  
+  validation:
+    - Legal review before any compression
+    - Retention policy compliance check
+    - Immutability verification
+    - Search capability preserved
+```
+
+**Warning:** When in doubt, don't compress compliance documents. Legal risk outweighs token savings.
+
+### Edge Case 2: Emergency Access Scenarios
+
+**Scenario:** Critical information needed urgently during incidents or outages.
+
+**Challenge:** Ultra-compressed documents may not be accessible or parseable fast enough.
+
+**Affected Document Types:**
+- Runbooks and incident response procedures
+- Emergency contact lists
+- Disaster recovery plans
+- System access credentials documentation
+- Critical escalation paths
+
+**Special Considerations:**
+
+**1. Time-Critical Access**
+```
+During incidents, seconds matter.
+
+Compressed formats may require:
+- Decompression time
+- LLM query to parse structure
+- Context loading
+
+All add latency in emergency.
+
+Example: Database outage, need recovery procedure NOW
+Solution: Keep emergency docs in immediately-readable format
+```
+
+**2. Degraded System Access**
+```
+During outages, LLM systems may be unavailable.
+
+Ultra-compressed LSC format unreadable by humans.
+Search-optimized formats don't help if search is down.
+
+Example: Infrastructure outage, Claude unavailable
+Solution: Human-readable emergency documentation
+```
+
+**3. Stress and Cognitive Load**
+```
+During emergencies, cognitive load is high.
+
+Parsing structured/compressed formats harder under stress.
+
+Example: Security incident at 3am
+Solution: Clear, scannable, human-optimized formats
+```
+
+**Recommended Approach:**
+
+```yaml
+emergency_documentation:
+  runbooks:
+    format: Human-readable markdown (0-10% compression)
+    structure: Step-by-step, no abbreviation
+    accessibility: Multiple redundant locations
+  
+  contact_lists:
+    format: Plain text or simple table (0% compression)
+    backup: Printed copy in physical location
+  
+  recovery_procedures:
+    format: Detailed human-readable (0-20% compression)
+    practice: Regular drills to validate usability
+  
+  credentials:
+    format: Secure but immediately accessible
+    compression: None (security over efficiency)
+```
+
+**Rule:** If document is "break glass in emergency," prioritize human accessibility over token efficiency. No compression.
+
+### Edge Case 3: Multi-Project Shared Documentation
+
+**Scenario:** Documentation used across multiple projects or teams.
+
+**Challenge:** Different projects may have different compression needs and role structures.
+
+**Affected Document Types:**
+- Shared technical standards
+- Common architecture patterns
+- Organization-wide processes
+- Reusable component documentation
+- Platform API specifications
+
+**Special Considerations:**
+
+**1. Audience Diversity**
+```
+Multiple projects = multiple audience profiles.
+
+Project A: Technical team (high compression acceptable)
+Project B: Mixed team (moderate compression needed)
+Project C: Non-technical stakeholders (low compression required)
+
+One document can't optimize for all.
+```
+
+**2. Independent Evolution**
+```
+Projects evolve at different rates.
+
+Project A: Actively using shared doc (frequent access)
+Project B: Completed, archived (rare access)
+
+Compression strategy should differ but doc is shared.
+```
+
+**3. Ownership and Maintenance**
+```
+Who maintains shared docs?
+Who decides compression strategy?
+
+Different projects may have conflicting preferences.
+```
+
+**Recommended Approach:**
+
+**Option A: Lowest Common Denominator**
+```
+Optimize for least-compression-tolerant project.
+
+Example: If one project has non-technical users:
+  - Use Hybrid-General format (20-40% compression)
+  - Even if other projects could handle Hybrid-Technical (40-60%)
+
+Pro: Single version, no duplication
+Con: Less optimized for technical projects
+```
+
+**Option B: Multi-Version with Shared Core**
+```
+Create role/project-specific views from shared core.
+
+Structure:
+  /shared/core-spec.md (canonical, 40-60% compression)
+  /project-a/spec-technical.md (60-75% compression, generated)
+  /project-b/spec-general.md (20-30% compression, generated)
+
+Pro: Optimized for each audience
+Con: Maintenance overhead, sync complexity
+```
+
+**Option C: Layered with Project-Specific Sections**
+```
+Single document with progressive detail.
+
+Structure:
+  ## Overview (all projects, 40% compression)
+  ## Project A: Technical Deep-Dive (60% compression)
+  ## Project B: Implementation Guide (30% compression)
+  ## Project C: Integration Notes (25% compression)
+
+Pro: Single document, clear sections per project
+Con: Document grows with each project
+```
+
+**Selection Criteria:**
+```
+<5 projects + similar audiences → Option A (lowest common denominator)
+5-10 projects + diverse audiences → Option C (layered with sections)
+10+ projects OR very diverse → Option B (multi-version)
+```
+
+### Edge Case 4: Cross-Organizational Collaboration
+
+**Scenario:** Documentation shared with external partners, contractors, or open-source community.
+
+**Challenge:** No control over recipient's context, tools, or technical literacy.
+
+**Affected Document Types:**
+- API documentation (for external developers)
+- Integration guides
+- Open-source project documentation
+- Client-facing technical specs
+- Partner onboarding materials
+
+**Special Considerations:**
+
+**1. Unknown Tooling**
+```
+External parties may not have LLM systems.
+LSC format completely inaccessible.
+
+Assumption: Document will be read by humans only.
+```
+
+**2. Variable Technical Literacy**
+```
+Can't assume technical sophistication.
+
+Open-source contributors range from beginners to experts.
+Client stakeholders may be non-technical.
+```
+
+**3. No Context Sharing**
+```
+External parties don't have project context.
+
+Internal abbreviations, references meaningless.
+Assumptions about shared knowledge invalid.
+```
+
+**Recommended Approach:**
+
+```yaml
+external_documentation:
+  assumption: Human-readable only (LLM use optional)
+  
+  api_docs:
+    format: Traditional markdown with examples
+    compression: 10-20% (technical clarity, not tokens)
+    examples: Extensive (can't assume knowledge)
+  
+  integration_guides:
+    format: Step-by-step with screenshots
+    compression: 0-10% (completeness over brevity)
+    assumptions: Explain everything
+  
+  client_specs:
+    format: Hybrid-General or Human-General-only
+    compression: 0-20% (accessibility paramount)
+    language: Plain language, avoid jargon
+```
+
+**Rule:** External documentation defaults to human-readable, low-compression formats. Token efficiency irrelevant if recipient can't use compressed versions.
+
+### Edge Case 5: Long-Term Archival (10+ years)
+
+**Scenario:** Documentation that must be preserved for decades (beyond ultra-aggressive compression timeframe).
+
+**Challenge:** Format longevity, future accessibility, technology evolution.
+
+**Affected Document Types:**
+- Historical company records
+- Long-term research data
+- Legal archives (extended retention)
+- Legacy system documentation
+- Foundational architecture decisions
+
+**Special Considerations:**
+
+**1. Format Longevity**
+```
+Will LSC format be readable in 2035? Unknown.
+Will LLM systems exist? Probably, but uncertain.
+
+Plain text/markdown more likely to remain accessible.
+```
+
+**2. Reconstruction Capability**
+```
+In 10+ years, original context may be gone.
+
+Ultra-compressed (95-99%) docs may be unusable if:
+- Original artifacts deleted
+- Decision context forgotten
+- Team members departed
+```
+
+**3. Technology Evolution**
+```
+Compression techniques optimal today may be obsolete in 10 years.
+
+Better compression methods may emerge.
+Current formats may become deprecated.
+```
+
+**Recommended Approach:**
+
+```yaml
+long_term_archival:
+  primary_format:
+    type: Plain text or markdown
+    compression: Moderate only (40-60%)
+    rationale: Future-proof accessibility
+  
+  metadata:
+    format: Standard (JSON/YAML)
+    content: Context for future understanding
+    includes: [date, authors, purpose, related_docs]
+  
+  preservation_strategy:
+    review_frequency: Every 5 years
+    format_migration: As needed to current standards
+    validation: Verify still readable/accessible
+  
+  avoid:
+    - Ultra-aggressive compression (95-99%)
+    - Proprietary formats
+    - Formats requiring specific tools
+    - Lossy compression without originals
+```
+
+**Rule:** For 10+ year archival, favor format longevity over token efficiency. Moderate compression acceptable, ultra-aggressive risky.
+
+### Edge Case Decision Matrix
+
+| Edge Case | Compression Limit | Format | Key Constraint |
+|-----------|------------------|--------|----------------|
+| **Compliance/Audit** | 0-40% | Original + copy | Legal requirements |
+| **Emergency Access** | 0-10% | Human-readable | Time-critical, stress |
+| **Multi-Project Shared** | 20-40% | Lowest common denominator | Diverse audiences |
+| **External Collaboration** | 0-20% | Traditional markdown | Unknown tooling |
+| **Long-Term Archival (10+ years)** | 40-60% | Plain text/markdown | Format longevity |
+
+### When Edge Cases Override Standard Guidance
+
+**Override Priority (Highest to Lowest):**
+
+1. **Legal/Compliance Requirements** - Always override token efficiency
+2. **Safety/Emergency Access** - Human life or critical systems
+3. **External Obligations** - Contractual or partnership commitments
+4. **Long-Term Preservation** - Format longevity over current optimization
+5. **Standard Framework** - Default guidance when no overrides apply
+
+**Example Decision Tree:**
+```
+Is document subject to legal/compliance requirements?
+  YES → Follow compliance compression limits (0-40%)
+  NO → Continue
+
+Is document needed for emergency access?
+  YES → Human-readable format (0-10% compression)
+  NO → Continue
+
+Is document shared externally?
+  YES → Human-readable, low compression (0-20%)
+  NO → Continue
+
+Is document for 10+ year archival?
+  YES → Format longevity priority (40-60% compression)
+  NO → Continue
+
+Apply standard framework guidance (Matrix + Framework + Multi-Role)
+```
+
+---
+
+## Summary Table: Audience Types and Compression Targets
+
+| Audience Type | Technical Literacy | Token Priority | Compression Target | Format Type | Example Use Case |
+|--------------|-------------------|----------------|-------------------|-------------|------------------|
+| **LLM-only** | N/A | Critical | 70-85% | Machine-first (LSC) | PROJECT.lsc, SESSION.lsc |
+| **Hybrid-Technical** | High | High | 40-60% | Structured technical | API specs, system config |
+| **Hybrid-General** | Low | Moderate | 20-40% | Structured accessible | Product requirements, user stories |
+| **Human-Technical-only** | High | None | 0-10% | Rich technical prose | Architecture deep-dives, tutorials |
+| **Human-General-only** | Low | None | 0% | Traditional prose | Board papers, client proposals |
+| **Archival** | N/A | Low | 95-99% | Conversational compression | Session logs, history |
+
+**Note:** Targets adjusted for team size, edge cases, and special scenarios as documented above.
+
+---
+
 **End of Document**
