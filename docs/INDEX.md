@@ -14,6 +14,8 @@
 
 ### Analysis
 
+**[Documentation Types Matrix](analysis/documentation-types-matrix.md)** - Active - Taxonomy of documentation types, audiences (LLM-only/human-only/hybrid), and context preservation requirements. Provides decision framework for selecting optimal compression strategy based on audience, access pattern, and purpose. Includes comprehensive mapping matrix and practical recommendations.
+
 ### Plans
 
 ### Proposals
