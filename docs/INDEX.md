@@ -34,6 +34,8 @@
 
 ### Patterns
 
+**[Multi-Dimensional Compression Matrix](patterns/multi-dimensional-compression-matrix.md)** - Active - Comprehensive operationalization (1,343 lines) of [Role × Layer × Phase] compression decision framework. Addresses Gap 1 (HIGH priority) from alignment review. Provides base compression target matrix for all role-layer combinations, phase adjustment guidance, multi-role document strategies (Union/Intersection/Layered), conflict resolution process, mode-switching overhead considerations, 6 worked examples (SESSION.md, DECISIONS.md, TASKS.md, config files, archive, research), edge cases, integration with existing framework, practical application guide, validation approach, and best practices. Enables explicit, repeatable, evidence-based compression decisions.
+
 ### Methodology
 
 ---
