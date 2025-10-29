@@ -881,7 +881,267 @@ Have representative from each audience review:
 
 ---
 
-## Conclusion
+## Part 9: Phase-Aware Compression Strategy
+
+### Overview: Why Phase Matters
+
+**Critical Insight**: The same document requires different compression levels at different project phases. A research document during active Research phase needs depth preservation, but can be compressed aggressively once archived post-Build.
+
+**Phase Lifecycle** (from CC_Projects H1 validation):
+1. **Research**: Investigation, discovery, feasibility
+2. **Ideation**: Concept development, brainstorming
+3. **Refinement**: Validation, design iteration
+4. **Structure**: Architecture, planning, setup
+5. **Build**: Implementation with strategic oversight
+6. **Maintain**: Evolution, enhancement, optimization
+
+**Key Principle**: Compression appropriateness varies by phase. What's premature during Ideation becomes essential during Maintain.
+
+### Phase 1: Research - Preserve Evidence Depth
+
+**Phase Characteristics**:
+- Heavy information gathering
+- Evidence accumulation
+- Investigation and discovery
+- Multiple directions explored
+
+**Compression Recommendations**:
+- **Target**: 10-20% compression (LOW)
+- **Rationale**: Evidence depth must be preserved
+- **Focus**: Organization and structure, minimal content reduction
+- **Avoid**: Stripping research findings, evidence trails, or detailed analysis
+
+**What to Preserve**:
+- ✅ All research findings (even seemingly tangential)
+- ✅ Evidence and sources (complete citations)
+- ✅ Analysis methodology (how conclusions reached)
+- ✅ Gaps identified (what wasn't found)
+- ✅ Alternative interpretations
+- ✅ Raw data or links to data
+
+**Safe to Strip**:
+- ❌ Duplicate expressions of same finding
+- ❌ Excessive formatting (but keep structure)
+- ❌ Redundant explanations (consolidate)
+
+**Methods**:
+- Structural organization (group related findings)
+- Summary sections (overview + detailed findings)
+- Minimal prose compression
+
+**Anti-Pattern**: Aggressive compression during active research loses critical evidence
+
+**Phase Transition Strategy**:
+- Research → Refinement: Synthesize findings (increase to 20-30%)
+- Research → Archive (if abandoned): Aggressive compression acceptable (70-85%)
+
+### Phase 2: Ideation - Maximize Creative Space
+
+**Phase Characteristics**:
+- Divergent thinking
+- Multiple approaches explored
+- Brainstorming and concept development
+- Creative exploration
+
+**Compression Recommendations**:
+- **Target**: 10-30% compression (VERY LOW)
+- **Rationale**: Creativity requires space, premature compression kills ideation
+- **Focus**: Organization only, preserve all ideas
+- **Avoid**: Eliminating "bad" ideas, consolidating distinct concepts
+
+**What to Preserve**:
+- ✅ ALL ideas generated (even "bad" ones)
+- ✅ Creative connections and associations
+- ✅ Divergent thinking paths
+- ✅ Brainstorming outputs complete
+- ✅ Quick sketches and rough concepts
+- ✅ Open questions and possibilities
+
+**Safe to Strip**:
+- ❌ Redundant duplication of identical ideas
+- ❌ Excessive formatting
+- ❌ Meeting meta-content (but keep ideas from meetings)
+
+**Methods**:
+- Organization: Group related concepts
+- Minimal editing: Fix typos, improve clarity
+- Structural: Add navigation, but don't reduce content
+
+**Anti-Pattern**: Compressing Ideation phase documents = killing creativity
+
+**CRITICAL**: This is "when NOT to compress" - Ideation needs LOW compression
+
+**Phase Transition Strategy**:
+- Ideation → Refinement: Filter and consolidate (increase to 30-50%)
+- Ideation → Archive (concepts rejected): Can compress aggressively (70-85%)
+
+### Phase 3: Refinement - Preserve Decision Rationale
+
+**Phase Characteristics**:
+- Convergent thinking
+- Design iteration and validation
+- Narrowing to solution
+- Alternatives eliminated
+
+**Compression Recommendations**:
+- **Target**: 20-40% compression (MODERATE)
+- **Rationale**: Must preserve "why not" for eliminated alternatives
+- **Focus**: Decision rationale, selected approach, key rejected alternatives
+- **Avoid**: Losing context for why alternatives were rejected
+
+**What to Preserve**:
+- ✅ Selected approach (detailed)
+- ✅ Evaluation criteria used
+- ✅ Key alternatives considered
+- ✅ Rationale for selection
+- ✅ Rationale for rejection (why not X?)
+- ✅ Trade-offs accepted
+- ✅ Risks identified
+
+**Safe to Strip**:
+- Extensive detail on clearly inferior alternatives
+- Redundant discussion of same points
+- Detailed exploration paths (keep conclusions)
+- Excessive iteration history (keep key pivots)
+
+**Methods**:
+- Decision template compression (Context/Options/Decision/Rationale)
+- Summary + detail approach (summary of rejected, detail of selected)
+- Consolidated rationale (remove redundant arguments)
+
+**Special Consideration: "Why Not" Preservation**
+
+**Critical for Maintenance**: Future maintainers ask "why didn't we use approach X?"
+
+**Preservation Strategy**:
+- Selected approach: Full detail
+- Seriously considered alternatives: Brief rationale for rejection
+- Clearly inferior alternatives: One-line dismissal acceptable
+
+**Example**:
+```
+SELECTED: React with TypeScript
+- Full specifications, rationale, trade-offs
+
+CONSIDERED: Vue.js
+- Rejected: Team lacks expertise, hiring difficult
+
+CONSIDERED: Vanilla JS
+- Rejected: Maintenance burden too high for team size
+
+DISMISSED: Angular, Svelte (evaluated briefly, didn't meet basic criteria)
+```
+
+**Phase Transition Strategy**:
+- Refinement → Structure: Formalize selected (compress to 30-50%)
+- Refinement → Archive: Aggressive on rejected alternatives (70-85%)
+
+### Phase 4: Structure - Optimize for Clarity
+
+**Phase Characteristics**:
+- Architecture and planning
+- Foundation before implementation
+- Formalization of design
+- Setup and organization
+
+**Compression Recommendations**:
+- **Target**: 30-50% compression (MODERATE-HIGH)
+- **Rationale**: Clarity and precision more important than brevity
+- **Focus**: Structural format, clear specifications
+- **Avoid**: Ambiguity or missing critical details
+
+**What to Preserve**:
+- ✅ Complete architecture specifications
+- ✅ Component responsibilities (clear)
+- ✅ Interfaces and contracts
+- ✅ Design principles applied
+- ✅ Constraints and requirements
+- ✅ Dependencies and relationships
+
+**Safe to Strip**:
+- Background rationale (link to Refinement docs)
+- Extensive examples (keep essential ones)
+- Verbose explanations (structural specs speak for themselves)
+- Alternatives already decided (documented in Refinement)
+
+**Methods**:
+- Structural compression: Prose → YAML/JSON/diagrams
+- Reference compression: Link to rationale docs instead of repeating
+- Template-based: Architecture decision records (ADRs), specs templates
+
+**Format Optimization**:
+- Architecture: Diagrams + structured specifications
+- Plans: YAML/JSON task lists with dependencies
+- Configurations: Already optimal (YAML/JSON)
+
+**Phase Transition Strategy**:
+- Structure → Build: Maintain structure (30-50% remains appropriate)
+- Structure → Archive: Can compress more (60-75%)
+
+### Phase 5: Build - Maximize Execution Efficiency
+
+**Phase Characteristics**:
+- Active implementation
+- Task-focused work
+- Operational details critical
+- Execution over explanation
+
+**Compression Recommendations**:
+- **Target**: 50-70% compression (HIGH)
+- **Rationale**: Execution efficiency, operational focus
+- **Focus**: Task completion, specifications, requirements
+- **Avoid**: Over-preserving background (link instead)
+
+**What to Preserve**:
+- ✅ Current tasks and status
+- ✅ Implementation requirements
+- ✅ Acceptance criteria
+- ✅ Dependencies and blockers
+- ✅ Critical context for execution
+- ⚠️ Minimal rationale (link to design docs)
+
+**Safe to Strip**:
+- Background and history (documented elsewhere)
+- Design rationale (link to Structure/Refinement docs)
+- Alternatives (already decided)
+- Verbose explanations (focus on "what" not "why")
+- Completed tasks (archive aggressively)
+
+**Methods**:
+- Checklist format: [ ] Task with acceptance criteria
+- Reference compression: Link to specs, avoid duplication
+- Temporal compression: Archive completed work immediately
+- Structural: YAML task lists, JSON configs
+
+**High-ROI Opportunity**: Build phase operational docs accessed frequently
+
+**Compression Benefits**:
+- Faster task comprehension
+- Reduced cognitive load
+- Higher execution efficiency
+- More tasks visible at once
+
+**Phase Transition Strategy**:
+- Build → Maintain: Keep active, archive completed (70-85% for archive)
+- Build (completed tasks) → Archive: Ultra-aggressive (95-99%)
+
+### Phase 6: Maintain - Variable by Activity Type
+
+**Phase Characteristics**:
+- Evolution and enhancement
+- Bug fixing and optimization
+- Historical understanding required
+- Both active work AND archive access
+
+**Compression Recommendations**:
+- **Target**: VARIABLE (depends on activity)
+- **Active maintenance**: 40-60% (moderate)
+- **Historical reference**: 30-40% (preserve context)
+- **Archive**: 95-99% (ultra-aggressive)
+
+**Rationale**: Maintain phase has dual needs
+- Active work: Execution efficiency (like Build)
+- Understanding why: Historical context (learning/audit)
 
 **Key Insights**:
 
@@ -916,3 +1176,634 @@ When uncertain, err on side of preservation. Information loss is permanent; over
 ---
 
 **End of Document**
+
+**What to Preserve**:
+- ✅ Active work context (current changes)
+- ✅ Bug reproduction steps and analysis
+- ✅ Historical decisions (why things are this way)
+- ✅ Design rationale (understanding system)
+- ✅ Known issues and workarounds
+- ✅ Evolution history (key changes)
+
+**Safe to Strip**:
+- Detailed execution logs (archive aggressively)
+- Completed enhancement details (summarize + archive)
+- Resolved bug investigation (keep summary only)
+
+**Maintain Phase Strategy by Activity**:
+
+**Bug Investigation** (active):
+- Preserve: Reproduction, analysis, attempted solutions
+- Target: 30-40% (preserve investigation depth)
+- Transition: Resolution → 70-85% (summary + link to code)
+
+**Enhancement Work** (active):
+- Preserve: Requirements, acceptance criteria, implementation notes
+- Target: 50-60% (execution focus)
+- Transition: Complete → 70-85% (summary), Archive → 95-99%
+
+**System Understanding** (reference):
+- Preserve: Architecture, design rationale, key decisions
+- Target: 30-40% (learning value for future maintainers)
+- Keep accessible (not deeply archived)
+
+**Historical Records** (archive):
+- Preserve: Searchable metadata, key outcomes
+- Target: 95-99% (conversational compression)
+- Trade-off: Reconstruction cost acceptable (rare access)
+
+**Phase Transition Strategy**:
+- Active maintenance → Complete: Moderate increase (50-70%)
+- Complete work → Archive: Ultra-aggressive (95-99%)
+- Strategic docs: Maintain accessibility (30-40% always)
+
+### Document State Lifecycle
+
+**Beyond phases, documents evolve through states**:
+
+**Active State** (currently working):
+- Definition: Document being actively created or modified
+- Compression: Phase-appropriate (use phase guidelines above)
+- Access: High frequency
+- Priority: Balance detail vs efficiency
+
+**Complete State** (finished, reference):
+- Definition: Work finished, now reference material
+- Compression: +15-25% more aggressive than active
+- Access: Moderate frequency (on-demand)
+- Priority: Searchability and summary
+
+**Archive State** (historical, rare access):
+- Definition: Historical record, low access expected
+- Compression: 95-99% (ultra-aggressive)
+- Access: Rare, search-driven
+- Priority: Storage efficiency, searchability
+
+**State Transition Compression**:
+```
+Active → Complete: +15-25% compression
+- Summarize outcomes
+- Link to supporting details
+- Keep searchable structure
+
+Complete → Archive: +30-50% compression (total 95-99%)
+- Conversational compression
+- Metadata preservation
+- Searchability over readability
+- Acceptable reconstruction cost
+```
+
+**Example Progression**:
+```
+RESEARCH FINDINGS (Research phase, Active):
+- 500 lines detailed research
+- Compression: 10-20% (preserve evidence)
+- Result: 400-450 lines
+
+RESEARCH FINDINGS (Refinement phase, Complete):
+- 400 lines → synthesized
+- Compression: 30-40% total
+- Result: 250-300 lines (summary + key findings)
+
+RESEARCH FINDINGS (Build phase, Archive):
+- 250 lines → metadata + references
+- Compression: 95-99% total
+- Result: 5-15 lines (searchable summary + links)
+```
+
+### Phase Transition Best Practices
+
+**1. Plan Transitions Explicitly**
+- Identify when phase will complete
+- Define compression strategy for transition
+- Prepare summary/reference versions in advance
+
+**2. Preserve Before Compressing**
+- Keep complete version in archive
+- Create compressed version separately
+- Validate preservation before replacing
+
+**3. Gradual Compression Acceptable**
+- Active → Complete: Moderate increase
+- Complete → Archive: Later aggressive compression
+- Don't need to jump directly to archive levels
+
+**4. Phase-Appropriate Revisiting**
+- Returning to Research? Decompress archived research
+- Refinement reopened? Restore alternative analysis
+- Context recovery may require decompression
+
+**5. Document Phase Context**
+- Mark documents with current phase
+- Include phase history (when created, when transitioned)
+- Helps future understanding of compression decisions
+
+### When NOT to Compress (Anti-Compression Patterns)
+
+**Pattern 1: Active Ideation**
+- ❌ DON'T: Compress during brainstorming
+- ✅ DO: Organize and structure only
+- **Why**: Creativity requires space, premature compression kills ideas
+
+**Pattern 2: Active Research**
+- ❌ DON'T: Aggressively compress during investigation
+- ✅ DO: Preserve all findings, compress after synthesis
+- **Why**: Evidence depth critical, can't predict what's important yet
+
+**Pattern 3: Rapid Iteration**
+- ❌ DON'T: Compress during fast pivots
+- ✅ DO: Wait for stabilization, then compress
+- **Why**: Overhead of re-compression exceeds benefit
+
+**Pattern 4: Uncertain Requirements**
+- ❌ DON'T: Strip "unnecessary" detail when requirements unclear
+- ✅ DO: Preserve detail until requirements clarify
+- **Why**: May need that "unnecessary" detail when requirements change
+
+**Pattern 5: Learning-Critical Content**
+- ❌ DON'T: Strip rationale from onboarding/educational docs
+- ✅ DO: Preserve learning value over brevity
+- **Why**: Understanding "why" is the point, not just "what"
+
+**Pattern 6: Emergency-Critical Docs**
+- ❌ DON'T: Archive so aggressively that emergency access fails
+- ✅ DO: Keep emergency procedures accessible even in archive
+- **Why**: Reconstruction time unacceptable in emergency
+
+**Pattern 7: Compliance-Required Records**
+- ❌ DON'T: Compress beyond legal/regulatory requirements
+- ✅ DO: Preserve complete audit trail regardless of phase
+- **Why**: Compliance violations cost more than storage
+
+**General Anti-Compression Principle**:
+> "When compression overhead exceeds compression benefit, don't compress."
+
+**Indicators of Premature Compression**:
+- Frequent decompression requests
+- Information loss incidents
+- Rework due to missing context
+- Complaints about missing detail
+- Context recovery attempts
+
+### Phase-Aware Compression Decision Tree
+
+```
+START: Identify document and current phase
+
+1. Is this Ideation or active Research?
+   YES → Maximum 30% compression, STOP
+   NO → Continue
+
+2. Is this active work (not complete/archive)?
+   YES → Apply phase-appropriate target (10-70%)
+   NO → Continue to state-based
+
+3. Is document complete (reference)?
+   YES → Phase target +15-25% compression
+   NO → Continue
+
+4. Is document archived (rare access)?
+   YES → 95-99% compression (unless emergency/compliance)
+   NO → Error: should be active, complete, or archive
+
+5. Apply multi-dimensional matrix adjustments:
+   - Role accessing
+   - Layer (Strategic/Control/Operational/Session/Archive)
+   - Mode-switching overhead
+   - Multi-role considerations
+
+RESULT: Final compression target
+```
+
+---
+
+## Part 10: ROI and Prioritization
+
+### Why ROI Matters for Compression
+
+**Core Insight**: Not all compression opportunities have equal value. A document accessed once per year has minimal token impact regardless of compression. A document loaded every session has massive cumulative impact even with small reductions.
+
+**ROI Formula**:
+```
+ROI = (Token Reduction × Access Frequency) / Compression Effort
+
+High ROI = High frequency + Good compression + Low effort
+Low ROI = Low frequency or Poor compression or High effort
+```
+
+### Access Frequency Impact
+
+**Critical Insight from CC_Projects H4**:
+> "Current overhead: 2-6%, Target: 50-70% reduction, Result: 1-3% overhead reduction"
+
+Small per-document reductions → Large cumulative impact when accessed frequently
+
+**Frequency Categories**:
+
+| Frequency | Example | Cumulative Impact | Priority |
+|-----------|---------|-------------------|----------|
+| **Every session** | SESSION.md, PROJECT.md | CRITICAL | HIGHEST |
+| **Daily** | Active TASKS.md, build configs | HIGH | HIGH |
+| **Weekly** | Sprint docs, status reports | MEDIUM | MEDIUM |
+| **Monthly** | Strategic reviews, metrics | LOW-MEDIUM | MEDIUM |
+| **Rarely** | Historical decisions, archive | MINIMAL | LOW |
+
+### High-ROI Compression Targets
+
+**1. Session Startup Documents (CRITICAL ROI)**
+
+**Documents**:
+- SESSION.md (session handover)
+- PROJECT.md (strategic context)
+- HANDOVER.md (context recovery)
+
+**Why CRITICAL**:
+- Loaded EVERY session (multiple times daily for active projects)
+- Small reductions compound significantly
+- LLM-primary audience enables aggressive compression
+- Directly impacts overhead percentage
+
+**Target Compression**: 70-85% (aggressive, validated by matrix)
+
+**Expected ROI**: HIGHEST
+- Reduction: 70-85% of ~2,000 tokens = 1,400-1,700 tokens saved
+- Frequency: 5-20x per day
+- Daily Impact: 7,000-34,000 tokens saved
+- Effort: One-time compression design + automation
+
+**Validation Requirements**: MOST RIGOROUS
+- Must test LLM can resume work without information loss
+- Functional testing required (not just readability)
+- Higher stakes = higher validation rigor
+
+**2. High-Frequency Operational Documents**
+
+**Documents**:
+- TASKS.md (daily task management)
+- Active specifications
+- Configuration files (if frequently modified)
+
+**Why HIGH**:
+- Accessed daily during active development
+- Execution-focused (compression-friendly)
+- Technical audience (structural compression effective)
+
+**Target Compression**: 50-70%
+
+**Expected ROI**: HIGH
+- Reduction: 50-70% of operational docs
+- Frequency: Daily access
+- Cumulative impact significant over sprint/project
+
+**3. Medium-Frequency Strategic Documents**
+
+**Documents**:
+- DECISIONS.md (reference)- Architecture documentation
+- Strategic principles
+- Planning documents
+
+**Why MEDIUM**:
+- Weekly or monthly access
+- Multiple purposes (learning + reference + audit)
+- Moderate compression appropriate (preserve rationale)
+
+**Target Compression**: 20-40%
+
+**Expected ROI**: MEDIUM
+- Reduction: 20-40% of strategic docs
+- Frequency: Weekly/monthly
+- Moderate cumulative impact
+
+**4. Low-Frequency Archive**
+
+**Documents**:
+- Completed session logs
+- Historical decisions (old)
+- Archived research
+
+**Why LOW (but still valuable)**:
+- Rare access (search-driven)
+- Storage optimization (not token impact)
+- Ultra-aggressive compression acceptable
+
+**Target Compression**: 95-99%
+
+**Expected ROI**: LOW token impact, HIGH storage efficiency
+- Reduction: 95-99% of archive
+- Frequency: Rare
+- Minimal token impact, significant storage savings
+
+### Prioritization Framework
+
+**Priority = (Frequency × Compression Potential × Access Cost) / Implementation Effort**
+
+**Factors to Consider**:
+
+**1. Access Frequency**
+- Every session: 10 points
+- Daily: 7 points
+- Weekly: 4 points
+- Monthly: 2 points
+- Rarely: 1 point
+
+**2. Compression Potential**
+- High (60-85%): 10 points
+- Moderate (40-60%): 6 points
+- Low (20-40%): 3 points
+- Minimal (<20%): 1 point
+
+**3. Current Token Count**
+- Very large (>2000): 10 points
+- Large (1000-2000): 6 points
+- Medium (500-1000): 3 points
+- Small (<500): 1 point
+
+**4. Implementation Effort**
+- Low (structural, template): 10 points (bonus, divider)
+- Medium (summary + structural): 6 points
+- High (complex analysis): 3 points
+- Very high (manual intensive): 1 point
+
+**Priority Score = (Frequency × Potential × Size) / Effort**
+
+**Example Calculations**:
+
+**SESSION.md**:
+- Frequency: 10 (every session)
+- Potential: 10 (70-85%)
+- Size: 6 (1000-2000 tokens)
+- Effort: 6 (medium - template design)
+- **Score: (10 × 10 × 6) / 6 = 100** → HIGHEST PRIORITY
+
+**TASKS.md**:
+- Frequency: 7 (daily)
+- Potential: 10 (60-70%)
+- Size: 3 (500-1000 tokens)
+- Effort: 10 (low - checklist format)
+- **Score: (7 × 10 × 3) / 10 = 21** → HIGH PRIORITY
+
+**DECISIONS.md** (single entry):
+- Frequency: 2 (monthly reference)
+- Potential: 3 (20-30%)
+- Size: 3 (200-300 tokens per entry)
+- Effort: 6 (medium - template)
+- **Score: (2 × 3 × 3) / 6 = 3** → MEDIUM PRIORITY
+
+**Archive logs**:
+- Frequency: 1 (rarely)
+- Potential: 10 (95-99%)
+- Size: 6 (large cumulative)
+- Effort: 3 (high - conversational compression)
+- **Score: (1 × 10 × 6) / 3 = 2** → LOW-MEDIUM PRIORITY
+
+### ROI-Based Compression Strategy
+
+**Phase 1: High-Impact Quick Wins**
+Target: Session startup documents + high-frequency operational
+
+**Documents:**
+1. SESSION.md (Score: 100) - CRITICAL
+2. PROJECT.md (Score: 60-80) - CRITICAL
+3. TASKS.md (Score: 21) - HIGH
+4. Active specifications (Score: 15-25) - HIGH
+
+**Why First:**
+- Highest cumulative token impact
+- Immediate ROI
+- Validates framework with measurable results
+- Builds confidence in approach
+
+**Phase 2: Medium-Impact Systematic**
+Target: Strategic and control layer documents
+
+**Documents:**
+1. Configuration files
+2. Decision log entries
+3. Architecture documentation
+4. Planning documents
+
+**Why Second:**
+- Moderate frequency access
+- Systematic patterns applicable
+- Comprehensive coverage
+
+**Phase 3: Archive Optimization**
+Target: Historical and completed documents
+
+**Documents:**
+1. Completed session logs
+2. Archived decisions
+3. Completed research
+4. Old project documents
+
+**Why Last:**
+- Low token impact (rare access)
+- High storage benefit
+- Lower urgency
+- Can use aggressive methods
+
+### Validation Rigor by Impact
+
+**CRITICAL (Session startup)**:
+- Functional testing required
+- LLM must successfully resume work
+- Multiple test scenarios
+- Preservation validation rigorous
+- Higher stakes = higher validation effort
+
+**HIGH (Daily operational)**:
+- Task completion testing
+- Role-based comprehension checks
+- Information preservation validated
+- Standard validation sufficient
+
+**MEDIUM (Strategic/Reference)**:
+- Purpose-based validation
+- Comprehension spot-checks
+- Preservation matrix verification
+- Lighter validation acceptable
+
+**LOW (Archive)**:
+- Searchability testing
+- Metadata preservation check
+- Reconstruction acceptable if needed
+- Minimal validation needed
+
+### Frequency Tracking and Monitoring
+
+**Track Access Patterns**:
+- Document which docs are loaded when
+- Measure actual access frequency
+- Identify high-impact targets
+- Monitor after compression
+
+**Key Metrics**:
+- Loads per session
+- Loads per day/week
+- Token cost per load
+- Cumulative token impact
+
+**Adjust Priorities Based on Data**:
+- Actual frequency may differ from assumed
+- Some "low frequency" docs accessed more than expected
+- Compression impact measurable empirically
+- Refine strategy based on evidence
+
+### Decision Rationale Preservation (Refinement Phase Focus)
+
+**Why Rationale Matters**:
+Future maintainers ask: "Why didn't we use approach X?" Without preserved rationale, teams repeat analysis or make suboptimal decisions.
+
+**Preservation Strategy by Alternative Type**:
+
+**Selected Approach** (FULL DETAIL):
+- Complete specifications
+- Implementation guidance
+- Design rationale
+- Trade-offs accepted
+- Risks and mitigations
+- No compression on selected approach during Refinement
+
+**Seriously Considered Alternatives** (MODERATE DETAIL):
+- Brief description (1-2 sentences)
+- Why evaluated (met criteria)
+- Why rejected (key deciding factors)
+- 30-50% compression acceptable
+
+**Briefly Evaluated Alternatives** (MINIMAL DETAIL):
+- One-line description
+- One-line dismissal reason
+- 70-85% compression acceptable
+
+**Never Considered Alternatives**:
+- Don't document (no one evaluated them)
+- Implicit in selection
+
+**Compression Example**:
+
+**Before Compression** (300 lines):
+```
+ALTERNATIVE 1: React with TypeScript (SELECTED)
+[150 lines of detailed analysis, rationale, implementation plan]
+
+ALTERNATIVE 2: Vue.js
+[75 lines evaluating Vue, team experience, ecosystem, tooling]
+Decision: Rejected due to team expertise gap and hiring challenges
+
+ALTERNATIVE 3: Vanilla JS
+[50 lines analyzing maintenance burden, developer experience]
+Decision: Rejected due to expected project complexity and team size
+
+ALTERNATIVE 4: Angular
+[15 lines noting it was briefly considered]
+Decision: Quickly ruled out, too heavy for project needs
+
+ALTERNATIVE 5: Svelte
+[10 lines noting evaluation]
+Decision: Ecosystem too immature for enterprise needs
+```
+
+**After Compression** (120 lines):
+```
+ALTERNATIVE 1: React with TypeScript (SELECTED)
+[150 lines preserved - full detail for implementation]
+
+ALTERNATIVE 2: Vue.js
+Seriously considered. Strong framework but team lacks expertise and hiring market difficult. Would require 6-month ramp-up.
+
+ALTERNATIVE 3: Vanilla JS  
+Evaluated. Maintenance burden too high for 5-person team building complex SPA. Would spend too much time on infrastructure.
+
+ALTERNATIVES 4-5: Angular, Svelte
+Briefly evaluated. Angular too heavy, Svelte ecosystem immature for enterprise.
+```
+
+**Compression**: ~60% overall (preserve selected + key rejected rationale)
+
+**Transition Strategy**:
+- Refinement (active): 30-50% compression (preserve alternatives)
+- Structure onwards: 50-70% compression (selected approach primary)
+- Archive: 70-85% compression (summary only)
+
+### ROI Summary and Key Takeaways
+
+**Critical Insights**:
+
+1. **Session startup = highest ROI**: Small reductions, high frequency, massive cumulative impact
+
+2. **Prioritize by frequency**: Daily access >> Weekly >> Monthly >> Rare
+
+3. **Validation rigor scales with impact**: Critical docs need rigorous testing, archive minimal
+
+4. **Phase-aware ROI**: Research/Ideation = low compression ROI (preserve depth), Build/Archive = high ROI
+
+5. **Measure and monitor**: Track actual access patterns, adjust priorities empirically
+
+6. **Decision rationale preservation**: Future maintainers need "why not X" answers
+
+**Practical Application**:
+1. Identify session startup documents → COMPRESS FIRST (highest ROI)
+2. Track access frequency empirically → Prioritize by actual data
+3. Apply phase-appropriate compression → Don't compress Ideation/Research aggressively  
+4. Preserve decision rationale → Future self/team will thank you
+5. Validate rigorously for high-impact → Stakes match validation effort
+
+**ROI Maxim**:
+> "Compress what's accessed frequently. Preserve what teaches. Archive what's historical."
+
+---
+
+## Conclusion
+
+**Key Insights**:
+
+1. **Purpose determines preservation**: What to keep depends entirely on why the document exists
+
+2. **Multiple purposes require union**: Preserve enough for ALL purposes, not just primary
+
+3. **Format follows purpose**: Structured for execution, prose for learning, metadata-rich for audit
+
+4. **Compression is contextual**: Same content needs different compression for different purposes
+
+5. **Validation is essential**: Test preservation against all identified purposes
+
+6. **Temporal awareness matters**: Purpose changes over document lifecycle
+
+7. **Phase awareness is critical**: Ideation needs space, Build enables efficiency, Archive enables storage (NEW)
+
+8. **ROI drives prioritization**: Session startup documents = highest impact, compress first (NEW)
+
+9. **State transitions create opportunities**: Active → Complete → Archive enables progressive compression (NEW)
+
+10. **Decision rationale preservation**: "Why not X" answers save future teams from repeating analysis (NEW)
+
+**Systematic Method**:
+Purpose Identification → Phase Recognition → Essential Information Mapping → Preservation Matrix → ROI Prioritization → Method Selection → Format Selection → Validation
+
+**Safety Principle**:
+When uncertain, err on side of preservation. Information loss is permanent; over-preservation can be corrected later.
+
+**Phase Principle**:
+When Ideation or Research, err on side of minimal compression. Premature compression kills creativity and loses evidence depth.
+
+**ROI Principle**:
+Prioritize high-frequency documents first. Small reductions × high frequency = massive cumulative impact.
+
+---
+
+## Next Steps
+
+1. Apply framework to sample documents (with phase context)
+2. Create compression decision templates (phase-aware)
+3. Build validation test suites (rigor by impact)
+4. Develop purpose-specific format templates
+5. Create automated analysis tools
+6. **Track access frequency empirically** (NEW)
+7. **Measure ROI of compression decisions** (NEW)
+8. **Validate phase-transition strategies** (NEW)
+
+---
+
+**End of Document**
+
+**Framework Status**: Session 2 enhancement complete - Phase-aware and ROI-prioritized
