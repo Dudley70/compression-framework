@@ -34,7 +34,7 @@
 
 **[CC_Projects Validated Architecture](reference/CC_PROJECTS_VALIDATED_ARCHITECTURE.md)** - Active - Comprehensive reference (994 lines) documenting CC_Projects Phase 2 validation.
 
-**[Integration Guide for CC_Projects](reference/INTEGRATION_GUIDE_CC_PROJECTS.md)** - Active - Practical adoption guide (541 lines) for implementing Compression framework.
+**[Integration Guide for CC_Projects](reference/INTEGRATION_GUIDE_CC_PROJECTS.md)** - Active - Enhanced practical adoption guide (989 lines, updated 2025-10-30) for implementing Compression framework. **NEW: Three clarification sections added** addressing CC_Projects Phase 3 feedback: (1) Multiple entry points (template design, active compression, theory analysis), (2) Framework as reference not prescription (clarifies what framework provides vs prescribes), (3) Purpose→parameter mapping (explains how purpose-driven analysis translates to σ,γ,κ values), (4) Special Phase 3 guidance (using compression targets as template design constraints). Shows how unified theory formalizes empirical compression patterns rather than replacing purpose-driven thinking. Provides concrete Phase 3 application examples (SESSION.md template, DECISIONS.md template, TASKS.md template) with step-by-step validation process.
 
 ### Patterns
 
