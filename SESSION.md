@@ -1,243 +1,214 @@
 # Session State - 2025-10-30
 
 ## WHERE WE ARE
-**Session 7 COMPLETE (Extended)** - Completed automation tool validation planning, then extended to address CC_Projects feedback on Integration Guide. Enhanced guide from 541 → 989 lines (+448 lines) with Phase 3-specific guidance. Framework now directly supports template design constraints for CC_Projects current phase. All work committed, documentation complete.
+**Session 8 IN PROGRESS** - Prepared Phase 1 Claude Code delegation tasks. Ready to delegate compression score algorithm and token drift detection for parallel autonomous execution.
 
 **Project Goal**: Research, test, and evaluate compression methods for AI context, documents, and instructions.
 
-**Current Phase**: Framework Application - Research complete, validation planning complete, cross-project integration enhanced, ready for empirical validation
+**Current Phase**: Validation - Testing critical design assumptions through autonomous task execution
 
 ## ACCOMPLISHED THIS SESSION
 
-### Session 7 Core: Automation Tool Validation Planning
+### Claude Code Delegation Preparation
 
-**Objective**: Create structured validation plan for compression automation tool
+**Objective**: Prepare autonomous task specifications for Phase 1 validation work
 
 **Completed**:
-- ✓ Automation tool research (426 lines)
-- ✓ Discovered superior session-based approach
-- ✓ Identified 3 critical design questions
-- ✓ Created comprehensive validation plan (575 lines)
-- ✓ Updated PROJECT.md with Decision #6
+- ✓ Created task system (462 lines): delegation workflow, TDD approach, checkpoint system
+- ✓ TASK-2.1 specification (555 lines): Compression score algorithm with test cases
+- ✓ TASK-1.2 specification (720 lines): Token drift detection with validation
+- ✓ Total: 1,736 lines of comprehensive task specs
+- ✓ Committed to git (a371ca4)
 
-### Session 7 Extended: Integration Guide Enhancement
+**Task System Features**:
+- TDD with 3-checkpoint validation (tests first → implement → validate)
+- Self-contained specifications (context, objectives, test cases, success criteria)
+- Sequential task templates for Phase 2+ (ready to create while Phase 1 runs)
+- Quality standards and deliverable structure
 
-**Objective**: Address CC_Projects Phase 3 feedback on Integration Guide
+**Phase 1 Tasks Ready for Delegation** (parallel execution):
 
-**CC_Projects Initial Feedback**:
-- ✅ Praised guide quality and actionability
-- ⚠️ Questioned σ,γ,κ as "implementation detail beneath purpose analysis"
-- ⚠️ Suggested separate bridge document
-- ⚠️ Timing mismatch: Phase 3 needs template design, not compression
-- ⚠️ Entry point clarity needed
+1. **TASK-2.1: Compression Score Algorithm** (4-8 hours)
+   - Build 0.0-1.0 scoring system to detect already-compressed content
+   - 6 metrics: list density, prose ratio, sentence length, redundancy, explanation markers, entropy
+   - 3 test documents with expected score ranges
+   - MVP requirement: Prevents information loss through idempotency
 
-**Response Completed**:
-- ✓ Enhanced Integration Guide (+448 lines: 541 → 989)
-- ✓ Added 4 major sections addressing all feedback
-- ✓ Maintained theoretical integrity
-- ✓ Avoided duplication (single guide, not separate bridge doc)
+2. **TASK-1.2: Token Drift Detection** (2-4 hours)
+   - Compare current tokens vs baseline in document header
+   - 6 test cases from no-drift to 50% growth
+   - Thresholds: 1.15 = flag, 1.30 = recommend compression
+   - MVP requirement: Detects when documents need re-compression
 
-**Four Major Enhancements**:
+**Phase 2+ Tasks** (templates ready, create during Phase 1):
+- TASK-2.2: Round-Trip Test (depends on 2.1)
+- TASK-1.1: Content Analyzer (depends on 2.1 + 1.2)
+- TASK-2.3: Safety Checks (depends on all Phase 2)
 
-1. **Entry Point Clarification** (Lines 12-50)
-   - Three distinct entry points based on project phase
-   - Entry Point A: Template design (Phase 3 priority)
-   - Entry Point B: Active compression (token recovery)
-   - Entry Point C: Theory analysis (understanding)
+## NEXT ACTIONS
 
-2. **Framework as Reference, Not Prescription** (Lines 52-90)
-   - Explicit statement: provides vs prescribes
-   - Clarifies flexible adoption
-   - Multiple valid implementation paths
+### Immediate: Delegate Phase 1 Tasks
 
-3. **Understanding Purpose → Parameter Mapping** (Lines 135-270)
-   - Three detailed examples showing translation
-   - Execution documents: Purpose → σ,γ,κ values
-   - Learning documents: Rationale → parameters
-   - Hybrid documents: Multi-role → balanced parameters
-   - Key insight: Parameters formalize purpose, don't replace it
+**Task 2.1 Delegation**:
+```bash
+cd /Users/dudley/Projects/Compression
+claude-code
+```
+Then: "Please read and execute: claude-code-tasks/TASK_2.1_compression_score.md"
 
-4. **Special Guidance for CC_Projects Phase 3** (Lines 272-520)
-   - Complete 5-step template design process
-   - Step 3: Parameters → concrete design choices (actionable)
-   - Step 4: Validation methodology with examples
-   - Step 5: Documentation template for specs
-   - 3 worked examples: SESSION.md, DECISIONS.md, TASKS.md
-   - What to defer until post-Phase 3
+**Task 1.2 Delegation** (parallel):
+Open second Claude Code instance or queue after 2.1
+"Please read and execute: claude-code-tasks/TASK_1.2_token_drift.md"
 
-**CC_Projects Revised Response**:
-- ✅ Accepted σ,γ,κ as explanatory theory formalizing empirical patterns
-- ✅ Agreed purpose-driven and parameters are complementary
-- ✅ Identified primary value: template design constraints
-- ✅ Confirmed no separate bridge doc needed
-- ❓ Asked: "Proceed with extraction now, or wait for revised guide?"
-- ✓ **Answer provided**: Proceed now - guide is complete and committed
+### While Claude Code Works: Create Phase 2 Tasks
 
-**Supporting Documentation Created**:
-- ✓ Integration Guide Enhancement Summary (325 lines)
-- ✓ Updated INDEX.md with enhancement details
-- ✓ Extended handover document (678 lines)
+**TASK-2.2: Round-Trip Test** (create during Phase 1 execution):
+- Source: Validation plan lines 235-263
+- Depends on: Task 2.1 compression score
+- Tests idempotency: compress → measure → attempt re-compress → verify refusal
+
+**TASK-1.1: Content Analyzer** (create during Phase 1 execution):
+- Source: Validation plan lines 90-133
+- Depends on: Tasks 2.1 + 1.2
+- Section-level compression state detection
 
 ## RECOVERY CONTEXT
 
-### Session 7 Timeline
+### Session Timeline
 
-**Phase 1: Automation Tool Planning** (Initial session objective)
-- Research completed: 426 lines
-- Validation plan: 575 lines
-- PROJECT.md Decision #6 added
-- Handover document created: 511 lines
+**Previous Session (Session 7)**:
+- Automation tool research (426 lines)
+- Validation plan (575 lines)
+- Integration Guide enhancement (+448 lines)
+- CC_Projects feedback integration
+- Commit: f7423b6
 
-**Phase 2: CC_Projects Feedback** (Session extension)
-- Feedback received and analyzed
-- Integration Guide enhanced: +448 lines
-- Supporting documentation created: 325 lines
-- Extended handover: 678 lines
-
-**Total Session Output**: ~3,003 lines of new documentation
+**Current Session (Session 8)**:
+- Context reset recovery
+- Task system creation (1,736 lines)
+- Commit: a371ca4
+- Ready for Phase 1 delegation
 
 ### Project Status
 
-**Compression Framework**: 12,800 lines across 11 documents
-- Theory: Complete (Multi-dimensional Matrix, Information Preservation)
-- Methods: Complete (Ultra-Aggressive, Multi-Role Strategies)
-- Research: Complete (Dimensional Analysis 832 + Automation Tool 426)
-- Planning: Complete (Validation Plan 575 lines)
-- Integration: Enhanced (Integration Guide 989 lines)
-- **Status**: Production-ready, cross-project adoption enabled
+**Framework**: 12,800 lines, production-ready
+**Validation Plan**: 575 lines, 3 critical questions, 9 validation tasks
+**Task System**: Phase 1 ready (2 tasks), Phase 2+ templates prepared
+**Next**: Autonomous validation execution via Claude Code
 
-**Unified Theory**: All compression = (σ, γ, κ) parameter optimization subject to comprehension constraint C_min(audience, phase)
+### Key Context
 
-**Cross-Project Validation**: CC_Projects providing real-world application feedback, framework adapting to support their Phase 3 priorities
+**MVP Requirements** (Phase 1 delivers):
+- Compression score algorithm (prevents over-compression)
+- Token drift detection (identifies need for re-compression)
+- Round-trip test validation (proves idempotency)
 
-### Key Insights from CC_Projects Exchange
+These three prove safety and idempotency - sufficient to proceed with tool development.
 
-**1. Theory-Practice Unity**
-> "Purpose-driven analysis and parameter optimization are the same process at different abstraction levels. When you discover 'SESSION.md needs structural compression,' you're discovering σ=0.7-0.8."
-
-Parameters don't replace purpose-driven thinking; they formalize it.
-
-**2. Multiple Entry Points Critical**
-Different projects enter framework at different phases:
-- CC_Projects Phase 3: Template design (Entry Point A)
-- Context issues: Active compression (Entry Point B)
-- Research phase: Theory study (Entry Point C)
-
-Framework must support all entry points, not prescribe sequence.
-
-**3. Parameters as Design Constraints**
-Not just post-hoc validation:
-- σ=0.8 → Use lists, tables, avoid prose (actionable)
-- γ=0.4 → Key facts only, one-line descriptions (actionable)
-- κ=0.2 → Assume context, reference not repeat (actionable)
-
-**4. Templates as Pre-Compression**
-Traditional: Write document → Compress later
-Framework: Design template with constraints → Documents naturally compressed
-
-Most docs never need compression if templates designed correctly.
+**Full Validation** (Phase 2-3):
+- Mixed state handling
+- Comprehensive safety checks  
+- Entity preservation validation
+- Semantic similarity testing
 
 ## FILES MODIFIED THIS SESSION
 
-### Session 7 Core
-- ✓ `docs/research/compression-automation-tool-research.md` (426 lines)
-- ✓ `docs/plans/AUTOMATION_TOOL_VALIDATION_PLAN.md` (575 lines)
-- ✓ `PROJECT.md` (Decision #6, Strategic Context)
-- ✓ `HANDOVER_SESSION_7.md` (511 lines)
+### Created
+- ✓ `claude-code-tasks/README.md` (462 lines)
+- ✓ `claude-code-tasks/TASK_2.1_compression_score.md` (555 lines)
+- ✓ `claude-code-tasks/TASK_1.2_token_drift.md` (720 lines)
 
-### Session 7 Extended
-- ✓ `docs/reference/INTEGRATION_GUIDE_CC_PROJECTS.md` (989 lines, +448)
-- ✓ `docs/reference/INTEGRATION_GUIDE_ENHANCEMENT_SUMMARY.md` (325 lines)
-- ✓ `docs/INDEX.md` (updated with enhancement details)
-- ✓ `HANDOVER_SESSION_7_EXTENDED.md` (678 lines)
+### Updated
 - ✓ `SESSION.md` (this file)
 
 ### Commits
-- e45c49a: research: automation tool architecture and implementation strategy
-- 9c6d369: fix: restore Integration Guide for CC_Projects
-- 07a5ad3: docs: Session 7 complete - automation tool validation plan
-- 67b5a0b: docs: Session 7 handover document complete
-- 1769238: docs: enhance Integration Guide with Phase 3 guidance and clarifications
-- c41c84f: docs: add Integration Guide enhancement summary
-- [pending]: Session 7 extended handover and final commit
+- a371ca4: tasks: add Phase 1 Claude Code delegation specs
+
+### Pending
+- Delegate TASK-2.1 to Claude Code
+- Delegate TASK-1.2 to Claude Code (parallel or sequential)
+- Create Phase 2 task specs while Phase 1 executes
 
 ## BLOCKERS
 
-**None.** Framework ready for cross-project adoption, validation tasks defined, Integration Guide enhanced and complete.
+**None.** Phase 1 tasks ready for immediate delegation.
 
 ## NOTES
 
-### Critical Success Factors for CC_Projects Adoption
+### Task Execution Monitoring
 
-**Will indicate successful adoption**:
-- CC_Projects proceeds with template extraction using guide
-- Compression targets incorporated into specification templates
-- Template validation performed against framework predictions
-- Compression design rationale documented in specs
-- Positive feedback on actionability of Phase 3 guidance
+**What to watch for during Claude Code execution**:
+- Checkpoint reports appear in `checkpoints/` directory
+- Tests created in `tests/` directory
+- Implementation in `scripts/` directory
+- Final validation reports in project root
 
-**Will indicate need for refinement**:
-- Confusion about theory-practice relationship persists
-- Difficulty applying parameters as design constraints
-- Validation process unclear or impractical
-- Template examples don't match their document types
+**Validation success criteria**:
+- TASK-2.1: Scores match expected ranges (verbose 0.2-0.3, compressed 0.8-0.9)
+- TASK-1.2: Drift detection triggers at correct thresholds (1.15 flag, 1.30 recommend)
 
-### Template Design Constraints (CC_Projects Quick Reference)
+**If validation fails**:
+- Review checkpoint reports for issues
+- Provide feedback for refinement
+- May need to adjust metric weights or thresholds
 
-**SESSION.md**: σ=0.7, γ=0.5, κ=0.3 (70-80% compression)
-- Design: Structured sections, bullets, minimal narrative
-- Template: Lines 368-387 of enhanced guide
+### Sequential Task Creation
 
-**PROJECT.md**: σ=0.5-0.6, γ=0.6-0.8, κ=0.4-0.5 (40-60% compression)
-- Design: Mixed format, preserve rationale, good context
-- Guidance: Lines 450-473
+**While Phase 1 runs, create**:
 
-**DECISIONS.md**: σ=0.5-0.6, γ=0.6-0.8, κ=0.4-0.5 (40-60% compression)
-- Design: Structured but narrative allowed, full reasoning
-- Template: Lines 450-473
+1. **TASK_2.2_round_trip_test.md**:
+   - Copy template structure from README
+   - Use validation plan lines 235-263
+   - Import compression_score from Task 2.1
+   - Test procedure: compress → score → re-compress → verify refusal
 
-**TASKS.md**: σ=0.6-0.7, γ=0.7-0.9, κ=0.2-0.3 (60-70% compression)
-- Design: Pure structure, complete specs, minimal context
-- Template: Lines 475-501
+2. **TASK_1.1_content_analyzer.md**:
+   - Copy template structure from README  
+   - Use validation plan lines 90-133
+   - Import both compression_score and detect_token_drift
+   - Section-level analysis
 
-**HANDOVER.md**: σ=0.65, γ=0.6, κ=0.35 (60-65% compression)
-- Design: Balanced (multi-role)
-- Rationale: Multi-role strategy sections
+3. **TASK_2.3_safety_checks.md**:
+   - Copy template structure from README
+   - Use validation plan lines 265-297
+   - Integrate all previous tasks
+   - Entity preservation (spaCy NER)
+   - Semantic similarity (sentence-transformers)
+
+### Time Estimates
+
+**Phase 1** (parallel): ~4-8 hours total
+- Task 2.1: 4-8 hours
+- Task 1.2: 2-4 hours (runs parallel)
+
+**Phase 2** (sequential): ~7-11 hours total
+- Task 2.2: 3-5 hours (after 2.1)
+- Task 1.1: 4-6 hours (after both Phase 1)
+
+**Phase 3** (sequential): 6-10 hours
+- Task 2.3: 6-10 hours (after Phase 2)
+
+**Total validation**: ~17-29 hours autonomous work
 
 ### Open Questions
 
-**For CC_Projects monitoring**:
-1. Do they successfully integrate compression targets into Phase 3 work?
-2. Is validation process practical in their workflow?
-3. Do they need automated tools to measure σ,γ,κ from documents?
-4. Additional template types beyond the 5 provided?
+**From validation plan**:
+1. Entity preservation reliability - is spaCy NER sufficient for technical content?
+2. Semantic similarity thresholds - are 0.75/0.80 appropriate?
+3. Compression score calibration - do metric weights need tuning by document type?
+4. Section boundary detection - minimum section length needed?
 
-**For future enhancement**:
-1. Automated validation tools for measuring parameters?
-2. Expanded template library?
-3. Visual aids for parameter → design translation?
-4. Generalize Phase 3 guidance for other projects?
+**These will be answered empirically through task execution.**
 
-### Context Usage
+### CC_Projects Integration
 
-**Session 7 total**:
-- Start: ~190,000 tokens
-- Used: ~114,000 tokens (60%)
-- Remaining: ~76,000 tokens (40%)
-
-**Work completed**:
-1. Automation tool research (426 lines)
-2. Validation plan (575 lines)
-3. Integration Guide enhancement (+448 lines)
-4. Enhancement summary (325 lines)
-5. Two handover documents (511 + 678 lines)
-6. Various documentation updates
-
-**Total new content**: ~3,003 lines
+**Passive monitoring**: Watching for feedback on enhanced Integration Guide
+- Phase 3 template design guidance provided
+- Compression targets as design constraints
+- No active work required this session
 
 ---
 
 **Session Start**: 2025-10-30  
-**Session Status**: Complete (Extended)  
-**Duration**: Single session with extension  
-**Next Action**: Monitor CC_Projects adoption feedback, begin validation tasks, or resume white paper development
+**Session Status**: In Progress  
+**Next Action**: Delegate TASK-2.1 and TASK-1.2 to Claude Code, then create Phase 2 task specs
