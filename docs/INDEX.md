@@ -32,6 +32,8 @@
 
 **[CC_Projects Validated Architecture](reference/CC_PROJECTS_VALIDATED_ARCHITECTURE.md)** - Active - Comprehensive reference (994 lines) documenting CC_Projects Phase 2 validation (H1-H4). Provides evidence-based architectural context grounding Compression framework: 5-phase lifecycle, 6 roles, 5 layers, scalability validation. Includes document type mapping, compression implications, concrete test cases, and integration recommendations.
 
+**[Integration Guide for CC_Projects](reference/INTEGRATION_GUIDE_CC_PROJECTS.md)** - Active - Practical adoption guide (541 lines) enabling CC_Projects to implement validated Compression framework (v1.0, 11,374 lines). Provides unified theory overview (σ, γ, κ parameters), essential reading roadmap (4 core docs + optional deep dives), direct mapping of H1-H5 architecture to compression targets, 3-phase implementation plan (immediate wins → systematic application → continuous optimization), worked examples (archive sessions, SESSION.md optimization, multi-role PROJECT.md), quick decision framework (role → phase → conflict → frequency), practical FAQ addressing workflow integration and dual-config interaction, success metrics, and file reference for copying framework docs. Designed as single-source integration document for cross-project framework adoption.
+
 ### Prompts
 
 ### Patterns
