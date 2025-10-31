@@ -18,6 +18,8 @@
 
 ### Analysis
 
+**[Method Relationship Analysis](analysis/method-relationship-analysis.md)** - Active - **CRITICAL clarification** (736 lines) documenting that LSC and CCM are complementary methods addressing different problems (documentation vs conversation compression), not overlapping techniques. Defines LSC's 5 specific techniques, CCM's 4 specific techniques, their relationship, and our framework's unique contributions. Essential for correct empirical testing design and academic attribution.
+
 **[Documentation Types Matrix](analysis/documentation-types-matrix.md)** - Active - Comprehensive taxonomy (1,691 lines) defining six audience categories with compression targets.
 
 **[Information Preservation Framework](analysis/information-preservation-framework.md)** - Active - Systematic framework (1,808 lines) for purpose-driven compression.
