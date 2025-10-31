@@ -617,3 +617,203 @@ Validation: ✅ Score confirms structure
 ---
 
 **Final Verdict:** Task 4.1 represents **excellent preparation** but **incomplete validation**. The foundation is strong; the testing needs completion before production deployment can be recommended.
+
+
+# ENHANCEMENT: Add Comprehensive Idempotency Testing
+
+## Additional Test Required: Multi-Round Compression Stability
+
+### Test: Progressive Compression Rounds
+
+**Add to Phase 2 validation:**
+
+```python
+# Test each document through 3 compression rounds
+for doc in [verbose_prose, mixed_state, entity_heavy]:
+    print(f"\n=== Testing {doc.name} ===")
+    
+    # Extract baseline facts
+    original = read(doc)
+    original_facts = extract_facts(original)
+    original_tokens = count_tokens(original)
+    original_score = calculate_compression_score(original)
+    
+    print(f"Original: {len(original_facts)} facts, {original_tokens} tokens, score {original_score:.2f}")
+    
+    # Round 1: First compression
+    try:
+        compressed_r1 = compress.py_compress(original)
+        facts_r1 = extract_facts(compressed_r1)
+        tokens_r1 = count_tokens(compressed_r1)
+        score_r1 = calculate_compression_score(compressed_r1)
+        
+        print(f"Round 1: {len(facts_r1)} facts, {tokens_r1} tokens, score {score_r1:.2f}")
+        
+        # Verify fact preservation
+        assert len(facts_r1) >= len(original_facts) * 0.95, \
+            f"CRITICAL: Round 1 lost {len(original_facts) - len(facts_r1)} facts!"
+        
+        # Round 2: Try to compress again
+        try:
+            compressed_r2 = compress.py_compress(compressed_r1)
+            
+            # Check if blocked or unchanged
+            if compressed_r2 == compressed_r1:
+                print("✅ Round 2: Idempotency - no change")
+            else:
+                facts_r2 = extract_facts(compressed_r2)
+                tokens_r2 = count_tokens(compressed_r2)
+                score_r2 = calculate_compression_score(compressed_r2)
+                
+                print(f"⚠️  Round 2: {len(facts_r2)} facts, {tokens_r2} tokens, score {score_r2:.2f}")
+                
+                # Critical: verify no information loss
+                assert len(facts_r2) >= len(facts_r1), \
+                    f"DANGER: Round 2 lost {len(facts_r1) - len(facts_r2)} facts!"
+                
+                # Round 3: Must be blocked by now
+                try:
+                    compressed_r3 = compress.py_compress(compressed_r2)
+                    
+                    assert compressed_r3 == compressed_r2, \
+                        "CRITICAL: Still compressing after Round 3!"
+                    
+                    print("✅ Round 3: Blocked/stable")
+                    
+                except Exception as e:
+                    if "already compressed" in str(e).lower():
+                        print("✅ Round 3: Blocked by pre-check")
+                    else:
+                        raise
+                        
+        except Exception as e:
+            if "already compressed" in str(e).lower():
+                print("✅ Round 2: Blocked by pre-check")
+            else:
+                raise
+                
+    except Exception as e:
+        if "already compressed" in str(e).lower():
+            print("✅ Round 1: Blocked (already compressed)")
+        else:
+            raise
+
+### Test: Score Threshold Validation
+
+**Verify 0.8 threshold is appropriate:**
+
+```python
+# Create test documents with varying compression scores
+test_scores = {
+    "highly_verbose": 0.35,      # Should compress easily
+    "moderate": 0.60,             # Should compress once
+    "borderline": 0.75,           # Critical: should compress once then block
+    "well_structured": 0.85,      # Should block immediately
+    "highly_compressed": 0.95     # Should block immediately
+}
+
+threshold_tests = []
+
+for doc_type, target_score in test_scores.items():
+    # Get or create document with target score
+    doc = get_document_with_score(target_score)
+    
+    original_score = calculate_compression_score(doc)
+    print(f"\n{doc_type}: Starting score {original_score:.2f}")
+    
+    # Try to compress
+    try:
+        compressed = compress.py_compress(doc)
+        after_score = calculate_compression_score(compressed)
+        
+        print(f"  Compressed: {original_score:.2f} → {after_score:.2f}")
+        
+        # Try again
+        try:
+            compressed2 = compress.py_compress(compressed)
+            
+            if compressed2 == compressed:
+                print(f"  ✅ Second attempt: Idempotent")
+                threshold_tests.append({
+                    "type": doc_type,
+                    "original_score": original_score,
+                    "after_score": after_score,
+                    "second_attempt": "unchanged",
+                    "passed": True
+                })
+            else:
+                print(f"  ⚠️  Second attempt: Changed again")
+                threshold_tests.append({
+                    "type": doc_type,
+                    "original_score": original_score,
+                    "after_score": after_score,
+                    "second_attempt": "changed",
+                    "passed": False
+                })
+                
+        except Exception as e:
+            if "already compressed" in str(e).lower():
+                print(f"  ✅ Second attempt: Blocked")
+                threshold_tests.append({
+                    "type": doc_type,
+                    "original_score": original_score,
+                    "after_score": after_score,
+                    "second_attempt": "blocked",
+                    "passed": True
+                })
+            else:
+                raise
+                
+    except Exception as e:
+        if "already compressed" in str(e).lower():
+            print(f"  ✅ First attempt: Blocked (score {original_score:.2f} ≥ 0.8)")
+            threshold_tests.append({
+                "type": doc_type,
+                "original_score": original_score,
+                "first_attempt": "blocked",
+                "passed": True
+            })
+        else:
+            raise
+
+# Analyze threshold effectiveness
+print("\n=== Threshold Analysis ===")
+for test in threshold_tests:
+    print(f"{test['type']}: {test}")
+
+# Critical question: Are any documents with score 0.75-0.79 after compression
+# being compressed again and losing information?
+borderline_recompressions = [
+    t for t in threshold_tests 
+    if 0.75 <= t.get('after_score', 0) < 0.8 
+    and t.get('second_attempt') == 'changed'
+]
+
+if borderline_recompressions:
+    print(f"\n⚠️  WARNING: {len(borderline_recompressions)} borderline docs recompressed!")
+    print("Consider raising threshold from 0.8 to 0.85")
+else:
+    print("\n✅ Threshold 0.8 appears safe")
+```
+
+### Expected Results
+
+**For your 6-fact scenario:**
+
+```
+verbose_prose.md: Starting score 0.40
+  Compressed: 0.40 → 0.85 (6 facts preserved)
+  ✅ Second attempt: Blocked (score 0.85 ≥ 0.8)
+  ✅ Facts stable: 8 original → 8 compressed → 8 after block
+
+Result: IDEMPOTENT ✅
+```
+
+### Success Criteria
+
+- [ ] All documents stable after 2 rounds (unchanged or blocked)
+- [ ] Zero fact loss across any compression round
+- [ ] No documents with score 0.75-0.79 successfully recompress
+- [ ] Score threshold 0.8 validated as safe (or adjusted)
+- [ ] Borderline documents (score ~0.78 after Round 1) properly blocked in Round 2
+

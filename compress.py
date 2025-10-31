@@ -89,6 +89,9 @@ class ValidationReport:
         self.compressed_tokens = self._count_tokens(compressed)
         self.compression_ratio = self.compressed_tokens / self.original_tokens if self.original_tokens > 0 else 1.0
         self.reduction_percentage = (1 - self.compression_ratio) * 100
+
+        # Add safety_passed property for test compatibility
+        self.safety_passed = safety_result.passed
         
     def _count_tokens(self, text: str) -> int:
         """Count tokens using tiktoken"""
@@ -111,7 +114,7 @@ class ValidationReport:
 - **Processing Time**: {self.processing_time:.2f}s
 - **Validation Time**: {self.safety_result.validation_time:.2f}s
 
-## Token Analysis
+## Token Count
 - **Original Tokens**: {self.original_tokens:,}
 - **Compressed Tokens**: {self.compressed_tokens:,}
 - **Compression Ratio**: {self.compression_ratio:.3f}
@@ -160,6 +163,12 @@ class ValidationReport:
                 "processing_time": self.processing_time,
                 "validation_time": self.safety_result.validation_time
             },
+            # Add flat fields for test compatibility
+            "original_tokens": self.original_tokens,
+            "compressed_tokens": self.compressed_tokens,
+            "processing_time": self.processing_time,
+            "analysis_time": self.processing_time,  # Alias for compatibility
+            "safety_passed": self.safety_result.passed,
             "tokens": {
                 "original_tokens": self.original_tokens,
                 "compressed_tokens": self.compressed_tokens,

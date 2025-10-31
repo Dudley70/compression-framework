@@ -1,0 +1,506 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Library/Developer/CommandLineTools/usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /Users/dudley/projects/Compression
+plugins: mock-3.15.1, asyncio-1.2.0, anyio-4.11.0, cov-7.0.0
+asyncio: mode=strict, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 43 items
+
+tests/test_compress_tool.py::TestDocumentAnalysis::test_detect_uncompressed_document PASSED [  2%]
+tests/test_compress_tool.py::TestDocumentAnalysis::test_detect_already_compressed FAILED [  4%]
+tests/test_compress_tool.py::TestDocumentAnalysis::test_section_level_analysis FAILED [  6%]
+tests/test_compress_tool.py::TestDocumentAnalysis::test_technique_recommendations PASSED [  9%]
+tests/test_compress_tool.py::TestDocumentAnalysis::test_handle_empty_document PASSED [ 11%]
+tests/test_compress_tool.py::TestDocumentAnalysis::test_handle_malformed_markdown PASSED [ 13%]
+tests/test_compress_tool.py::TestDocumentAnalysis::test_detect_code_heavy_document FAILED [ 16%]
+tests/test_compress_tool.py::TestDocumentAnalysis::test_identify_list_opportunities PASSED [ 18%]
+tests/test_compress_tool.py::TestLSCTechniques::test_lists_tables_conversion PASSED [ 20%]
+tests/test_compress_tool.py::TestLSCTechniques::test_hierarchical_structure_addition FAILED [ 23%]
+tests/test_compress_tool.py::TestLSCTechniques::test_redundancy_removal PASSED [ 25%]
+tests/test_compress_tool.py::TestLSCTechniques::test_technical_shorthand PASSED [ 27%]
+tests/test_compress_tool.py::TestLSCTechniques::test_information_density PASSED [ 30%]
+tests/test_compress_tool.py::TestLSCTechniques::test_preserve_code_blocks PASSED [ 32%]
+tests/test_compress_tool.py::TestLSCTechniques::test_preserve_links PASSED [ 34%]
+tests/test_compress_tool.py::TestLSCTechniques::test_preserve_images PASSED [ 37%]
+tests/test_compress_tool.py::TestLSCTechniques::test_table_preservation PASSED [ 39%]
+tests/test_compress_tool.py::TestLSCTechniques::test_nested_list_handling FAILED [ 41%]
+tests/test_compress_tool.py::TestSafetyIntegration::test_precheck_blocks_compressed FAILED [ 44%]
+tests/test_compress_tool.py::TestSafetyIntegration::test_entity_preservation_blocks_loss PASSED [ 46%]
+tests/test_compress_tool.py::TestSafetyIntegration::test_minimal_benefit_blocks_insufficient PASSED [ 48%]
+tests/test_compress_tool.py::TestSafetyIntegration::test_semantic_similarity_blocks_drift FAILED [ 51%]
+tests/test_compress_tool.py::TestSafetyIntegration::test_safe_compression_passes PASSED [ 53%]
+tests/test_compress_tool.py::TestSafetyIntegration::test_warning_on_edge_case PASSED [ 55%]
+tests/test_compress_tool.py::TestValidationReporting::test_compression_score_calculated PASSED [ 58%]
+tests/test_compress_tool.py::TestValidationReporting::test_token_drift_detected FAILED [ 60%]
+tests/test_compress_tool.py::TestValidationReporting::test_report_markdown_generation FAILED [ 62%]
+tests/test_compress_tool.py::TestValidationReporting::test_report_json_generation FAILED [ 65%]
+tests/test_compress_tool.py::TestValidationReporting::test_performance_metrics_included FAILED [ 67%]
+tests/test_compress_tool.py::TestCLIInterface::test_analyze_command FAILED [ 69%]
+tests/test_compress_tool.py::TestCLIInterface::test_compress_command FAILED [ 72%]
+tests/test_compress_tool.py::TestCLIInterface::test_dry_run_flag FAILED  [ 74%]
+tests/test_compress_tool.py::TestCLIInterface::test_report_generation FAILED [ 76%]
+tests/test_compress_tool.py::TestEndToEnd::test_full_compression_workflow FAILED [ 79%]
+tests/test_compress_tool.py::TestEndToEnd::test_multi_section_document FAILED [ 81%]
+tests/test_compress_tool.py::TestEndToEnd::test_error_handling_malformed PASSED [ 83%]
+tests/test_compress_tool.py::TestEndToEnd::test_large_document_performance PASSED [ 86%]
+tests/test_compress_tool.py::TestEndToEnd::test_batch_processing_capability PASSED [ 88%]
+tests/test_compress_tool.py::TestEndToEnd::test_safety_validation_integration PASSED [ 90%]
+tests/test_compress_tool.py::TestIntegrationWithExistingComponents::test_analyze_compression_state_integration SKIPPED [ 93%]
+tests/test_compress_tool.py::TestIntegrationWithExistingComponents::test_safety_checks_integration PASSED [ 95%]
+tests/test_compress_tool.py::TestIntegrationWithExistingComponents::test_compression_score_integration SKIPPED [ 97%]
+tests/test_compress_tool.py::TestIntegrationWithExistingComponents::test_token_drift_integration SKIPPED [100%]
+
+=================================== FAILURES ===================================
+_____________ TestDocumentAnalysis.test_detect_already_compressed ______________
+
+self = <test_compress_tool.TestDocumentAnalysis object at 0x144022400>
+
+    def test_detect_already_compressed(self):
+        """Recognize highly structured documents"""
+        tool = CompressionTool()
+        fixture_path = Path(__file__).parent / "fixtures" / "already_compressed.md"
+    
+        result = tool.analyze_document(str(fixture_path))
+>       assert result.compression_score >= 0.8, f"Expected high score for already compressed, got {result.compression_score}"
+E       AssertionError: Expected high score for already compressed, got 0.7703294535829806
+E       assert 0.7703294535829806 >= 0.8
+E        +  where 0.7703294535829806 = AnalysisResult(file_path='/Users/dudley/projects/Compression/tests/fixtures/already_compressed.md', compression_score=0.7703294535829806, sections=[{'title': 'Authentication', 'level': 2, 'content': '**Required**: Bearer token in `Authorization` header\n**Obtain**: Developer portal → Create app → Copy key', 'start_line': 3, 'end_line': 6, 'score': 0.844, 'state': 'compressed', 'needs_compression': False}, {'title': 'Data Operations', 'level': 3, 'content': '- `GET /api/resource` - Retrieve list\n- `POST /api/resource` - Create new  \n- `DELETE /api/resource/:id` - Remove', 'start_line': 8, 'end_line': 12, 'score': 0.889, 'state': 'compressed', 'needs_compression': False}, {'title': 'Headers', 'level': 3, 'content': '```\nAuthorization: Bearer {API_KEY}\nContent-Type: application/json\n```', 'start_line': 13, 'end_line': 18, 'score': 0.24975, 'state': 'verbose', 'needs_compression': True}, {'title': 'Rate Limits', 'level': 2, 'content': '- 1000 req/hour (authenticated)\n- 100 req/hour (anonymous)', 'start_line': 19, 'end_line': 21, 'score': 0.9145, 'state': 'compressed', 'needs_compression': False}], recommended_techniques=['technical_shorthand'], needs_compression=False, analysis_time=0.001455068588256836).compression_score
+
+tests/test_compress_tool.py:68: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Initializing SafetyValidator...
+Loading sentence transformer model...
+SafetyValidator initialized successfully.
+_______________ TestDocumentAnalysis.test_section_level_analysis _______________
+
+self = <test_compress_tool.TestDocumentAnalysis object at 0x144022580>
+
+    def test_section_level_analysis(self):
+        """Analyze each section independently"""
+        tool = CompressionTool()
+        fixture_path = Path(__file__).parent / "fixtures" / "mixed_state.md"
+    
+        result = tool.analyze_document(str(fixture_path))
+        assert len(result.sections) > 1, "Should analyze multiple sections independently"
+>       assert any(s.needs_compression for s in result.sections), "Should find at least one section needing compression"
+
+tests/test_compress_tool.py:79: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <list_iterator object at 0x146f752e0>
+
+>   assert any(s.needs_compression for s in result.sections), "Should find at least one section needing compression"
+E   AttributeError: 'dict' object has no attribute 'needs_compression'
+
+tests/test_compress_tool.py:79: AttributeError
+----------------------------- Captured stdout call -----------------------------
+Initializing SafetyValidator...
+Loading sentence transformer model...
+SafetyValidator initialized successfully.
+_____________ TestDocumentAnalysis.test_detect_code_heavy_document _____________
+
+self = <test_compress_tool.TestDocumentAnalysis object at 0x144022fd0>
+
+        def test_detect_code_heavy_document(self):
+            """Detect documents with lots of code blocks"""
+            tool = CompressionTool()
+    
+            code_heavy_content = """# API Examples
+    
+    ```python
+    def get_user():
+        return {"id": 1}
+    ```
+    
+    ```javascript
+    const user = await fetch('/api/user');
+    ```
+    
+    ```bash
+    curl -X GET /api/user
+    ```
+    
+    Short text between code blocks.
+    """
+    
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.md', delete=False) as f:
+                f.write(code_heavy_content)
+                code_file = f.name
+    
+            try:
+                result = tool.analyze_document(code_file)
+>               assert result.compression_score >= 0.6, \
+                    f"Expected compression_score >= 0.6 for code-heavy document (already well-structured), got {result.compression_score}"
+E                   AssertionError: Expected compression_score >= 0.6 for code-heavy document (already well-structured), got 0.543518323441888
+E                   assert 0.543518323441888 >= 0.6
+E                    +  where 0.543518323441888 = AnalysisResult(file_path='/tmp/tmp790r_o0g.md', compression_score=0.543518323441888, sections=[{'title': 'API Examples', 'level': 1, 'content': '```python\ndef get_user():\n    return {"id": 1}\n```\n\n```javascript\nconst user = await fetch(\'/api/user\');\n```\n\n```bash\ncurl -X GET /api/user\n```\n\nShort text between code blocks.', 'start_line': 1, 'end_line': 17, 'score': 0.26507142857142857, 'state': 'verbose', 'needs_compression': True}], recommended_techniques=['lists_tables', 'hierarchical_structure', 'information_density', 'technical_shorthand'], needs_compression=True, analysis_time=0.0006728172302246094).compression_score
+
+tests/test_compress_tool.py:153: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Initializing SafetyValidator...
+Loading sentence transformer model...
+SafetyValidator initialized successfully.
+____________ TestLSCTechniques.test_hierarchical_structure_addition ____________
+
+self = <test_compress_tool.TestLSCTechniques object at 0x143fd16a0>
+
+    def test_hierarchical_structure_addition(self):
+        """Add headers to flat content"""
+        lsc = LSCTechniques()
+        original = "First topic content here. This is about authentication. Second topic content here. This covers data storage."
+    
+        result = lsc.apply_hierarchical_structure(original)
+>       assert result.count("#") >= 2, \
+            f"Expected at least 2 headers added to flat content, got {result.count('#')} headers in: {result}"
+E       AssertionError: Expected at least 2 headers added to flat content, got 0 headers in: First topic content here. This is about authentication. Second topic content here. This covers data storage.
+E       assert 0 >= 2
+E        +  where 0 = <built-in method count of str object at 0x1062a72b0>('#')
+E        +    where <built-in method count of str object at 0x1062a72b0> = 'First topic content here. This is about authentication. Second topic content here. This covers data storage.'.count
+
+tests/test_compress_tool.py:203: AssertionError
+_________________ TestLSCTechniques.test_nested_list_handling __________________
+
+self = <test_compress_tool.TestLSCTechniques object at 0x143fe48b0>
+
+    def test_nested_list_handling(self):
+        """Handle nested list structures correctly"""
+        lsc = LSCTechniques()
+        original = """Authentication has multiple layers. The first layer is user credentials. The second layer includes two-factor authentication with SMS and app-based tokens. The third layer is session management."""
+    
+        result = lsc.apply_hierarchical_structure(original)
+>       assert "##" in result or "- " in result, \
+            f"Expected hierarchical structure (headers or lists) in result, got: {result}"
+E       AssertionError: Expected hierarchical structure (headers or lists) in result, got: Authentication has multiple layers. The first layer is user credentials. The second layer includes two-factor authentication with SMS and app-based tokens. The third layer is session management.
+E       assert ('##' in 'Authentication has multiple layers. The first layer is user credentials. The second layer includes two-factor authentication with SMS and app-based tokens. The third layer is session management.' or '- ' in 'Authentication has multiple layers. The first layer is user credentials. The second layer includes two-factor authentication with SMS and app-based tokens. The third layer is session management.')
+
+tests/test_compress_tool.py:296: AssertionError
+____________ TestSafetyIntegration.test_precheck_blocks_compressed _____________
+
+self = <test_compress_tool.TestSafetyIntegration object at 0x143fe45b0>
+
+    def test_precheck_blocks_compressed(self):
+        """Pre-check refuses already compressed content"""
+        tool = CompressionTool()
+        fixture_path = Path(__file__).parent / "fixtures" / "already_compressed.md"
+    
+        with open(fixture_path) as f:
+            original = f.read()
+        compressed = "Even more compressed version"
+    
+        result = tool.compress_with_safety(original, compressed)
+        assert not result.passed, \
+            f"Expected pre-check to block already compressed content, but validation passed"
+>       assert "pre-check" in result.failure_reason.lower(), \
+            f"Expected 'pre-check' in failure reason, got: {result.failure_reason}"
+E       AssertionError: Expected 'pre-check' in failure reason, got: Multiple safety concerns: entity preservation, semantic similarity - compression refused.
+E       assert 'pre-check' in 'multiple safety concerns: entity preservation, semantic similarity - compression refused.'
+E        +  where 'multiple safety concerns: entity preservation, semantic similarity - compression refused.' = <built-in method lower of str object at 0x145d7cb70>()
+E        +    where <built-in method lower of str object at 0x145d7cb70> = 'Multiple safety concerns: entity preservation, semantic similarity - compression refused.'.lower
+E        +      where 'Multiple safety concerns: entity preservation, semantic similarity - compression refused.' = ValidationResult(passed=False, warnings=[], failure_reason='Multiple safety concerns: entity preservation, semantic similarity - compression refused.', safety_details={'pre_check': {'passed': True, 'score': 0.7703294535829806, 'threshold': 0.8, 'message': 'Pre-check passed'}, 'entity_preservation': {'passed': False, 'original_entities': 14, 'preserved_entities': 0, 'preservation_rate': 0.0, 'threshold': 0.8, 'lost_entities': ['## authentication', '###', '/api/resource', '/api/resource/', '/hour'], 'message': 'Only 0.0% entities preserved (lost: ## authentication, ###, /api/resource, /api/resource/, /hour (and 9 more))'}, 'minimal_benefit': {'passed': True, 'original_tokens': 119, 'compressed_tokens': 4, 'compression_ratio': 0.03361344537815126, 'reduction_pct': 96.63865546218487, 'threshold': 0.85, 'message': 'Compression achieves 96.6% reduction'}, 'semantic_similarity': {'passed': False, 'similarity_score': 0.046839259564876556, 'threshold': 0.75, 'message': 'Semantic similarity: 0.047 - meaning significantly changed'}}, validation_time=0.1289050579071045).failure_reason
+
+tests/test_compress_tool.py:315: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Initializing SafetyValidator...
+Loading sentence transformer model...
+SafetyValidator initialized successfully.
+_________ TestSafetyIntegration.test_semantic_similarity_blocks_drift __________
+
+self = <test_compress_tool.TestSafetyIntegration object at 0x143fe4af0>
+
+    def test_semantic_similarity_blocks_drift(self):
+        """Semantic check catches meaning changes"""
+        tool = CompressionTool()
+        original = "Authentication is required for all API endpoints to ensure security."
+        compressed = "Authentication is optional for API endpoints to improve performance."
+    
+        result = tool.compress_with_safety(original, compressed)
+        assert not result.passed, \
+            f"Expected semantic similarity check to block meaning changes (required->optional), but validation passed"
+>       assert "semantic" in result.failure_reason.lower(), \
+            f"Expected 'semantic' in failure reason, got: {result.failure_reason}"
+E       AssertionError: Expected 'semantic' in failure reason, got: Safety concern: minimal benefit - review recommended.
+E       assert 'semantic' in 'safety concern: minimal benefit - review recommended.'
+E        +  where 'safety concern: minimal benefit - review recommended.' = <built-in method lower of str object at 0x1489710a0>()
+E        +    where <built-in method lower of str object at 0x1489710a0> = 'Safety concern: minimal benefit - review recommended.'.lower
+E        +      where 'Safety concern: minimal benefit - review recommended.' = ValidationResult(passed=False, warnings=[], failure_reason='Safety concern: minimal benefit - review recommended.', safety_details={'pre_check': {'passed': True, 'score': 0.21906330883767566, 'threshold': 0.8, 'message': 'Pre-check passed'}, 'entity_preservation': {'passed': True, 'original_entities': 1, 'preserved_entities': 1, 'preservation_rate': 1.0, 'threshold': 0.8, 'lost_entities': [], 'message': 'Preserved 100.0% of entities'}, 'minimal_benefit': {'passed': False, 'original_tokens': 11, 'compressed_tokens': 10, 'compression_ratio': 0.9090909090909091, 'reduction_pct': 9.090909090909093, 'threshold': 0.85, 'message': 'Only 9.1% reduction - insufficient benefit'}, 'semantic_similarity': {'passed': True, 'similarity_score': 0.8556337356567383, 'threshold': 0.75, 'message': 'Semantic similarity: 0.856'}}, validation_time=0.06423187255859375).failure_reason
+
+tests/test_compress_tool.py:351: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Initializing SafetyValidator...
+Loading sentence transformer model...
+SafetyValidator initialized successfully.
+______________ TestValidationReporting.test_token_drift_detected _______________
+
+self = <test_compress_tool.TestValidationReporting object at 0x144006400>
+
+    def test_token_drift_detected(self):
+        """Token drift detection identifies growth"""
+        tool = CompressionTool()
+        original = "Short text"
+        compressed = "This is actually much longer text that represents token growth instead of compression"
+    
+        report = tool.validate_compression(original, compressed)
+>       assert report.token_drift.growth_detected, \
+            f"Expected token drift detection to identify growth from {len(original)} to {len(compressed)} chars"
+E       AttributeError: 'dict' object has no attribute 'growth_detected'
+
+tests/test_compress_tool.py:399: AttributeError
+----------------------------- Captured stdout call -----------------------------
+Initializing SafetyValidator...
+Loading sentence transformer model...
+SafetyValidator initialized successfully.
+___________ TestValidationReporting.test_report_markdown_generation ____________
+
+self = <test_compress_tool.TestValidationReporting object at 0x143fe4b50>
+
+    def test_report_markdown_generation(self):
+        """Markdown report contains all required metrics"""
+        tool = CompressionTool()
+        original = "test content for report generation"
+        compressed = "test content"
+    
+        report = tool.validate_compression(original, compressed)
+        markdown = report.to_markdown()
+>       assert "Token Count" in markdown, \
+            f"Expected 'Token Count' in markdown report, got: {markdown[:200]}..."
+E       AssertionError: Expected 'Token Count' in markdown report, got: # Compression Validation Report
+E         
+E         ## Summary ❌
+E         - **Status**: FAILED
+E         - **Processing Time**: 0.04s
+E         - **Validation Time**: 0.04s
+E         
+E         ## Token Analysis
+E         - **Original Tokens**: 5
+E         - **Compressed Tokens**: 2
+E         - **...
+E       assert 'Token Count' in '# Compression Validation Report\n\n## Summary ❌\n- **Status**: FAILED\n- **Processing Time**: 0.04s\n- **Validation Time**: 0.04s\n\n## Token Analysis\n- **Original Tokens**: 5\n- **Compressed Tokens**: 2\n- **Compression Ratio**: 0.400\n- **Reduction**: 60.0%\n\n## Compression Score\n- **Score**: 0.550/1.0\n- **Interpretation**: Medium compression\n\n## Safety Validation\n- **Result**: ❌ Failed - Safety concern: semantic similarity - review recommended.\n\n### Safety Check Details\n- **pre_check**: ✅ No details\n- **entity_preservation**: ✅ No details\n- **minimal_benefit**: ✅ No details\n- **semantic_similarity**: ❌ No details\n'
+
+tests/test_compress_tool.py:410: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Initializing SafetyValidator...
+Loading sentence transformer model...
+SafetyValidator initialized successfully.
+_____________ TestValidationReporting.test_report_json_generation ______________
+
+self = <test_compress_tool.TestValidationReporting object at 0x143fe4520>
+
+    def test_report_json_generation(self):
+        """JSON report has structured data for automation"""
+        tool = CompressionTool()
+        original = "test content for JSON report"
+        compressed = "test content"
+    
+        report = tool.validate_compression(original, compressed)
+        json_data = report.to_json()
+>       assert "original_tokens" in json_data, \
+            f"Expected 'original_tokens' in JSON report, got keys: {list(json_data.keys())}"
+E       AssertionError: Expected 'original_tokens' in JSON report, got keys: ['summary', 'tokens', 'compression_score', 'safety_validation', 'token_drift', 'original_content', 'compressed_content']
+E       assert 'original_tokens' in {'compressed_content': 'test content', 'compression_score': 0.5499999999999999, 'original_content': 'test content for JSON report', 'safety_validation': {'details': {'entity_preservation': {'lost_entities': ['json'], 'message': 'Only 0.0% entities preserved (lost: json)', 'original_entities': 1, 'passed': False, ...}, 'minimal_benefit': {'compressed_tokens': 2, 'compression_ratio': 0.4, 'message': 'Compression achieves 60.0% reduction', 'original_tokens': 5, ...}, 'pre_check': {'message': 'Pre-check passed', 'passed': True, 'score': 0.25, 'threshold': 0.8}, 'semantic_similarity': {'message': 'Semantic similarity: 0.551 - meaning significantly changed', 'passed': False, 'similarity_score': 0.5510011315345764, 'threshold': 0.75}}, 'failure_reason': 'Multiple safety concerns: entity preservation, semantic similarity - compression refused.', 'passed': False, 'warnings': []}, ...}
+
+tests/test_compress_tool.py:427: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Initializing SafetyValidator...
+Loading sentence transformer model...
+SafetyValidator initialized successfully.
+__________ TestValidationReporting.test_performance_metrics_included ___________
+
+self = <test_compress_tool.TestValidationReporting object at 0x143fd1a30>
+
+    def test_performance_metrics_included(self):
+        """Report includes performance timing metrics"""
+        tool = CompressionTool()
+        original = "content for performance testing"
+        compressed = "performance content"
+    
+        report = tool.validate_compression(original, compressed)
+        json_data = report.to_json()
+>       assert "processing_time" in json_data, \
+            f"Expected 'processing_time' in JSON report, got keys: {list(json_data.keys())}"
+E       AssertionError: Expected 'processing_time' in JSON report, got keys: ['summary', 'tokens', 'compression_score', 'safety_validation', 'token_drift', 'original_content', 'compressed_content']
+E       assert 'processing_time' in {'compressed_content': 'performance content', 'compression_score': 0.5499999999999999, 'original_content': 'content for performance testing', 'safety_validation': {'details': {'entity_preservation': {'lost_entities': [], 'message': 'No entities to preserve', 'original_entities': 0, 'passed': True, ...}, 'minimal_benefit': {'compressed_tokens': 2, 'compression_ratio': 0.5, 'message': 'Compression achieves 50.0% reduction', 'original_tokens': 4, ...}, 'pre_check': {'message': 'Pre-check passed', 'passed': True, 'score': 0.5499999999999999, 'threshold': 0.8}, 'semantic_similarity': {'message': 'Semantic similarity: 0.774', 'passed': True, 'similarity_score': 0.7739840149879456, 'threshold': 0.75}}, 'failure_reason': 'All safety checks passed. Compression is safe.', 'passed': True, 'warnings': []}, ...}
+
+tests/test_compress_tool.py:444: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Initializing SafetyValidator...
+Loading sentence transformer model...
+SafetyValidator initialized successfully.
+____________________ TestCLIInterface.test_analyze_command _____________________
+
+self = <test_compress_tool.TestCLIInterface object at 0x144022c40>
+
+    def test_analyze_command(self):
+        """Analyze command shows recommendations without compression"""
+        fixture_path = Path(__file__).parent / "fixtures" / "verbose_prose.md"
+        result = run_cli(f"analyze {fixture_path}")
+    
+>       assert result.returncode == 0, \
+            f"Expected analyze command to succeed, got returncode {result.returncode}, stderr: {result.stderr}"
+E       AssertionError: Expected analyze command to succeed, got returncode 127, stderr: /bin/sh: python: command not found
+E         
+E       assert 127 == 0
+E        +  where 127 = CompletedProcess(args='python compress.py analyze /Users/dudley/projects/Compression/tests/fixtures/verbose_prose.md', returncode=127, stdout='', stderr='/bin/sh: python: command not found\n').returncode
+
+tests/test_compress_tool.py:458: AssertionError
+----------------------------- Captured stderr call -----------------------------
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+____________________ TestCLIInterface.test_compress_command ____________________
+
+self = <test_compress_tool.TestCLIInterface object at 0x1440060d0>
+
+    def test_compress_command(self):
+        """Compress command creates compressed output"""
+        fixture_path = Path(__file__).parent / "fixtures" / "verbose_prose.md"
+    
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            output_file = Path(tmp_dir) / "compressed.md"
+            result = run_cli(f"compress {fixture_path} --output {output_file}")
+    
+>           assert result.returncode == 0, \
+                f"Expected compress command to succeed, got returncode {result.returncode}, stderr: {result.stderr}"
+E           AssertionError: Expected compress command to succeed, got returncode 127, stderr: /bin/sh: python: command not found
+E             
+E           assert 127 == 0
+E            +  where 127 = CompletedProcess(args='python compress.py compress /Users/dudley/projects/Compression/tests/fixtures/verbose_prose.md --output /tmp/tmpf3dlko8q/compressed.md', returncode=127, stdout='', stderr='/bin/sh: python: command not found\n').returncode
+
+tests/test_compress_tool.py:471: AssertionError
+----------------------------- Captured stderr call -----------------------------
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+______________________ TestCLIInterface.test_dry_run_flag ______________________
+
+self = <test_compress_tool.TestCLIInterface object at 0x144006340>
+
+    def test_dry_run_flag(self):
+        """Dry run shows changes without applying them"""
+        fixture_path = Path(__file__).parent / "fixtures" / "verbose_prose.md"
+        original_content = fixture_path.read_text()
+    
+        result = run_cli(f"compress {fixture_path} --dry-run")
+    
+>       assert result.returncode == 0, \
+            f"Expected dry-run to succeed, got returncode {result.returncode}, stderr: {result.stderr}"
+E       AssertionError: Expected dry-run to succeed, got returncode 127, stderr: /bin/sh: python: command not found
+E         
+E       assert 127 == 0
+E        +  where 127 = CompletedProcess(args='python compress.py compress /Users/dudley/projects/Compression/tests/fixtures/verbose_prose.md --dry-run', returncode=127, stdout='', stderr='/bin/sh: python: command not found\n').returncode
+
+tests/test_compress_tool.py:483: AssertionError
+----------------------------- Captured stderr call -----------------------------
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+___________________ TestCLIInterface.test_report_generation ____________________
+
+self = <test_compress_tool.TestCLIInterface object at 0x144006670>
+
+    def test_report_generation(self):
+        """Report flag saves validation report to file"""
+        fixture_path = Path(__file__).parent / "fixtures" / "verbose_prose.md"
+    
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            report_file = Path(tmp_dir) / "report.md"
+            result = run_cli(f"compress {fixture_path} --report {report_file}")
+    
+>           assert report_file.exists(), \
+                f"Expected report file to be created at {report_file}"
+E           AssertionError: Expected report file to be created at /tmp/tmpcpvgir_f/report.md
+E           assert False
+E            +  where False = exists()
+E            +    where exists = PosixPath('/tmp/tmpcpvgir_f/report.md').exists
+
+tests/test_compress_tool.py:498: AssertionError
+----------------------------- Captured stderr call -----------------------------
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+_________________ TestEndToEnd.test_full_compression_workflow __________________
+
+self = <test_compress_tool.TestEndToEnd object at 0x1440068b0>
+
+    def test_full_compression_workflow(self):
+        """Complete analysis → compress → validate flow"""
+        fixture_path = Path(__file__).parent / "fixtures" / "verbose_prose.md"
+    
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            test_doc = Path(tmp_dir) / "document.md"
+            test_doc.write_text(fixture_path.read_text())
+    
+            tool = CompressionTool()
+    
+            # Analyze
+            analysis = tool.analyze_document(str(test_doc))
+            assert len(analysis.recommended_techniques) > 0, \
+                f"Expected recommendations for verbose prose, got {len(analysis.recommended_techniques)} techniques"
+    
+            # Compress
+            compressed = tool.compress_file(str(test_doc))
+            assert len(compressed) < len(test_doc.read_text()), \
+                f"Expected compression: result {len(compressed)} chars < original {len(test_doc.read_text())} chars"
+    
+            # Validate
+            report = tool.validate_compression(test_doc.read_text(), compressed)
+>           assert report.safety_passed, \
+                f"Expected compression to pass safety validation, got failure: {report.failure_reason if hasattr(report, 'failure_reason') else 'unknown'}"
+E           AttributeError: 'ValidationReport' object has no attribute 'safety_passed'
+
+tests/test_compress_tool.py:530: AttributeError
+----------------------------- Captured stdout call -----------------------------
+Initializing SafetyValidator...
+Loading sentence transformer model...
+SafetyValidator initialized successfully.
+___________________ TestEndToEnd.test_multi_section_document ___________________
+
+self = <test_compress_tool.TestEndToEnd object at 0x144006a60>
+
+    def test_multi_section_document(self):
+        """Handle documents with multiple sections independently"""
+        fixture_path = Path(__file__).parent / "fixtures" / "mixed_state.md"
+    
+        tool = CompressionTool()
+    
+        analysis = tool.analyze_document(str(fixture_path))
+    
+        assert len(analysis.sections) >= 3, \
+            f"Expected at least 3 sections in mixed document, got {len(analysis.sections)}"
+>       compressed_sections = [s for s in analysis.sections if not s.needs_compression]
+
+tests/test_compress_tool.py:549: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <list_iterator object at 0x149f622b0>
+
+>   compressed_sections = [s for s in analysis.sections if not s.needs_compression]
+E   AttributeError: 'dict' object has no attribute 'needs_compression'
+
+tests/test_compress_tool.py:549: AttributeError
+----------------------------- Captured stdout call -----------------------------
+Initializing SafetyValidator...
+Loading sentence transformer model...
+SafetyValidator initialized successfully.
+=========================== short test summary info ============================
+FAILED tests/test_compress_tool.py::TestDocumentAnalysis::test_detect_already_compressed
+FAILED tests/test_compress_tool.py::TestDocumentAnalysis::test_section_level_analysis
+FAILED tests/test_compress_tool.py::TestDocumentAnalysis::test_detect_code_heavy_document
+FAILED tests/test_compress_tool.py::TestLSCTechniques::test_hierarchical_structure_addition
+FAILED tests/test_compress_tool.py::TestLSCTechniques::test_nested_list_handling
+FAILED tests/test_compress_tool.py::TestSafetyIntegration::test_precheck_blocks_compressed
+FAILED tests/test_compress_tool.py::TestSafetyIntegration::test_semantic_similarity_blocks_drift
+FAILED tests/test_compress_tool.py::TestValidationReporting::test_token_drift_detected
+FAILED tests/test_compress_tool.py::TestValidationReporting::test_report_markdown_generation
+FAILED tests/test_compress_tool.py::TestValidationReporting::test_report_json_generation
+FAILED tests/test_compress_tool.py::TestValidationReporting::test_performance_metrics_included
+FAILED tests/test_compress_tool.py::TestCLIInterface::test_analyze_command - ...
+FAILED tests/test_compress_tool.py::TestCLIInterface::test_compress_command
+FAILED tests/test_compress_tool.py::TestCLIInterface::test_dry_run_flag - Ass...
+FAILED tests/test_compress_tool.py::TestCLIInterface::test_report_generation
+FAILED tests/test_compress_tool.py::TestEndToEnd::test_full_compression_workflow
+FAILED tests/test_compress_tool.py::TestEndToEnd::test_multi_section_document
+============= 17 failed, 23 passed, 3 skipped in 96.24s (0:01:36) ==============
