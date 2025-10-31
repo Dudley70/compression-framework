@@ -1,0 +1,5 @@
+# Technology Stack Documentation
+
+The application uses React for the frontend framework, with Redux for state management and React Router for navigation. The backend is built with Node.js using the Express.js framework. For the database, we use PostgreSQL with the Sequelize ORM. Authentication is handled through OAuth2 using the passport.js library with JWT tokens. The application is deployed on AWS using EC2 instances behind an ELB load balancer, with RDS for the database and S3 for static assets. Monitoring is done through CloudWatch and Datadog.
+
+Configuration is managed through environment variables defined in .env files. The .env.production file contains the production database URL, AWS credentials including AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY, and API keys for third-party services. Development uses .env.development with local database settings.
