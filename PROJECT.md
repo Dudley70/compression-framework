@@ -8,7 +8,7 @@
 ## Strategic Context
 
 ### Overview
-Research, test, and evaluate compression methods for AI context, documents, and instructions. Developed two complementary original methods (LSC for documentation, CCM for conversations), then unified both under (σ,γ,κ) theory with multi-dimensional decision framework.
+Research, test, and evaluate compression methods for AI context, documents, and instructions. Developed two complementary original methods (LSC for documentation, CCM for conversations), then unified both under (σ,γ,κ) theory with multi-dimensional decision framework. **Session 13 paradigm shift**: Framework expansion from reactive-only to proactive+reactive compression methodology required after CCM project integration insights revealed need for comprehensive adoption patterns (templates + skill + integration guidance).
 
 **Original Methods Developed (Both by Dudley)**:
 - **LSC (LLM-Shorthand Context)**: Proactive documentation compression - machine-first JSON/YAML format for strategic files (PROJECT.lsc, SESSION.lsc). Achieves 70-85% token reduction through structural transformation. Developed originally for Claude_Templates project.
@@ -20,6 +20,8 @@ Research, test, and evaluate compression methods for AI context, documents, and 
 - **Validated Architecture**: Integration with CC_Projects H1/H2/H3 organizational framework
 - **Tool Integration**: Practical automation with safety validation and empirical testing methodology
 - **Empirical Validation**: Framework predictions validated against real documentation compression
+- **Proactive Expansion**: Templates + Claude Skill for write-time compression (Session 13 discovery)
+- **Integration Methodology**: Practical adoption patterns for other projects (CCM case study validation)
 
 **Unified Compression Theory**:
 All compression techniques optimize three parameters subject to comprehension constraint:
