@@ -184,17 +184,27 @@ Finalize refactoring:
 
 **If context lost next session**:
 
-1. **Read PROJECT.md** (Strategic Context + Decision Log)
-2. **Read this SESSION.md** (current state)
-3. **Read REFACTORING_PLAN.md** (understand refactoring strategy)
-4. **Read TASK_AUDIT.md** (Phase 1 specification)
-5. **Proceed with Phase 1 execution**
+1. **Read HANDOVER.md FIRST** - Complete orientation (424 lines)
+   - Executive summary (what's done, what's next)
+   - Session 15 accomplishments
+   - Current vs target structure
+   - Session 16 plan with detailed process
+   - Timeline overview (Sessions 16-20)
+   - All key references documented
+
+2. **Read this SESSION.md** - Current state summary
+
+3. **Read REFACTORING_PLAN.md** - Understand refactoring strategy (480 lines)
+
+4. **Read TASK_AUDIT.md** - Interactive audit process (921 lines)
+
+5. **Begin Session 16** - Audit first 3-4 docs interactively
 
 **Quick context**:
-- v1.0 complete (proactive system delivered)
-- 20K+ lines need refactoring to 5K active + archive
-- Three-phase approach specified and ready
-- Next: Execute Phase 1 audit
+- v1.0 complete (20,000+ lines delivered)
+- Refactoring to clean handover (~5,000 active + archive)
+- Interactive audit approach (3 sessions for Phase 1)
+- Next: Audit information-preservation-framework.md + 2-3 more docs
 
 ---
 
