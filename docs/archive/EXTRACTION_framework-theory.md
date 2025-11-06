@@ -270,3 +270,330 @@ Consider adding to existing sections:
 
 ---
 
+## Source 5: documentation-types-matrix.md
+
+**Document**: `docs/analysis/documentation-types-matrix.md`  
+**Size**: 1,691 lines  
+**Created**: 2025-10-29 21:40 AEDT  
+**Status**: PARTIAL SUPERSESSION (~65% integrated, ~35% unique insights)
+
+### Insight 4: Team-Size Scaling and ROI
+
+**Context**: Compression ROI scales dramatically with team size. Framework adoption justification varies by team structure. Solo developers have different needs than large teams.
+
+**Team Size Categories and Characteristics**:
+
+| Team Size | Roles | Specialization | Documentation Priority |
+|-----------|-------|----------------|------------------------|
+| **Solo / Very Small (1-3)** | High role overlap | Individuals wear multiple hats | Readability > optimization |
+| **Small (4-8)** | Some specialization | 2-3 devs, 1 coordinator | Balance role needs |
+| **Medium (9-15)** | Clear specialization | Multiple devs, dedicated coordinator/architect | Optimize for roles |
+| **Large (16+)** | High specialization | Minimal role overlap, sub-teams | Aggressive role optimization |
+
+**Compression Target Adjustments by Team Size**:
+
+**Solo / Very Small Teams (1-3 people)**:
+```yaml
+compression_targets:
+  LLM-only: 60-75%     # vs 70-85% standard (favor readability)
+  Hybrid-Technical: 30-50%  # vs 40-60% (less aggressive)
+  Multi-role: Union strategy  # Single narrative for all roles
+  
+rationale:
+  - Context switching cost > token savings
+  - Individual reads all roles
+  - Personal memory supplements docs
+  - Minimal handover overhead
+  
+example: "Don't create separate strategic/technical/operational sections"
+```
+
+**Small Teams (4-8 people)**:
+```yaml
+compression_targets:
+  LLM-only: 65-80%     # Approaching standard
+  Hybrid-Technical: 35-55%  # Light optimization
+  Multi-role: Intersection strategy  # Primary role + accommodations
+  Layered: SESSION.md and PROJECT.md only  # Highest frequency docs
+  
+rationale:
+  - Some specialization justifies optimization
+  - Still need cross-role comprehension
+  - Coordination overhead increasing
+  
+example: "Primary: Developer detail, Secondary: Coordinator inline status"
+```
+
+**Medium Teams (9-15 people)**:
+```yaml
+compression_targets:
+  LLM-only: 70-85%     # Full framework targets
+  Hybrid-Technical: 40-60%  # Standard optimization
+  Multi-role: Full divergence thresholds  # Use framework exactly
+  Layered: 3-5 critical documents  # Justified for high-frequency
+  
+rationale:
+  - Role specialization high enough
+  - Token savings compound across team
+  - Coordination complexity requires optimization
+  
+example: "Layered PROJECT.md: Strategic (70%) → Architect (50%) → Developer (35%)"
+```
+
+**Large Teams (16+ people)**:
+```yaml
+compression_targets:
+  LLM-only: 75-85%     # Aggressive end of range
+  Hybrid-Technical: 45-60%  # Upper range
+  Multi-role: Layered standard  # Most shared docs
+  Archive: 95-99% critical  # Volume management
+  
+rationale:
+  - High specialization enables aggressive optimization
+  - Documentation volume high (storage costs)
+  - Coordination complexity requires role optimization
+  
+example: "Separate docs by role: Architecture/ Development/ Operations/"
+```
+
+**Role Overlap Decision Framework**:
+```
+Calculate Role Overlap:
+  Single person wearing N roles → High overlap (>70%)
+  N people each wearing 1 role → No overlap (<30%)
+  
+Apply Strategy:
+  If Overlap > 70%:
+    - Union strategy (single representation)
+    - Lower compression targets (readability priority)
+    - Minimize role-specific optimization
+  
+  If Overlap 30-70%:
+    - Intersection strategy (primary + accommodations)
+    - Standard compression targets
+    - Moderate role optimization
+  
+  If Overlap < 30%:
+    - Layered strategy (role-specific views)
+    - Aggressive compression targets
+    - Full role-specific optimization
+```
+
+**Token Savings Scale with Team Size**:
+
+Example: PROJECT.md optimization saving 1,000 tokens per session × 50 sessions/year
+
+| Team Size | People | Annual Token Savings | Value |
+|-----------|--------|---------------------|-------|
+| Solo | 1 | 50,000 tokens | Low |
+| Small | 5 | 250,000 tokens | Moderate |
+| Medium | 12 | 600,000 tokens | Significant |
+| Large | 25 | 1,250,000 tokens | Critical |
+
+**Calculation**: `People × Token_Reduction × Sessions_Per_Year = Annual_Savings`
+
+**Layered Strategy ROI Analysis**:
+
+```
+Layered Strategy Maintenance Overhead: ~15 hours/year
+
+Solo Team ROI:
+  Savings: 50K tokens (minimal value)
+  Cost: 15 hours maintenance
+  Result: NEGATIVE ROI (not justified)
+  Recommendation: Don't use layered strategy
+
+Medium Team ROI:
+  Savings: 600K tokens (significant value)
+  Cost: 15 hours maintenance
+  Result: POSITIVE ROI (justified)
+  Recommendation: Use for 3-5 critical docs
+
+Large Team ROI:
+  Savings: 1.25M tokens (critical value)
+  Cost: 15 hours maintenance
+  Result: STRONGLY POSITIVE ROI (essential)
+  Recommendation: Standard for shared docs
+```
+
+**Key Insight**: Compression strategy sophistication should scale with team size. Solo developers need simple, readable docs. Large teams justify complex layered strategies.
+
+**Application**: Use team size to adjust compression aggressiveness and multi-role strategy selection. Smaller teams favor readability and Union strategies. Larger teams justify aggressive optimization and Layered strategies.
+
+---
+
+### Insight 5: Edge Cases Override Framework
+
+**Context**: Real-world constraints may override standard compression guidance. Legal requirements, emergency access needs, external collaboration, and other edge cases require special handling. Need systematic framework for when to deviate from standard compression targets.
+
+**Five Edge Case Types**:
+
+**1. Compliance and Audit Requirements**
+- **Constraint**: Legal, regulatory, or audit mandates
+- **Challenge**: Compression may violate retention or completeness requirements
+- **Examples**: SOX audit trails, GDPR records, HIPAA logs, security incidents
+- **Compression Limit**: 0-40% maximum
+- **Requirements**:
+  - Retain full unmodified originals (required retention period)
+  - Create compressed working copies only (for daily use)
+  - Maintain keyword index (for legal discovery)
+  - Legal review before any compression
+  - Never compress legal documents (0%)
+  - Audit trails: 0-20% (structured only, lossless)
+
+**2. Emergency Access Scenarios**
+- **Constraint**: Time-critical access during incidents/outages
+- **Challenge**: Ultra-compressed docs may not be accessible fast enough, LLM may be unavailable
+- **Examples**: Runbooks, incident response, disaster recovery, emergency contacts
+- **Compression Limit**: 0-10% maximum
+- **Requirements**:
+  - Human-readable format (no LSC)
+  - Step-by-step instructions (no abbreviation)
+  - Multiple redundant locations
+  - Printed backup copies for critical procedures
+  - Test regularly under stress conditions
+  - Prioritize accessibility over token efficiency
+
+**3. Multi-Project Shared Documentation**
+- **Constraint**: Documents used across multiple projects with different needs
+- **Challenge**: Different projects may have different compression tolerances and role structures
+- **Examples**: Technical standards, architecture patterns, platform APIs, reusable components
+- **Compression Limit**: 20-40% (lowest common denominator)
+- **Strategies**:
+  - **Option A**: Single version, optimize for least-compression-tolerant project (<5 projects, similar audiences)
+  - **Option B**: Multi-version with shared core (10+ projects OR very diverse audiences)
+  - **Option C**: Layered with project-specific sections (5-10 projects, diverse audiences)
+
+**4. External Collaboration**
+- **Constraint**: Shared with external partners, contractors, open-source community
+- **Challenge**: No control over recipient's tools, no LLM assumption, variable technical literacy
+- **Examples**: API docs for external devs, integration guides, client specs, open-source documentation
+- **Compression Limit**: 0-20% maximum
+- **Requirements**:
+  - Assume human-readable only (LLM use optional)
+  - Traditional markdown with examples
+  - No internal abbreviations or assumptions
+  - Explain all technical terms
+  - Step-by-step with screenshots
+  - Plain language for general audiences
+
+**5. Long-Term Archival (10+ years)**
+- **Constraint**: Must be preserved for decades beyond normal archival timeframe
+- **Challenge**: Format longevity, future accessibility, technology evolution uncertain
+- **Examples**: Historical company records, long-term research, legal archives, foundational architecture decisions
+- **Compression Limit**: 40-60% (moderate only)
+- **Requirements**:
+  - Plain text or markdown (not LSC or proprietary)
+  - Standard metadata (JSON/YAML)
+  - 5-year review cycle (format migration as needed)
+  - Avoid ultra-aggressive compression (95-99% too risky)
+  - Favor format longevity over token efficiency
+
+**Override Priority Framework** (from highest to lowest):
+
+```
+1. Legal/Compliance Requirements → ALWAYS override token efficiency
+2. Safety/Emergency Access → Human life or critical systems
+3. External Obligations → Contractual or partnership commitments
+4. Long-Term Preservation → Format longevity over current optimization
+5. Standard Framework → Default guidance when no overrides apply
+```
+
+**Decision Tree for Edge Case Handling**:
+
+```
+For each document, check in order:
+
+1. Is document subject to legal/compliance requirements?
+   YES → Follow compliance compression limits (0-40%)
+        → Legal review required
+        → Preserve originals
+   NO → Continue to 2
+
+2. Is document needed for emergency access?
+   YES → Human-readable format (0-10% compression)
+        → Multiple locations
+        → Test under stress
+   NO → Continue to 3
+
+3. Is document shared externally (partners/clients/open-source)?
+   YES → Human-readable, low compression (0-20%)
+        → Explain everything
+        → No internal assumptions
+   NO → Continue to 4
+
+4. Is document for 10+ year archival?
+   YES → Format longevity priority (40-60% compression)
+        → Plain text/markdown
+        → 5-year review cycle
+   NO → Continue to 5
+
+5. Apply standard framework guidance (Matrix + Multi-Role strategies)
+```
+
+**Edge Case Compression Limits Summary**:
+
+| Edge Case | Max Compression | Format | Key Constraint |
+|-----------|----------------|--------|----------------|
+| Compliance/Audit | 0-40% | Original + copy | Legal requirements |
+| Emergency Access | 0-10% | Human-readable | Time-critical, stress |
+| Multi-Project | 20-40% | Lowest common denominator | Diverse audiences |
+| External | 0-20% | Traditional markdown | Unknown tooling |
+| Long-Term (10+ years) | 40-60% | Plain text/markdown | Format longevity |
+
+**Warning Principle**: When in doubt about edge case applicability, err on side of caution. Legal risk or emergency access failure costs more than token savings.
+
+**Application**: Check edge case decision tree before applying standard compression targets. Override priorities ensure real-world constraints handled appropriately. Don't optimize away critical access or legal compliance.
+
+---
+
+## Integration Plan Updates
+
+### For DECISION_FRAMEWORK.md (Phase 2)
+
+**Additional Section 4: Team-Size Considerations** (~150-180 lines)
+- Team size categories and characteristics table
+- Compression target adjustments per size
+- Role overlap decision framework
+- Token savings scaling calculations
+- Layered strategy ROI analysis by team size
+
+**Additional Section 5: Edge Cases and Overrides** (~180-220 lines)
+- Five edge case types with characteristics
+- Compression limits per edge case
+- Override priority framework (Legal > Safety > External > Longevity)
+- Decision tree for edge case handling
+- Edge case limits summary table
+
+**Updated Total Estimated**: ~630-770 lines total for DECISION_FRAMEWORK.md
+- Original estimates (Sections 1-3): ~300-370 lines
+- New additions (Sections 4-5): ~330-400 lines
+
+### Cross-Document Integration
+
+**Integration Guide (Part 2: Template Selection)** - Add considerations:
+- "Adjust compression targets based on team size (see Section 4)"
+- "Check edge case overrides before applying standard targets (see Section 5)"
+
+**Estimated Addition**: ~50-75 lines in Integration Guide references
+
+---
+
+## Additional Sources Status
+
+**Extraction Complete**:
+- Source 1: information-preservation-framework.md (Insights 1-3)
+- Source 5: documentation-types-matrix.md (Insights 4-5)
+
+**Refine Separately** (not extraction):
+- Source 2: multi-dimensional-compression-matrix.md → becomes DECISION_FRAMEWORK.md
+
+**Remaining to Audit**:
+- Source 3: ultra-aggressive-compression.md (partial audit done, techniques extraction in progress)
+- Source 4: method-relationship-analysis.md (complete - archive only, no extraction)
+- Sources 6-10: Pending (multi-role-document-strategies, tool-integration-guide, etc.)
+
+---
+
+**Extraction Status**: In Progress (5 of 10 documents audited, 2 sources extracted)  
+**Next**: Complete compression-techniques extraction, continue auditing remaining documents
