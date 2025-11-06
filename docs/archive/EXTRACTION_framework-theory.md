@@ -597,3 +597,152 @@ For each document, check in order:
 
 **Extraction Status**: In Progress (5 of 10 documents audited, 2 sources extracted)  
 **Next**: Complete compression-techniques extraction, continue auditing remaining documents
+
+
+## Source 3: CC_PROJECTS_VALIDATED_ARCHITECTURE.md
+
+**Document**: `docs/reference/CC_PROJECTS_VALIDATED_ARCHITECTURE.md`  
+**Size**: 994 lines  
+**Created**: 2025-10-30 01:00 AEDT  
+**Status**: REFINE (~30-35% unique validation evidence)
+
+### Insight 6: Empirical Framework Validation (H1-H4 Evidence)
+
+**Context**: Cross-project validation using CC_Projects methodology (H1-H4 hypotheses) provides empirical evidence that framework predictions match real-world validated architecture.
+
+**Four Validation Domains**:
+
+**H1: Temporal Compression Validation (Phase Structure)**
+- **Prediction**: Documents compress differently based on lifecycle phase
+- **Evidence**: 5-phase lifecycle with 100% clear transitions validated
+- **Finding**: Phase transitions create natural compression opportunities
+  - Active documents (Build phase): Full detail required
+  - Completed documents (Archive phase): 95-99% reduction possible
+  - Transitions predictable and systematic
+- **Validation**: Framework's phase-aware compression strategy CONFIRMED
+- **Impact**: Temporal compression isn't theoretical - it maps to actual project phases
+
+**H2: Audience Taxonomy Validation (Role-Based Documentation)**
+- **Prediction**: Different audiences require different compression levels
+- **Evidence**: 6 roles identified with distinct information needs
+  - Architect/Developer → Technical detail requirements (Hybrid-Technical)
+  - Coordinator/Analyst → Strategic overview needs (Hybrid-General)
+  - Multi-dimensional disclosure complexity: [Role × Layer × Phase × Mode]
+- **Finding**: Role-based documentation is ESSENTIAL (not optional optimization)
+- **Validation**: Framework's audience taxonomy CONFIRMED with empirical grounding
+- **Impact**: Compression targets (40-60% technical, 20-40% general) aren't arbitrary - they match validated role needs
+
+**H3: Access Pattern Validation (Layer Architecture)**
+- **Prediction**: High-frequency access documents benefit most from compression
+- **Evidence**: 5 layers with different access patterns, 90% clear artifact assignment
+  - Layer 4 (Session): Every session → Critical compression priority
+  - Layer 1 (Strategic): Session startup → High priority
+  - Layer 5 (Archive): Rarely accessed → Storage efficiency only
+- **Finding**: Access pattern directly determines compression ROI
+- **Validation**: Framework's session startup focus CONFIRMED
+- **Impact**: "Session startup = highest ROI" principle has empirical basis
+
+**H4: ROI Quantification Validation (Scalability)**
+- **Prediction**: Compression reduces methodology overhead measurably
+- **Evidence**: Sweet spot identified at small-medium projects (2-6% overhead)
+- **Finding**: 50-70% token reduction = 1-3% overhead reduction
+  - Session startup: 10 sessions/week × 1000 tokens = 10K tokens/week
+  - Over 3-month project = 120K tokens saved
+  - Direct impact on overhead reduction target
+- **Validation**: Framework's ROI claims QUANTIFIED with real numbers
+- **Impact**: Value proposition isn't speculative - it's measurable and validated
+
+**Concrete Validation Examples**:
+
+**Example 1: SESSION.md Compression Target**
+- Baseline: ~2000 tokens (verbose operational documentation)
+- Target: ~300 tokens (85% reduction)
+- Evidence: Target matches CC_Projects session layer requirements
+- Validation: 85% target achievable and appropriate
+
+**Example 2: Technical Configuration**
+- Before: 215 tokens (standard configuration documentation)
+- After: 65 tokens (70% reduction through structured format)
+- Evidence: Validates Hybrid-Technical compression range (40-60% → achieved 70% through structure)
+- Validation: Structure optimization effective for technical content
+
+**Example 3: Decision Documentation**
+- Baseline: 500-1500 tokens (decision records with context)
+- Target: 400-1000 tokens (20-40% preservation needs)
+- Evidence: Rationale preservation essential, validates modest compression
+- Validation: Framework's "preserve decision context" guidance empirically grounded
+
+**Multi-Dimensional Complexity Validation**:
+- H2 evidence shows [Role × Layer × Phase × Mode] complexity is REAL
+- Not over-engineering - reflects actual documentation requirements
+- 6 roles × 5 layers × 5 phases = 150 potential combinations
+- Framework simplifies without losing essential distinctions
+- Validation: Multi-dimensional framework appropriate for real-world complexity
+
+**Key Validation Insights**:
+1. ✅ All 7 compression purposes exist in validated methodology (not invented abstractions)
+2. ✅ Role needs map directly to audience taxonomy (empirical grounding)
+3. ✅ ROI quantified: 1-3% overhead reduction from 50-70% token reduction
+4. ✅ Layer architecture informs compression strategy (validated patterns)
+5. ✅ Phase transitions enable temporal compression (lifecycle validation)
+6. ✅ Multi-dimensional complexity matches reality (not over-engineered)
+
+**Application**: Use H1-H4 evidence to strengthen framework claims. When explaining why framework works, reference validated methodology alignment. When justifying ROI, cite quantified 1-3% overhead reduction with 50-70% token savings.
+
+---
+
+## Integration Plan - Final Update
+
+### For DECISION_FRAMEWORK.md (Phase 2)
+- Section 1: Phase-Based Guidelines (~100-120 lines)
+- Section 2: ROI-Based Prioritization (~120-150 lines)
+- Section 3: Common Pitfalls (~80-100 lines)
+- Section 4: Team-Size Considerations (~150-180 lines)
+- Section 5: Edge Cases and Overrides (~180-220 lines)
+**Total**: ~630-770 lines
+
+### For VALIDATION.md (Phase 2)
+
+**NEW Section: Part 3 - Empirical Validation** (~370 lines)
+
+**3.1 Framework Predictions vs Real-World Evidence** (~240 lines)
+- 3.1.1 Temporal Compression (H1) - ~50 lines
+- 3.1.2 Audience Taxonomy (H2) - ~80 lines
+- 3.1.3 Access Pattern (H3) - ~50 lines
+- 3.1.4 ROI Quantification (H4) - ~60 lines
+
+**3.2 Compression Target Validation** (~100 lines)
+- Three concrete examples (SESSION.md, config, decisions)
+- Before/after comparisons with token counts
+- Evidence of framework target accuracy
+
+**3.3 Multi-Dimensional Framework Validation** (~30 lines)
+- H2's [Role × Layer × Phase × Mode] evidence
+- Complexity justification
+- Framework completeness evidence
+
+**Total Addition to VALIDATION.md**: ~370 lines from this source
+
+---
+
+## Additional Sources Status
+
+**Extraction Complete**:
+- Source 1: information-preservation-framework.md (Insights 1-3: Phase-aware, ROI, Anti-patterns)
+- Source 2: multi-dimensional-compression-matrix.md (Special - becomes DECISION_FRAMEWORK.md, not extracted)
+- Source 3: CC_PROJECTS_VALIDATED_ARCHITECTURE.md (Insight 6: H1-H4 empirical validation)
+- Source 5: documentation-types-matrix.md (Insights 4-5: Team-size scaling, Edge cases)
+
+**No Additional Extractions Needed**:
+- Source 4: method-relationship-analysis.md (ARCHIVE only - historical crisis resolution)
+- Source 6: multi-role-document-strategies.md (REFINE to DECISION_FRAMEWORK.md - not extracted here)
+- Source 7: tool-integration-guide.md (ARCHIVE - superseded by Integration Guide)
+- Source 8: cc-projects-alignment-review.md (ARCHIVE - gap analysis complete)
+- Source 9: DOCUMENT_HEADER_SPECIFICATION.md (ARCHIVE - templates supersede)
+
+---
+
+**Extraction Status**: COMPLETE (3 sources + 6 insights extracted)  
+**Framework Theory Content**: Ready for DECISION_FRAMEWORK.md integration  
+**Validation Content**: Ready for VALIDATION.md Part 3  
+**Next Phase**: Archive structure creation and ARCHIVE_INDEX.md writing
