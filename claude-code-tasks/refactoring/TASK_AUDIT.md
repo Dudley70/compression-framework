@@ -1,18 +1,25 @@
-# TASK: Audit Framework Documents for Archive
+# INTERACTIVE AUDIT: Framework Documents for Archive
 
 **Task ID**: REFACTOR-AUDIT-1  
 **Phase**: Phase 1 - Audit & Archive  
-**Estimated Duration**: 4-6 hours  
-**Methodology**: TDD with validation checkpoints  
+**Estimated Duration**: 3-4 interactive sessions (~6-8 hours total)  
+**Methodology**: Interactive review with TDD validation  
 **Status**: Ready for Execution
 
 ---
 
 ## Task Overview
 
-**Objective**: Systematically audit 10 framework documents (14,873 lines), extract key insights not captured in new proactive system, create organized archive structure with comprehensive index.
+**Objective**: Systematically audit 10 framework documents (14,873 lines) interactively, extract key insights not captured in new proactive system, create organized archive structure with comprehensive index.
+
+**Why Interactive**: This is foundation work - insight extraction requires contextual judgment. One chance to get it right. Your deep project involvement ensures valuable content isn't missed.
 
 **Context**: Project completed v1.0 with proactive compression system (templates, skill, integration guide). The 10 framework documents were written during exploration phase (reactive-only, pre-paradigm shift, pre-empirical validation). Need clean handover state: archive journey with extracted insights, keep only current concise documentation in active workspace.
+
+**Approach**: 
+- Session 16: Audit 3-4 docs (~2 hours)
+- Session 17: Audit remaining 6-7 docs (~2 hours)  
+- Session 18: Finalize archive + begin Phase 2 (~2-3 hours)
 
 **Deliverables**:
 1. Archive structure with dated directories
@@ -22,27 +29,59 @@
 
 ---
 
-## TDD Methodology
+## Interactive Audit Methodology
 
-### Test-First Development Sequence
+### Session 16: First Batch (3-4 docs, ~2 hours)
 
-**Phase 1: Write Tests** (Checkpoint 1)
-- Validation tests for all 10 docs reviewed
-- Tests for insights extraction completeness
-- Tests for archive structure correctness
-- Tests for no broken references
+**Priority docs** (most likely to have unique insights):
+1. **information-preservation-framework.md** (1,808 lines) - Purpose-driven compression approach
+2. **multi-dimensional-compression-matrix.md** (1,343 lines) - Role × Layer × Phase framework
+3. **ultra-aggressive-compression.md** (815 lines) - 95-99% compression techniques
+4. **method-relationship-analysis.md** (736 lines) - LSC vs CCM clarification
 
-**Phase 2: Implement Audits** (Checkpoint 2)
-- Run systematic audit on each document
-- Extract unique insights
-- Create archive structure
-- Generate comprehensive index
+**Process per document**:
+1. **Read together** (5-10 min) - Scan structure, identify main topics
+2. **Discuss insights** (10-15 min) - What's unique? What's superseded? What's valuable?
+3. **Draft audit report** (5-10 min) - Document findings using template
+4. **Extract insights** (5 min) - Add to EXTRACTION.md
 
-**Phase 3: Validate & Report** (Checkpoint 3)
-- Run all validation tests
-- Verify insights captured
-- Confirm archive organization
-- Generate final report
+**Time per doc**: 25-40 minutes  
+**Session total**: 4 docs × 35 min average = ~2 hours
+
+### Session 17: Remaining Batch (6-7 docs, ~2 hours)
+
+**Remaining docs**:
+5. **documentation-types-matrix.md** (1,691 lines)
+6. **multi-role-document-strategies.md** (1,208 lines)
+7. **tool-integration-guide.md** (1,927 lines)
+8. **CC_PROJECTS_VALIDATED_ARCHITECTURE.md** (994 lines)
+9. **cc-projects-alignment-review.md** (756 lines)
+10. **DOCUMENT_HEADER_SPECIFICATION.md** (2,073 lines)
+
+**Process**: Same as Session 16, faster with practice
+
+### Session 18: Finalize Archive (~2-3 hours)
+
+1. **Create archive structure** (30 min)
+   - Organize dated directories
+   - Move audited docs to archive
+
+2. **Write ARCHIVE_INDEX.md** (45 min)
+   - Compile all audit reports
+   - Create comprehensive navigation
+   - Document archival reasoning
+
+3. **Finalize EXTRACTION.md files** (30 min)
+   - One per category
+   - Compile insights from audit reports
+
+4. **Run validation tests** (15 min)
+   - Verify all 10 docs audited
+   - Confirm archive structure correct
+   - Check no information loss
+
+5. **Begin Phase 2** (remaining time)
+   - Start writing THEORY.md or TECHNIQUES.md
 
 ---
 

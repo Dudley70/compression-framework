@@ -122,35 +122,29 @@ Compression/
 
 ## NEXT STEPS
 
-### Immediate: Execute Phase 1 (Next Session)
+### Immediate: Execute Phase 1 Interactive Audit (Next 3 Sessions)
 
-**Step 1: Review specifications**
-- Read REFACTORING_PLAN.md (understand strategy)
-- Review TASK_AUDIT.md (understand audit process)
-- Approve approach
+**Why Interactive**: Foundation work requiring contextual judgment - one chance to get insight extraction right. Your deep project involvement ensures valuable content isn't missed.
 
-**Step 2: Execute TASK_AUDIT**
-```bash
-# Start Claude Code task
-claude-code --task claude-code-tasks/refactoring/TASK_AUDIT.md
+**Session 16: Audit First Batch** (~2 hours)
+- Audit 3-4 priority docs interactively
+- Extract unique insights collaboratively
+- Create initial audit reports
+- Docs: information-preservation-framework, multi-dimensional-compression-matrix, ultra-aggressive-compression, method-relationship-analysis
 
-# Expected duration: 4-6 hours
-# Deliverables:
-# - 10 audit reports
-# - Archive structure with EXTRACTION.md files
-# - ARCHIVE_INDEX.md
-# - Validation report (all tests passing)
-```
+**Session 17: Audit Remaining Batch** (~2 hours)
+- Audit remaining 6-7 docs
+- Complete all audit reports
+- Finalize EXTRACTION.md files per category
+- Docs: documentation-types-matrix, multi-role-document-strategies, tool-integration-guide, CC_PROJECTS, cc-projects-alignment, DOCUMENT_HEADER_SPEC
 
-**Step 3: Review audit results**
-- Check audit reports (insights extracted?)
-- Verify archive organization (clear navigation?)
-- Review ARCHIVE_INDEX.md (comprehensive?)
-- Validate no information loss
+**Session 18: Finalize Archive + Begin Phase 2** (~2-3 hours)
+- Create archive structure (move docs)
+- Write comprehensive ARCHIVE_INDEX.md
+- Run validation tests (all passing)
+- Begin Phase 2 (write THEORY.md or TECHNIQUES.md)
 
-**Step 4: Approve for Phase 2**
-- If quality good → proceed to Phase 2
-- If issues found → address before continuing
+**Total**: 3 sessions, ~6-8 hours, higher quality confidence
 
 ### After Phase 1: Execute Phase 2 (Subsequent Session)
 
@@ -169,18 +163,20 @@ Finalize refactoring:
 - Fix cross-references
 - Final validation
 
-### Timeline Options
+### Timeline
 
-**Option A: Sequential (Recommended)**
-- Session 16: Phase 1 (audit + review)
-- Session 17: Phase 2 (write + review)
-- Session 18: Phase 3 (refactor + validate)
-- **Total**: 3 sessions, high quality
+**Interactive Approach** (Chosen):
+- Session 16: Phase 1 Part A (audit 3-4 docs, ~2 hours)
+- Session 17: Phase 1 Part B (audit 6-7 docs, ~2 hours)
+- Session 18: Phase 1 finalize + Phase 2 start (~2-3 hours)
+- Session 19-20: Phase 2 + 3 (write new docs, refactor structure)
+- **Total**: 4-5 sessions, high quality confidence
 
-**Option B: Compressed**
-- Session 16: Phase 1 + 2 (long session)
-- Session 17: Phase 3 + validation
-- **Total**: 2 sessions, more intensive
+**Rationale**: 
+- Foundation work - one chance to get it right
+- Insight extraction requires contextual judgment  
+- Your deep involvement ensures nothing valuable missed
+- Same time investment, higher confidence in results
 
 ---
 
