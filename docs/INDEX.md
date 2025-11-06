@@ -1,22 +1,40 @@
 # Documentation Index
 
-**Last Updated**: 2025-11-01 (Session 12 - Convergence Testing Delegated)
+**Last Updated**: 2025-11-06 (Session 18 - Phase 2 Writing, 3/4 complete)
 
 ---
 
-## Current Status (Session 15)
+## Current Status (Session 18)
 
-**Phase**: v1.0 Complete - Refactoring Specified
-- ✅ v1.0 Proactive System: Complete (templates, skill, integration guide)
-- ✅ Refactoring Plan: Documented (3-phase approach, 9-13 hours)
-- ✅ Phase 1 Specification: TASK_AUDIT with TDD (4-6 hours)
-- → Next: Execute Phase 1 audit & archive
+**Phase**: Refactoring Phase 2 - Writing Concise Framework Docs (3 of 4 complete)
+- ✅ Phase 1: Complete (audit, finalization, archive organized)
+- ✅ Phase 2 Writing: 3 of 4 docs complete
+  - ✅ DECISION_FRAMEWORK.md (1,069 lines)
+  - ✅ TECHNIQUES.md (1,020 lines)
+  - ✅ THEORY.md (565 lines)
+  - → VALIDATION.md (next, ~400-600 lines)
+- → Phase 3: Finalization (README, PROJECT.md refactor, cross-refs)
 
-**Refactoring Goal**:
-- Current: 20,000+ lines (14,873 framework exploration + new proactive system)
-- Target: ~5,000 lines active + organized archive
-- Approach: Audit journey, extract insights, write concise reference from current state
+**Refactoring Progress**:
+- Phase 1: 10/10 docs audited, 4 archived, 2 extraction files complete
+- Phase 2: 3,654 lines written (3 of 4 docs)
+- Target: ~4,000-4,600 lines total (almost complete)
 
+---
+
+## Framework Reference (Phase 2 Deliverables)
+
+### Core Framework Documents
+
+**[Decision Framework](DECISION_FRAMEWORK.md)** - Active - **COMPREHENSIVE GUIDE** (1,069 lines) - Complete decision matrix for [Role × Layer × Phase] compression choices. Seven sections: (1) Phase-Based Guidelines with targets, (2) ROI-Based Prioritization (session startup = highest ROI), (3) Multi-Role Strategies (Union/Intersection/Layered), (4) Team-Size Considerations (1-3 vs 16+ scaling), (5) Edge Cases (compliance, emergency, external), (6) Base Compression Matrix, (7) Common Pitfalls. Includes 12 reference tables, 15+ worked examples, 3 decision checklists. Primary source for all compression decisions.
+
+**[Compression Techniques](TECHNIQUES.md)** - Active - **COMPLETE REFERENCE** (1,020 lines) - Comprehensive technique catalog and practical guide. Five sections: (1) Core LSC Techniques (5 techniques: hierarchical, redundancy, clustering, pattern, abbreviation with examples), (2) Context Compression Method - CCM (four-tier strategy with 99.5% reduction), (3) Archive Compression Strategies (three-layer architecture for 95-99% reduction), (4) Compression Anti-Patterns (7 common mistakes with solutions), (5) Compression in Practice (3 concrete before/after examples with 92%, 80%, 23% reductions). Quality checklist and best practices included.
+
+**[Unified Compression Theory](THEORY.md)** - Active - **THEORETICAL FOUNDATION** (565 lines) - Complete mathematical and theoretical synthesis. Eight sections: (1) Unified (σ,γ,κ) Model with three parameters, (2) Method Mapping (LSC, CCM, Archive as parameter space positions), (3) Intrinsic Stability and Convergence (96.7% natural convergence, Task 5.1 validation), (4) Model Completeness (dimensional analysis proving 3D sufficiency), (5) Theoretical Synthesis (unifying LSC and CCM under single framework), (6) Practical Applications (technique selection, effectiveness prediction), (7) Future Work (open questions, extensions), (8) Summary and References. Provides unified theory explaining all compression methods.
+
+**[Validation Evidence](VALIDATION.md)** - Planned - (~400-600 lines) - Empirical validation documentation. Will include: (1) Tool Validation (Task 4.1 results, 43 tests operational), (2) Framework Predictions (compression targets vs actual), (3) CC_Projects Evidence (H1-H4 validation), (4) ROI Quantification (team-size scaling, time savings).
+
+---
 ---
 
 ## Critical Reference Documents
