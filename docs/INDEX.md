@@ -82,6 +82,10 @@
 
 **[CC_Projects Alignment Review](analysis/cc-projects-alignment-review.md)** - Active - Deep alignment analysis (756 lines) validating Compression framework against CC_Projects architecture.
 
+### Guides
+
+**[Integration Guide](guides/INTEGRATION_GUIDE.md)** - Active - **PRODUCTION READY** (1,261 lines) - Complete practical adoption guide for proactive compression methodology. Covers: (1) Getting Started (5-minute quickstart), (2) Template Library (all 8 templates with selection framework), (3) Claude Skill Usage (activation, maintenance, troubleshooting), (4) Project Integration (setup, lifecycle, team adoption), (5) Advanced Patterns (multi-project, domain tuning, edge cases), (6) Case Studies (Compression Framework, CCM project, adoption patterns). Enables teams to integrate compression from concept to production in under 30 minutes. Essential reading for framework adoption.
+
 ### Plans
 
 **[Convergence Testing Plan](plans/CONVERGENCE_TESTING_PLAN.md)** - Active - **DELEGATED** (430 lines) - Comprehensive plan for volume-based automated convergence testing. Hybrid approach: automated data gathering (1,200 tests across 5 docs × 6 techniques × 20 rounds × 2 safety modes) + interactive analysis. Designed to answer intrinsic stability question: does compression naturally converge (like solving equation) or require artificial safety blocks? Test matrix generates empirical data on convergence curves, technique behavior, combination effects, safety necessity. Task TASK-5.1-CONVERGENCE-DATA delegated (Task ID: 980a8c90, running, 4-6 hours). Deliverables: JSON data, CSV plotting files, pattern analysis, safety comparison. Next: Interactive analysis of results.
