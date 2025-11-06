@@ -21,6 +21,7 @@
 
 **Start Here**:
 - [README.md](README.md) - Framework overview & quick start
+- [EXTERNAL_PROJECT_GUIDE.md](EXTERNAL_PROJECT_GUIDE.md) - **External adoption guide** (1,312 lines)
 - [THEORY.md](THEORY.md) - Unified (σ,γ,κ) model (565 lines)
 - [VALIDATION.md](VALIDATION.md) - Empirical evidence (806 lines)
 - [reference/DECISION_FRAMEWORK.md](reference/DECISION_FRAMEWORK.md) - Decision guidance (1,069 lines)
@@ -42,6 +43,8 @@
 ### Essential Reading
 
 **[Framework README](README.md)** - Active - **START HERE** (370 lines) - Complete framework overview answering: What is this? What problem does it solve? How do I get started? Covers quick start (5 minutes), documentation structure, key concepts, success metrics, next steps. Primary entry point for all users (developers, teams, researchers). Provides clear paths based on role and use case.
+
+**[External Project Adoption Guide](EXTERNAL_PROJECT_GUIDE.md)** - Active - **FOR EXTERNAL PROJECTS** (1,312 lines) - Comprehensive guide for teams adopting the framework in their projects. Seven parts: (1) Framework Overview (what's available, what you can take), (2) Self-Assessment (pain points, doc types, ROI calculation), (3) Adoption Pathways (decision tree, pathway comparison), (4) Adaptation Checklist (5-phase implementation), (5) Common Pitfalls (8 mistakes to avoid), (6) Resources Reference (quick lookup), (7) Case Study (CC_Projects example). Enables external projects to assess relevance, choose adoption scope, and adapt framework to their needs. Essential for any team wanting to use compression in their project.
 
 **[Unified Compression Theory](THEORY.md)** - Active - **THEORETICAL FOUNDATION** (565 lines) - Complete mathematical and theoretical synthesis. Eight sections: (1) Unified (σ,γ,κ) Model with three parameters, (2) Method Mapping (LSC, CCM, Archive as parameter space positions), (3) Intrinsic Stability and Convergence (96.7% natural convergence), (4) Model Completeness (dimensional analysis proving 3D sufficiency), (5) Theoretical Synthesis (unifying LSC and CCM), (6) Practical Applications (technique selection, effectiveness prediction), (7) Future Work (open questions, extensions), (8) Summary and References. Provides unified theory explaining all compression methods.
 
