@@ -4,18 +4,18 @@
 
 ---
 
-## Current Status (Session 12)
+## Current Status (Session 15)
 
-**Phase**: Production Tool + Research Investigation
-- ✅ Tool Validated: compress.py production-ready (Task 4.1 FIX complete)
-- ✅ Empirical Data: Comprehensive validation results collected
-- 🔄 Convergence Testing: TASK-5.1-CONVERGENCE-DATA running (1,200 tests)
-- → Next: Interactive analysis of convergence data
+**Phase**: v1.0 Complete - Refactoring Specified
+- ✅ v1.0 Proactive System: Complete (templates, skill, integration guide)
+- ✅ Refactoring Plan: Documented (3-phase approach, 9-13 hours)
+- ✅ Phase 1 Specification: TASK_AUDIT with TDD (4-6 hours)
+- → Next: Execute Phase 1 audit & archive
 
-**Outstanding Questions**:
-- HIGH Priority: Intrinsic stability (natural convergence vs artificial blocking)
-- MEDIUM Priority: Threshold calibration, LSC technique improvement
-- LOW Priority: Model caching optimization
+**Refactoring Goal**:
+- Current: 20,000+ lines (14,873 framework exploration + new proactive system)
+- Target: ~5,000 lines active + organized archive
+- Approach: Audit journey, extract insights, write concise reference from current state
 
 ---
 
@@ -88,7 +88,11 @@
 
 ### Plans
 
-**[Convergence Testing Plan](plans/CONVERGENCE_TESTING_PLAN.md)** - Active - **DELEGATED** (430 lines) - Comprehensive plan for volume-based automated convergence testing. Hybrid approach: automated data gathering (1,200 tests across 5 docs × 6 techniques × 20 rounds × 2 safety modes) + interactive analysis. Designed to answer intrinsic stability question: does compression naturally converge (like solving equation) or require artificial safety blocks? Test matrix generates empirical data on convergence curves, technique behavior, combination effects, safety necessity. Task TASK-5.1-CONVERGENCE-DATA delegated (Task ID: 980a8c90, running, 4-6 hours). Deliverables: JSON data, CSV plotting files, pattern analysis, safety comparison. Next: Interactive analysis of results.
+**[Refactoring Plan](plans/REFACTORING_PLAN.md)** - Active - **READY FOR EXECUTION** (480 lines) - Complete three-phase refactoring strategy to achieve clean handover state. Problem: 20,000+ lines (14,873 framework exploration + new proactive system) can't fit in context window and mixes journey with current understanding. Solution: Archive journey with extracted insights, write 4 concise framework docs (~2,500 lines) from current state. Three phases: (1) Audit & Archive (4-6 hours, 80% delegable), (2) Write Concise Docs (3-4 hours, 60% delegable), (3) Refactor & Finalize (2-3 hours, 70% delegable). Target structure: docs/framework/ (THEORY, TECHNIQUES, DECISION_FRAMEWORK, VALIDATION) + organized archive with ARCHIVE_INDEX and EXTRACTION docs. Total: 9-13 hours, ~70% delegable with proper specs. Result: ~5,000 active lines + organized archive, fits in context window, ready for future work or archival.
+
+**[Audit Task Specification](../claude-code-tasks/refactoring/TASK_AUDIT.md)** - Active - **READY FOR EXECUTION** (921 lines) - Phase 1 of refactoring: comprehensive TDD specification for auditing 10 framework documents (14,873 lines). Three checkpoints: (1) Write validation tests (5 tests defining success criteria), (2) Implement audits (systematic review, insight extraction, archive creation), (3) Validate & report (all tests passing). Deliverables: 10 audit reports, archive structure (docs/archive/2025-11-06_category/), EXTRACTION.md per category, comprehensive ARCHIVE_INDEX.md, validation report. TDD methodology ensures quality: tests written first (red), implementation follows (green), validation confirms (all passing). Duration: 4-6 hours, 80% delegable to Claude Code. Blocks Phase 2 (writing new framework docs).
+
+**[Convergence Testing Plan](plans/CONVERGENCE_TESTING_PLAN.md)** - Complete - (430 lines) - Volume-based automated convergence testing validated intrinsic stability. Hybrid approach: automated data gathering (1,200 tests across 5 docs × 6 techniques × 20 rounds × 2 safety modes) + interactive analysis. Result: 96.7% convergence rate, 1.0 rounds average, natural stopping behavior validated. Question answered: compression techniques have intrinsic stability (natural convergence) not requiring artificial safety blocks. Task completed Session 12.
 
 **[Automation Tool Validation Plan](plans/AUTOMATION_TOOL_VALIDATION_PLAN.md)** - Active - Comprehensive validation plan (575 lines) for three critical design questions: mixed compression states, idempotency protection, proactive style optimization. Structured tasks with test cases and success criteria. MVP requirements: compression score, round-trip test, token drift detection.
 
