@@ -32,23 +32,32 @@
 
 ### Current Phase
 
-**v1.0 COMPLETE** - Production Ready (Sessions 1-19):
+**v1.0 COMPLETE** - Production Ready + External Adoption Ready (Sessions 1-19):
 - ✅ Unified theory: (σ,γ,κ) model validated
-- ✅ Framework documentation: 4 core docs (~2,400 lines concise reference)
+- ✅ Framework documentation: 6 core docs (~3,900 lines concise reference)
+- ✅ External adoption: Complete guide (1,312 lines) with clear navigation
 - ✅ Proactive system: Templates (8) + Skill (1,229 lines) + Integration Guide (1,261 lines)
 - ✅ Automation tool: compress.py (862 lines, production-ready)
 - ✅ Empirical validation: 96.7% convergence, H1-H4 cross-project validation, ROI quantified
-- ✅ Refactoring complete: Clean handover state (~5,000 lines active + organized archive)
+- ✅ Refactoring complete: Clean handover state (~6,900 lines active + 3 organized archives)
+- ✅ Archive cleanup: 34 documents archived (~26,000 lines) with complete navigation
+
+**External Adoption Ready**:
+```
+Root README.md → docs/README.md → EXTERNAL_PROJECT_GUIDE.md → Complete adoption process
+```
 
 **Documentation Structure**:
 ```
-docs/
-├── README.md              # Framework overview & quick start
-├── THEORY.md              # Unified (σ,γ,κ) model (565 lines)
-├── VALIDATION.md          # Empirical evidence (806 lines)
-└── reference/
-    ├── DECISION_FRAMEWORK.md    # When/how to compress (1,069 lines)
-    └── TECHNIQUES.md            # Compression catalog (1,020 lines)
+Active (~6,900 lines):
+- 6 core framework docs (theory, validation, decisions, techniques, overview, adoption)
+- Implementation resources (integration guide, skill, 8 templates)
+- Supporting docs (research, active plans, analysis)
+
+Archived (~26,000 lines with indices):
+- framework-exploration/ (Sessions 1-15 journey)
+- completed-work/ (planning, tasks, patterns, analysis)
+- validation-artifacts/ (reports, handovers, status)
 ```
 
 **See [docs/README.md](docs/README.md) for complete framework documentation.**
