@@ -50,6 +50,21 @@ LLM context windows fill quickly with documentation, leading to:
 
 ## Quick Start (5 Minutes)
 
+### New to the Framework?
+
+**👉 Start here: [EXTERNAL_PROJECT_GUIDE.md](EXTERNAL_PROJECT_GUIDE.md)** - Complete adoption guide
+
+This guide will help you:
+- Assess if the framework is relevant to your project (self-assessment)
+- Choose what to adopt (decision tree with 4 pathways)
+- Follow a clear adaptation process (5-phase checklist)
+- Avoid common mistakes (8 pitfalls with solutions)
+- See a real example (CC_Projects case study)
+
+**Time**: 30 minutes to assess, 2-4 hours to adapt templates
+
+---
+
 ### For Understanding the Framework
 
 **Read these in order**:
