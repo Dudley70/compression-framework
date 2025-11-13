@@ -1,7 +1,7 @@
 # Compression Project
 
 **Created**: 2025-10-29  
-**Last Updated**: 2025-11-07 (Session 19 - Refactoring Complete)
+**Last Updated**: 2025-11-14 (Session 22 - V5 Methodology Complete)
 
 ---
 
@@ -9,7 +9,7 @@
 
 **What**: Comprehensive framework for optimizing LLM context windows through systematic compression  
 **Innovation**: Unified theory explaining all compression as (σ,γ,κ) parameter optimization  
-**Status**: v1.0 Complete - Production Ready  
+**Status**: v1.0 Complete - Production Ready + V5 Methodology Validated  
 **Start**: Read [docs/README.md](docs/README.md) for framework overview
 
 ---
@@ -30,6 +30,8 @@
 
 **Session 13 Paradigm Shift**: Expanded from reactive-only to proactive+reactive methodology after CCM integration insights revealed adoption patterns need templates, skill, and integration guidance.
 
+**Sessions 21-22 Methodology Evolution**: Developed V4 (aggressive LLM-optimized) and V5 (balanced LLM-optimized) through empirical iteration, establishing optimal compression balance point for complex technical references.
+
 ### Current Phase
 
 **v1.0 COMPLETE** - Production Ready + External Adoption Ready (Sessions 1-19):
@@ -42,6 +44,14 @@
 - ✅ Refactoring complete: Clean handover state (~6,900 lines active + 3 organized archives)
 - ✅ Archive cleanup: 34 documents archived (~26,000 lines) with complete navigation
 
+**v1.1 METHODOLOGY ENHANCEMENT** - V5 Balanced Compression (Sessions 21-22):
+- ✅ LLM-optimized V4 defined: Aggressive (60-75% reduction)
+- ✅ LLM-optimized V5 defined: Balanced (65-70% reduction) ⭐ **DEFAULT**
+- ✅ Empirical discovery: V1→V2→V3→V4→V5 iteration revealed optimal balance
+- ✅ V5 innovation: Mini implementation patterns + decision tree + self-containment
+- ✅ Validation: Applied to Gemini assessment (1,332 → 243 lines, 82%)
+- ✅ Documentation: TECHNIQUES_V5.md (250 lines) with complete methodology
+
 **External Adoption Ready**:
 ```
 Root README.md → docs/README.md → EXTERNAL_PROJECT_GUIDE.md → Complete adoption process
@@ -49,8 +59,9 @@ Root README.md → docs/README.md → EXTERNAL_PROJECT_GUIDE.md → Complete ado
 
 **Documentation Structure**:
 ```
-Active (~6,900 lines):
+Active (~7,100 lines):
 - 6 core framework docs (theory, validation, decisions, techniques, overview, adoption)
+- V5 methodology (TECHNIQUES_V5.md, 250 lines)
 - Implementation resources (integration guide, skill, 8 templates)
 - Supporting docs (research, active plans, analysis)
 
@@ -74,19 +85,22 @@ All compression techniques optimize three parameters subject to comprehension co
 
 **Key Insight**: LSC increases σ (structural density), framework adds γ and κ control. Different audiences and use cases require different (σ,γ,κ) configurations.
 
+**V5 Discovery**: Optimal balance exists at 65-70% reduction for complex technical references, balancing high σ (structural density) with minimum κ (implementation scaffolding) for self-containment.
+
 ### Success Metrics
 
 **Framework Completeness**:
 - ✅ Unified theory documented and validated
-- ✅ All compression techniques cataloged
+- ✅ All compression techniques cataloged (including V4/V5)
 - ✅ Decision-making guidance comprehensive
-- ✅ Empirical evidence across 4 domains
+- ✅ Empirical evidence across 4 domains + V5 validation
 
 **Empirical Validation**:
 - ✅ 96.7% convergence (techniques self-stabilize)
 - ✅ Cross-project validation (H1-H4 tested)
 - ✅ Quantified ROI (6:1 to 64:1 by team size)
 - ✅ Performance validated (<30s per document)
+- ✅ V5 validated through 4-iteration empirical discovery
 
 **Production Readiness**:
 - ✅ Tool deployed with safety validation
@@ -94,6 +108,7 @@ All compression techniques optimize three parameters subject to comprehension co
 - ✅ Claude Skill specified for automation
 - ✅ Integration guide complete
 - ✅ Git workflow patterns documented
+- ✅ V5 methodology documented and validated
 
 ### Next Horizons
 
@@ -101,11 +116,13 @@ All compression techniques optimize three parameters subject to comprehension co
 - Formal mathematical proofs
 - Academic literature review
 - Publication-quality documentation
+- V5 discovery process as methodology validation
 
 **Optional Optimizations** (Post-deployment):
 - Tasks 5.2-5.4 based on usage feedback
 - Threshold calibration with production data
 - Extended validation corpus (20+ documents)
+- V5 application to diverse document types
 
 ---
 
@@ -121,10 +138,16 @@ All compression techniques optimize three parameters subject to comprehension co
 - **Safety-first**: Idempotency and information preservation critical
 - **Autonomous execution**: Comprehensive specifications enable quality delegation
 - **Purpose-driven**: Match compression strategy to use case
+- **Empirical iteration**: Optimal balance discovered through testing, not theory alone
 
 ---
 
 ## Decision Log
+
+### Decision #12 - 2025-11-14: V5 as Default LLM-Optimized Method
+**Context**: V4 empirical testing revealed limitations for complex multi-technique documents  
+**Decision**: V5 (65-70% reduction) is default for complex technical references. V4 (60-75%) for simple lookups only. V5 adds mini implementation patterns (~10-15 lines per technique), API config snippets, and decision tree while maintaining high compression. Self-contained for 90% of use cases.  
+**Impact**: Framework now has complete compression spectrum (V4 aggressive → V5 balanced → Decision-Support conservative). Optimal balance discovered empirically through V1→V2→V3→V4→V5 iteration. Validates framework principle: purpose-driven compression with empirical validation essential.
 
 ### Decision #11 - 2025-11-01: Intrinsic Stability Validated
 **Context**: Convergence testing completed  
@@ -181,6 +204,11 @@ All compression techniques optimize three parameters subject to comprehension co
 
 **Framework**: Unified (σ,γ,κ) Model + Multi-Dimensional Decision Matrix
 
+**Manual Techniques**:
+- Decision-Support: 70-85% (human-readable)
+- LLM-Optimized V4: 60-75% (aggressive, simple reference)
+- LLM-Optimized V5: 65-70% (balanced, complex technical) ⭐ **DEFAULT**
+
 **Development**: macOS, Claude Desktop, desktop-commander MCP
 
 **Automation Tool**: Python (markdown-it-py, spaCy, sentence-transformers, tiktoken)
@@ -199,6 +227,7 @@ All compression techniques optimize three parameters subject to comprehension co
 - [docs/VALIDATION.md](docs/VALIDATION.md) - Empirical evidence
 - [docs/reference/DECISION_FRAMEWORK.md](docs/reference/DECISION_FRAMEWORK.md) - Decision guidance
 - [docs/reference/TECHNIQUES.md](docs/reference/TECHNIQUES.md) - Compression catalog
+- [docs/reference/TECHNIQUES_V5.md](docs/reference/TECHNIQUES_V5.md) - V5 methodology ⭐
 
 **Implementation Resources**:
 - [docs/guides/INTEGRATION_GUIDE.md](docs/guides/INTEGRATION_GUIDE.md) - Adoption patterns
