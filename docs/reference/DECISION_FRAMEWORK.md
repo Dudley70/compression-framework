@@ -33,6 +33,8 @@ purpose: framework_reference
 
 **For Edge Cases**: See Section 5 for legal/emergency/external overrides
 
+**For Decision-Support Documents**: See Section 8 for operational guidance preservation
+
 ---
 
 ## Table of Contents
@@ -44,6 +46,7 @@ purpose: framework_reference
 5. Edge Cases and Overrides
 6. Base Compression Matrix
 7. Common Pitfalls
+8. Decision-Support Compression Methodology
 
 ---
 
@@ -1067,3 +1070,335 @@ Use this checklist to avoid anti-patterns:
 **Target Audience**: Technical teams implementing compression framework, architects making design decisions, developers applying compression to documentation
 
 **Compression Level**: Moderate (this document) - balance between comprehensiveness and accessibility
+
+
+---
+
+## 8. Decision-Support Compression Methodology
+
+### Overview
+
+**Problem**: Standard compression preserves *reference information* (facts, scores, data) but often loses *operational guidance* (how to decide, what to avoid, what combinations work). This makes compressed documents excellent for understanding but inadequate for repeated decision-making.
+
+**Solution**: Add a "Decision Inventory" step before compression to identify and preserve decision-support content at higher fidelity than background/explanatory content.
+
+**When Critical**: Documents used for iterative workflows, repeated decisions, or operational guidance (e.g., technique selection, prompt generation, architectural choices).
+
+---
+
+### The Three Content Categories
+
+Traditional compression treats all non-factual content the same. Decision-support compression distinguishes three categories:
+
+**Category A: Reference Data** (100% preservation)
+- Scores, parameters, measurements, factual claims
+- API specifications, concrete numbers
+- Existing treatment: ✅ Already preserved fully
+
+**Category B: Explanatory Context** (20-40% preservation)
+- "Why it works" explanations, background theory
+- Verbose examples, detailed rationale, test methodology
+- Existing treatment: ✅ Already compressed heavily
+
+**Category C: Decision Support** (80-100% preservation) ← **NEW**
+- Decision trees, compatibility matrices, technique stacks
+- Anti-patterns, quality thresholds, trigger phrases
+- Existing treatment: ❌ Currently compressed like Category B
+
+### Common Decision-Support Elements
+
+When reading source documents, identify and preserve these at high fidelity:
+
+**1. Decision Trees / Selection Criteria**
+- "If X goal → use Y approach"
+- "When conditions A, B, C → choose technique D"
+- Flowcharts or conditional logic for choosing options
+
+**Example missed in compression**:
+- Original: "For factual queries with structured output needs, combine Evidence-Based + JSON Schema"
+- Lost in compression (treated as explanation)
+- Should preserve: "Decision: Factual + Structured → Evidence-Based + JSON Schema"
+
+---
+
+**2. Compatibility Matrices**
+- What works well together
+- What conflicts or causes issues
+- Interaction effects between techniques/approaches
+
+**Example missed in compression**:
+- Original: "CoT and Socratic Questioning combine excellently; Tree of Thoughts conflicts with CoT"
+- Lost in compression (treated as background)
+- Should preserve: "Compatible: CoT + Socratic | Conflict: ToT + CoT"
+
+---
+
+**3. Optimal Stacks / Proven Combinations**
+- Battle-tested combinations that work
+- Recommended technique sets for specific use cases
+- "Start with these 4-6 techniques" guidance
+
+**Example missed in compression**:
+- Original: "For comprehensive research: CoT + Socratic + Evidence-Based + JSON Schema + Quality Gate + Self-Scoring"
+- Lost in compression (treated as example)
+- Should preserve: "Research stack: CoT + Socratic + Evidence + Schema + Gate + Scoring (6 techniques)"
+
+---
+
+**4. Anti-Patterns / What NOT to Do**
+- Explicit "don't do this" warnings
+- Common mistakes and their consequences
+- Known failure modes
+
+**Example missed in compression**:
+- Original: "Combining more than 6 techniques causes diminishing returns and increased prompt complexity"
+- Lost in compression (treated as observation)
+- Should preserve: "Anti-pattern: >6 techniques → diminishing returns + complexity"
+
+---
+
+**5. Quality Thresholds / Success Criteria**
+- Specific numbers defining "good enough"
+- When to iterate vs. when to proceed
+- Performance targets or benchmarks
+
+**Example missed in compression**:
+- Original: "Target average effectiveness ≥8.5/10; below 8.0 requires critical refinement"
+- Lost in compression (treated as detail)
+- Should preserve: "Threshold: ≥8.5/10 = good | <8.0 = critical refinement needed"
+
+---
+
+**6. Exact Trigger Phrases / Patterns**
+- Specific wording that produces results
+- Tested phrases with known effectiveness
+- Phrasing patterns that work vs. don't work
+
+**Example missed in compression**:
+- Original: "'Let's think step by step' consistently triggers CoT; 'You must complete sections in order' forces adherence"
+- Lost in compression (treated as example)
+- Should preserve: "Triggers: 'step by step'→CoT | 'must complete in order'→adherence"
+
+---
+
+### The Decision Inventory Process
+
+**New 4-Step Workflow**:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ STEP 1: Identify Purpose                                     │
+│ What will users do with this document?                       │
+│ (Already part of existing method ✅)                         │
+└─────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────┐
+│ STEP 2: Inventory Decisions (NEW)                            │
+│ List 5-10 repeated decisions users will make                │
+│ Examples:                                                    │
+│  - "Which technique for this task?"                         │
+│  - "Is this output good enough?"                            │
+│  - "What combinations avoid conflicts?"                     │
+└─────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────┐
+│ STEP 3: Map Decision Inputs (NEW)                            │
+│ For each decision, identify information needed:             │
+│  - Decision trees? Compatibility info? Thresholds?          │
+│  - Tag this content as "decision-critical"                  │
+└─────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────┐
+│ STEP 4: Apply σ,γ,κ Compression                              │
+│  - Decision-critical content: 80-100% preservation          │
+│  - Reference data: 100% preservation                        │
+│  - Explanatory context: 20-40% preservation                 │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Time Investment**: Add ~5-10 minutes per document for Steps 2-3  
+**Impact**: Dramatically improved operational utility without sacrificing compression ratio
+
+---
+
+### Practical Implementation
+
+#### During Document Analysis (Before Compression)
+
+**Ask for each section/paragraph**:
+1. "Does this help users **understand** something?" 
+   - → Category B (Explanatory) → Compress to 20-40%
+
+2. "Does this help users **decide** something?"
+   - → Category C (Decision Support) → Preserve 80-100%
+
+3. "Is this pure **data/facts**?"
+   - → Category A (Reference) → Preserve 100%
+
+#### Example Decision Inventory Template
+
+For each document, fill out:
+
+```markdown
+## Decision Inventory: [Document Name]
+
+### Repeated Decisions Users Will Make:
+1. [Decision 1: e.g., "Which technique to use"]
+2. [Decision 2: e.g., "Is quality threshold met"]
+3. [Decision 3: e.g., "What combinations work"]
+4. [Decision 4: e.g., "What to avoid"]
+5. [Decision 5: e.g., "How to structure prompt"]
+
+### Decision-Support Content to Preserve:
+
+**Decision Trees:**
+- [Location in doc] → [Preserve as structured list]
+
+**Compatibility Info:**
+- [Location in doc] → [Preserve as matrix/table]
+
+**Optimal Stacks:**
+- [Location in doc] → [Preserve as labeled sets]
+
+**Anti-Patterns:**
+- [Location in doc] → [Preserve as warning list]
+
+**Thresholds:**
+- [Location in doc] → [Preserve exact numbers]
+
+**Trigger Phrases:**
+- [Location in doc] → [Preserve exact wording]
+```
+
+---
+
+### Compression Ratio Impact
+
+**Adding decision-support preservation**:
+- **Before**: 70-75% compression (reference + explanatory)
+- **After**: 68-72% compression (reference + decision + explanatory)
+- **Cost**: 2-5% reduction in compression ratio
+- **Benefit**: Document actually usable for operational decisions
+
+**Trade-off is favorable**:
+- Slightly less compression (~50 extra lines in 400-line doc)
+- Massively improved utility for iterative workflows
+- Prevents decision-making overhead that exceeds token savings
+
+---
+
+### Validation Checklist
+
+After compression, verify decision-support is adequate:
+
+**Decision Trees**:
+- [ ] Can user quickly determine "if X goal → use Y" without re-deriving?
+- [ ] Are selection criteria explicit and actionable?
+
+**Compatibility**:
+- [ ] Can user avoid known conflicts without trial-and-error?
+- [ ] Are positive combinations explicitly called out?
+
+**Stacks**:
+- [ ] Are proven combinations readily available?
+- [ ] Can user start with a working baseline rather than from scratch?
+
+**Anti-Patterns**:
+- [ ] Are "don't do this" warnings explicit?
+- [ ] Can user avoid known mistakes without rediscovering them?
+
+**Thresholds**:
+- [ ] Are "good enough" criteria specific (numbers, not vague)?
+- [ ] Can user determine when to iterate vs. proceed?
+
+**Triggers**:
+- [ ] Are exact effective phrases preserved (not paraphrased)?
+- [ ] Can user copy/paste working patterns?
+
+**If any fail**: Review Step 3 (Map Decision Inputs) and add missing content
+
+---
+
+### Use Case: Reference vs. Decision-Support
+
+**Reference-Only Document** (traditional compression):
+- User needs: Look up information, understand concept
+- Usage pattern: Infrequent lookup, different question each time
+- Optimization: Maximize compression, preserve facts only
+- Example: API documentation, glossary, historical record
+
+**Decision-Support Document** (enhanced compression):
+- User needs: Make repeated similar decisions efficiently
+- Usage pattern: Frequent access, same decision types repeatedly
+- Optimization: Preserve decision scaffolding, accept slightly lower compression
+- Example: Technique selection guide, prompt generation reference, architectural decision framework
+
+**This document** falls into decision-support category because teams make repeated compression decisions across many documents.
+
+---
+
+### Integration with Existing Framework
+
+**No changes to**:
+- (σ,γ,κ) theory (still valid, just applying γ and κ differently)
+- Compression ratios (minimal 2-5% impact)
+- Tools (compress.py still works, this is human analysis step)
+
+**Additions to workflow**:
+- Pre-compression decision inventory (Steps 2-3)
+- Content categorization (A/B/C instead of just data/non-data)
+- Validation checklist (verify decision-support preserved)
+
+**When to use**:
+- Documents for iterative workflows ✅
+- Operational guidance documents ✅
+- Frequently-accessed reference ✅
+- One-time use documents ❌
+- Pure historical records ❌
+- Already compressed with adequate utility ❌
+
+---
+
+### Real-World Example: Gemini Prompting Paper
+
+**Original**: 1,332 lines of self-assessment research  
+**Use Case**: Generate optimized Gemini prompts across 6-8 research iterations  
+**Usage Pattern**: Repeated technique selection, combination decisions, quality assessment
+
+**Traditional Compression Result** (reference-focused):
+- Preserved: Scores (10/10), features (1M context), limitations (single-shot)
+- Lost: Technique stacks, compatibility, anti-patterns, decision trees, thresholds, exact triggers
+- Compression: 75% (1,332 → 322 lines)
+- **Problem**: Can understand techniques but must re-derive optimal combinations each time
+
+**Enhanced Compression Result** (decision-support):
+- Preserved: All reference data PLUS stacks, compatibility, anti-patterns, thresholds, triggers
+- Added sections: ~80 lines
+- Compression: 70% (1,332 → 400 lines)
+- **Benefit**: Can make technique decisions quickly without re-analysis
+
+**Cost-Benefit**:
+- Cost: 78 extra lines (19% increase in compressed size)
+- Benefit: Eliminates 5-10 minutes of decision overhead per prompt generation
+- ROI: Pays for itself after 2-3 prompts, used across 6-8 iterations = high value
+
+---
+
+### Summary
+
+**Traditional compression asks**: "What information is here?"  
+**Decision-support compression asks**: "What decisions will users make?"
+
+**Key insight**: Information that drives repeated decisions has higher operational value than information that builds understanding, even if both are "non-factual."
+
+**Method addition is simple**:
+1. Inventory decisions before compressing
+2. Categorize content as Reference / Explanatory / Decision-Support
+3. Apply different preservation levels to each category
+4. Validate decision-support is adequate
+
+**When to use**: Documents for iterative workflows with repeated similar decisions
+
+**Impact**: 2-5% compression ratio cost, dramatic improvement in operational utility
+
+---
