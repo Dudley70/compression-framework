@@ -1,0 +1,68 @@
+---
+title: Compression Techniques
+created: 2025-11-06
+updated: 2025-11-14
+status: active
+category: reference
+version: 1.2
+compression_level: moderate
+audience: technical
+purpose: technique_reference
+---
+
+# Compression Techniques
+
+**Purpose**: Comprehensive reference for compression techniques including LSC (proactive), decision-support (manual), LLM-optimized (V4/V5), CCM (retrospective), and archive strategies.
+
+**Audience**: Technical implementers, developers using compress.py, teams adopting compression framework  
+**Scope**: Specific techniques and implementations, not decision guidance (see DECISION_FRAMEWORK.md)
+
+---
+
+## Quick Reference
+
+**LSC Techniques** (proactive, 70-85% reduction, automated):
+1. Hierarchical Structure - Nested lists to structured data
+2. Redundancy Elimination - Remove repeated info
+3. Semantic Clustering - Group related concepts
+4. Pattern Abstraction - Templates for recurring patterns
+5. Contextual Abbreviation - Domain-aware shortening
+
+**Decision-Support Compression** (manual, 70-85% reduction):
+- Preserve decision-critical content (scores, patterns, implementations)
+- Compress explanations, methodology, background  
+- Target: Operational reference for quick decisions
+
+**Aggressive LLM-Optimized (V4)** (manual, 85-92% reduction):
+- Ultra-dense structured formats for LLM parsing
+- Maximum compression for simple reference lookups
+- Target: 60-75% line reduction, 85-92% byte reduction
+
+**Balanced LLM-Optimized (V5)** (manual, 82-88% reduction):
+- Self-contained completeness with high compression
+- Mini implementation patterns + decision support
+- Target: 65-70% line reduction, 82-88% byte reduction
+
+**CCM** (retrospective, 99.5% reduction):
+- Four-tier compression for session logs
+- Preserve artifacts, compress dialogue
+
+**Archive Strategies** (95-99% reduction):
+- Search-optimized indexing
+- Keyword extraction
+- Structured summaries
+
+---
+
+## Table of Contents
+
+1. Core LSC Techniques
+2. Decision-Support Compression (Manual)
+3. Aggressive LLM-Optimized Compression (V4)
+4. Balanced LLM-Optimized Compression (V5)
+5. Context Compression Method (CCM)
+6. Archive Compression Strategies
+7. Compression Anti-Patterns
+8. Compression in Practice (Examples)
+
+---
