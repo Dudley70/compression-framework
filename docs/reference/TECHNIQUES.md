@@ -1,10 +1,10 @@
 ---
 title: Compression Techniques
 created: 2025-11-06
-updated: 2025-11-06
+updated: 2025-11-13
 status: active
 category: reference
-version: 1.0
+version: 1.1
 compression_level: moderate
 audience: technical
 purpose: technique_reference
@@ -12,7 +12,7 @@ purpose: technique_reference
 
 # Compression Techniques
 
-**Purpose**: Comprehensive reference for compression techniques including LSC (proactive), CCM (retrospective), and archive strategies.
+**Purpose**: Comprehensive reference for compression techniques including LSC (proactive), decision-support (manual), CCM (retrospective), and archive strategies.
 
 **Audience**: Technical implementers, developers using compress.py, teams adopting compression framework  
 **Scope**: Specific techniques and implementations, not decision guidance (see DECISION_FRAMEWORK.md)
@@ -21,12 +21,17 @@ purpose: technique_reference
 
 ## Quick Reference
 
-**LSC Techniques** (proactive, 70-85% reduction):
+**LSC Techniques** (proactive, 70-85% reduction, automated):
 1. Hierarchical Structure - Nested lists to structured data
 2. Redundancy Elimination - Remove repeated info
 3. Semantic Clustering - Group related concepts
 4. Pattern Abstraction - Templates for recurring patterns
 5. Contextual Abbreviation - Domain-aware shortening
+
+**Decision-Support Compression** (manual, 70-85% reduction):
+- Preserve decision-critical content (scores, patterns, implementations)
+- Compress explanations, methodology, background  
+- Target: Operational reference for quick decisions
 
 **CCM** (retrospective, 99.5% reduction):
 - Four-tier compression for session logs
@@ -42,16 +47,13 @@ purpose: technique_reference
 ## Table of Contents
 
 1. Core LSC Techniques
-2. Context Compression Method (CCM)
-3. Archive Compression Strategies
-4. Compression Anti-Patterns
-5. Compression in Practice (Examples)
+2. Decision-Support Compression (Manual)
+3. Context Compression Method (CCM)
+4. Archive Compression Strategies
+5. Compression Anti-Patterns
+6. Compression in Practice (Examples)
 
 ---
-
-## 1. Core LSC Techniques
-
-### Overview
 
 LSC (LLM-Shorthand Context) techniques transform prose documentation into structured, machine-optimized formats. Developed for proactive compression (write-time optimization) achieving 70-85% token reduction while preserving information fidelity.
 
@@ -272,7 +274,127 @@ Implementation Tasks:
 
 ---
 
-## 2. Context Compression Method (CCM)
+## 2. Decision-Support Compression (Manual)
+
+### Overview
+
+Decision-support compression is a manual technique for transforming comprehensive research documents into operational references optimized for rapid decision-making. Unlike LSC (which operates on syntax/structure), this technique requires semantic judgment about what enables decisions vs. what explains reasoning.
+
+**Implementation**: Manual (human judgment required)  
+**Target Documents**: Research papers, assessments, comprehensive analyses  
+**Target Use**: LLM context OR human quick reference during operations  
+**Validation**: Gemini prompting assessment (1,332 → 370 lines, 72% reduction, A- quality)
+
+### Core Principle
+
+**Preserve content that enables decisions. Compress content that explains reasoning.**
+
+### When to Use
+
+✅ **Use decision-support compression when**:
+- Document is comprehensive research/analysis (not procedural docs)
+- User needs quick operational reference (not deep understanding)
+- Content will be repeatedly consulted for decisions
+- Document has identifiable decision-critical vs. explanatory sections
+
+❌ **Don't use when**:
+- Document is already operational (no methodology/explanation to compress)
+- User needs to understand "how we know" (methodology matters)
+- Document is procedural instructions (wrong compression type)
+- Content has no clear decision points
+
+### Compression Protocol
+
+**Step 1: Identify use case** (2 min)
+- Ask: "What will you use this compressed version for?"
+- If unclear → assume "operational reference for decisions"
+
+**Step 2: Compress using judgment** (30-60 min)
+- Preserve: Scores/matrices, implementations, patterns, warnings, decision trees
+- Compress: Methodology (20%), explanations (40%), background (20%)
+- Target: 70-85% reduction
+
+**Step 3: Deliver with note**:
+```
+Compressed: X → Y lines (Z% reduction)
+Preserved: [key sections]
+Compressed: [what was reduced]
+Known gaps: [if any obvious]
+```
+
+**Step 4: Iterate based on feedback**
+- User reviews → identifies gaps → you add missing content (typically 20-50 lines)
+- Repeat until operational needs met
+
+### Common Patterns
+
+**Pattern 1: Research Assessment → Operational Playbook**
+- **Preserve**: Scoring matrices, implementation examples, decision trees, anti-patterns, quality thresholds
+- **Compress**: Test methodology (20%), test outputs (20%), philosophical discussion (20%)
+- **Add if missing**: Compatibility warnings, explicit trigger phrases, optimal pattern combinations
+- **Example**: Gemini prompting assessment (Section 6 below)
+
+**Pattern 2: Framework Documentation → Quick Reference**
+- **Preserve**: Definitions, syntax, key constraints, examples, decision logic
+- **Compress**: Rationale (40%), edge cases (40%), historical context (20%)
+- **Add if missing**: Decision tree, common mistakes, when-to-use guidance
+
+**Pattern 3: Multi-Purpose Document → Two Versions**
+- **Version A** (Operational): Decision-critical only, 70-85% reduction
+- **Version B** (Methodology): Evidence/reproduction, 50-70% reduction  
+- Use when: Some users need "how to use" while others need "how we know"
+
+### Quality Check
+
+After compression, verify:
+- [ ] Can answer all key operational questions from compressed version alone
+- [ ] Decision-critical content preserved (scores, patterns, implementations, warnings)
+- [ ] Anti-patterns/compatibility warnings present (if applicable)
+- [ ] Quality thresholds included (if scoring-based)
+- [ ] 70-85% reduction achieved
+- [ ] Known gaps documented
+
+If gaps exist → iterate (add 20-50 lines) → re-check
+
+### Anti-Patterns
+
+❌ **Over-structuring**: Don't force into rigid templates when judgment-based structure better
+❌ **Premature formalization**: Don't create process before seeing 3-5 examples showing repeatability
+❌ **Missing context**: Don't assume user knows "why" - include minimal rationale
+❌ **Inconsistent preservation**: Don't preserve methodology in one section, compress in another
+❌ **No iteration path**: Don't deliver without noting known gaps for v2
+
+### Technique Comparison
+
+| Aspect | LSC (Automated) | Decision-Support (Manual) |
+|--------|-----------------|---------------------------|
+| **Operates on** | Syntax/structure | Semantics/meaning |
+| **Requires** | Clear patterns | Contextual judgment |
+| **Best for** | Procedural docs | Research/analysis |
+| **Preserves** | Format/hierarchy | Decision-enabling content |
+| **Tool** | compress.py | Human intelligence |
+| **Target** | 70-85% reduction | 70-85% reduction |
+| **Quality** | Consistent | Varies with judgment |
+
+### Integration with Framework
+
+- **When to use**: See DECISION_FRAMEWORK.md for compression decision guidance
+- **Theoretical basis**: Same (σ,γ,κ) model applies - optimize for purpose
+- **Validation**: Manual review replaces automated safety checks
+
+### Future Automation
+
+Potential LLM-assisted workflow:
+1. LLM analyzes document → identifies decision-critical content
+2. LLM proposes compression strategy
+3. Human reviews → approves/adjusts → LLM compresses
+4. Human validates result → iterates if needed
+
+**Status**: Not yet implemented - requires 5+ examples to validate approach
+
+---
+
+## 3. Context Compression Method (CCM)
 
 ### Overview
 
@@ -434,7 +556,7 @@ scenarios, etc. - typical verbose AI-human collaborative session]
 
 ---
 
-## 3. Archive Compression Strategies
+## 4. Archive Compression Strategies
 
 ### Overview
 
@@ -568,7 +690,7 @@ auth JWT refresh mobile stateless security implemented decision
 
 ---
 
-## 4. Compression Anti-Patterns
+## 5. Compression Anti-Patterns
 
 ### Overview
 
@@ -737,7 +859,7 @@ Business requirements with code examples → product managers can't parse them
 
 ---
 
-## 5. Compression in Practice
+## 6. Compression in Practice
 
 ### Overview
 
