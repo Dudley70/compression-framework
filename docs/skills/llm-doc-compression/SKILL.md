@@ -1,10 +1,11 @@
 ---
 name: llm-doc-compression
 description: Compress technical documentation to maximum density (~85% reduction) while maintaining 100% completeness. Optimizes for LLM consumption using aggressive abbreviations, symbols, and format compression. Preserves all code/prompts/tests verbatim. Use when user wants LLM-only compressed docs, maximum density at natural limit (~21KB), or requests "compress for LLM" or "dense compression".
-version: 1.0.0
 ---
 
 # LLM Documentation Compression
+
+**Version**: 1.0.0 (2025-11-14)
 
 ## Purpose
 
@@ -117,7 +118,3 @@ After: "X occurred. Y followed. Z confirmed."
 - When unsure: keep content, abbreviate format
 - Prompts/code = untouchable
 - Scaffolding = noise
-
-## Version
-
-v1.0.0 (2025-11-14): Initial release
