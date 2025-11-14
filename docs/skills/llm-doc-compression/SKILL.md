@@ -1,133 +1,224 @@
 ---
 name: llm-doc-compression
-description: Compress technical documentation to maximum density (~85% reduction) while maintaining 100% completeness. Optimizes for LLM consumption using aggressive abbreviations, symbols, and format compression. Preserves all code/prompts/tests verbatim. Use when user wants LLM-only compressed docs, maximum density at natural limit (~21KB), or requests "compress for LLM" or "dense compression".
+description: Compress technical documentation to maximum density (~85% reduction) while maintaining 95%+ information retention. CRITICAL: Preserves ALL test prompts, code, schemas, and outputs VERBATIM - only compresses prose, headers, and scaffolding. Use when user wants LLM-optimized docs with complete reproducibility, or requests "compress for LLM" maintaining full detail.
 ---
 
 # LLM Documentation Compression
 
-**Version**: 1.0.0 (2025-11-14)
+**Version**: 1.0.0 | **Target**: 95%+ information retention at 85% size reduction
+
+## CRITICAL RULES (Read First)
+
+### Rule #1: NEVER COMPRESS CONTENT
+**If it's needed for reproduction → keep 100% verbatim**
+
+**NEVER TOUCH**:
+- Test prompts (every word exact)
+- Code examples (every character exact)
+- Command-line examples (exact)
+- API calls (exact)
+- Schema definitions (exact)
+- Model outputs (structure + content preserved)
+- Function/variable/parameter names (exact)
+- JSON keys (exact)
+- Configuration values (exact)
+
+**Example - WRONG**:
+```
+Original: "Let's think step by step to determine the final number"
+Compressed: "Think stepwise for final #" ❌ DESTROYED
+```
+
+**Example - CORRECT**:
+```
+Original: "Let's think step by step to determine the final number"
+Compressed: "Let's think step by step to determine the final number" ✓ EXACT
+```
+
+### Rule #2: ONLY COMPRESS FORMAT
+**Compress prose, headers, transitions, scaffolding - NOT content**
+
+**OK TO COMPRESS**:
+- Headers: "**Source**: 1,332 lines" → "**Src**: 1,332L"
+- Prose: "The model's performance was excellent" → "Excellent performance"
+- Scaffolding: "Now let's examine..." → [delete]
+- Meta-commentary: "As we can see..." → [delete]
 
 ## Theoretical Foundation
 
-This skill implements the Compression Framework's (σ,γ,κ) parameter optimization model:
+Implements (σ=0.9, γ=1.0, κ=0.1):
+- **σ (Structure)**: 0.9 - Max density through format compression
+- **γ (Granularity)**: 1.0 - **FULL semantic completeness (95%+ retention)**
+- **κ (Scaffolding)**: 0.1 - Minimal explanatory context
 
-**Target Configuration**:
-- **σ (Structure)**: 0.9 - Maximum structural density through abbreviations, symbols, format compression
-- **γ (Granularity)**: 1.0 - Full semantic completeness (all code/prompts/tests preserved verbatim)
-- **κ (Scaffolding)**: 0.1 - Minimal contextual scaffolding (only critical warnings retained)
+**Target**: 95%+ information retention, 85% size reduction
 
-**Constraint**: σ + γ + κ = 2.0 ≥ C_min(LLM, reference) ✓
+## 10 Compression Rules WITH BOUNDARIES
 
-**Result**: ~85% reduction while maintaining 100% reproducibility.
+### 1. Ultra-Terse Headers [↑σ] - FORMAT ONLY
+Before: `**Source**: 1,332 lines / 134 kilobytes systematic assessment`
+After: `**Src**: 1,332L/134KB systematic assessment`
+**DON'T**: Touch any content words (systematic, assessment)
 
-## Purpose
+### 2. Extreme Abbreviations [↑σ] - PROSE ONLY
+Use in: Prose descriptions, headers, table cells
+Standard: E=Effectiveness, R=Reliability, Doc=Documentation, w/=with, w/o=without
+**DON'T**: Abbreviate anything in prompts, code, schemas, commands
 
-Transform verbose technical docs → ultra-dense LLM format. 85% reduction, 100% completeness, ~21KB natural limit.
+### 3. Symbols [↑σ] - ANALYSIS ONLY
+Use in: Analysis sections, table cells, headers
+Symbols: ✓✗⚠→↑↓=≠≥≤
+**DON'T**: Use in preserved content (prompts, code, outputs)
 
-## When to Use
+### 4. Tables [↑σ] - HEADERS ONLY
+Compress: Column headers (`Effectiveness` → `E`)
+Preserve: All data in cells (use symbols for status, not content)
 
-✓ User requests: "compress for LLM", "dense compression", "optimize for LLM"
-✓ Technical reference needs max density
-✓ LLM-only audience (not human reading)
-✓ Must preserve all code/prompts/tests
+### 5. Prose→Fragments [↑σ, ↓κ] - ANALYSIS ONLY
+Compress: "The model's performance on this task was excellent. It successfully..."
+To: "Excellent performance. Successfully..."
+**DON'T**: Apply to test prompts, code comments, output descriptions
 
-✗ Human readability needed
-✗ Quick summaries (not full compression)
-✗ Simple/non-technical docs
+### 6. Code/Prompt Preservation [γ=1.0] - SACRED CONTENT
+**100% VERBATIM - NO EXCEPTIONS**
 
-## Core Rule
+What counts as "code/prompt":
+- Anything in code blocks (```...```)
+- Test prompt instructions
+- Command examples
+- API calls
+- Schema definitions
+- Model outputs (keep structure + key content)
+- Configuration examples
 
-**Compress FORMAT only. Content = sacred.**
+**If uncertain whether to preserve → PRESERVE IT**
 
-Preserve verbatim: prompts, code, schemas, API params, test patterns (γ=1.0)
-Compress aggressive: headers, prose, tables, lists, scaffolding (↑σ, ↓κ)
-
-## Target
-
-- Lines: 400-450 (from 1,300+)
-- Size: 19-22KB (from 130KB+)
-- Reduction: 84-85%
-- Completeness: 100%
-
-## 10 Compression Rules (Parameter Mappings)
-
-### 1. Ultra-Terse Headers [↑σ]
-Before: `**Source**: 1,332 lines / 134KB systematic...`
-After: `**Src**: 1,332L/134KB | 84%→21KB | LLM only`
-Rules: Src, L, KB, pipe-separate, remove redundancy
-
-### 2. Extreme Abbreviations [↑σ]
-Standard: E=Effectiveness, R=Reliability, Doc=Documentation, w/=with, w/o=without, #=number, @=at, ~=approximately
-Context: CoT, ToT, LLM, API, LOC, JSON
-
-### 3. Symbols [↑σ]
-Status: ✓=yes/success, ✗=no/fail, ⚠=partial
-Compare: →=leads to, ↑=increases, ↓=decreases, =≠≥≤
-
-### 4. Tables [↑σ]
-Single-letter headers (Doc, E, R). Symbols in cells. Terse fragments in notes.
-Before: `| Effectiveness | Reliability | Documentation Support |`
-After: `| E | R | Doc |`
-
-### 5. Prose→Fragments [↑σ, ↓κ]
-Remove subjects ("The model", "It"), filler ("successfully", "excellent"). Start w/ action. Combine points w/ punctuation. Use + for "and".
-Before: "The model's performance was excellent. It successfully..."
-After: "Excellent performance. Successfully..."
-
-### 6. Code Preservation [γ=1.0]
-**CRITICAL**: Never touch prompts, code, schemas, API params, commands, function names, JSON keys. Keep 100% verbatim. This maintains full semantic granularity.
-
-### 7. Section Headers [↓κ]
-Inline definitions. Remove redundancy.
-Before: `### Definition` (3 lines explaining...)
+### 7. Section Headers [↓κ] - FORMAT ONLY
+Before: `### Definition` [3 lines explaining]
 After: `**Def**: [1 terse sentence]`
+**DON'T**: Compress the actual definition content
 
-### 8. Scaffolding Removal [↓κ]
-Delete: transitions ("Now let's"), meta-commentary ("As we see"), obvious conclusions, summaries, conversational elements ("Certainly")
-Keep: section numbers, critical distinctions ("CRITICAL:"), limitation warnings
+### 8. Scaffolding Removal [↓κ] - NON-CONTENT ONLY
+Delete: "Now let's examine...", "As we can see...", "It's important to note..."
+Keep: Actual content that follows these phrases
+**DON'T**: Remove context needed to understand technical content
 
-### 9. List Compression [↑σ, ↓κ]
-Remove numbering where order irrelevant. Combine related. No "The model..." prefixes. Use colons for definitions.
-Before: "1. **X:** The model... 2. **Y:** It also..."
-After: "X occurred. Y followed. Z confirmed."
+### 9. List Compression [↑σ, ↓κ] - ANALYSIS ONLY
+Compress: Analysis lists, meta-commentary lists
+Preserve: Technical specification lists, step-by-step procedures, test steps
 
-### 10. Standard Test Format [↑σ]
+### 10. Standard Test Format [↑σ] - MIXED
+Compress: Headers, analysis prose
+Preserve: **Prompt (verbatim)**, **Output (complete)**, **Test description (full)**
+
+**Template**:
 ```
 ### [N]. [Name]
-**Def**: [terse w/ →]
-**Doc**: [✓/✗/⚠] [level]
-**Test**: [<10 words]
-**Prompt**: ```[verbatim]```
-**Output**: [brief | verbatim]
-**Analysis**: [2-4 fragments, no subjects]
-**Scores**: E=[N]/10 ([why]), R=[N]/10 ([why])
+**Def**: [compress this]
+**Doc**: [compress this]
+**Test**: [keep description complete]
+**Prompt**:
+```
+[KEEP 100% EXACT - EVERY WORD]
+```
+**Output**: [keep structure + key results]
+```
+[PRESERVE STRUCTURE + CONTENT]
+```
+**Analysis**: [can compress this to fragments]
+**Scores**: E=[N]/10 ([keep reasoning]), R=[N]/10 ([keep reasoning])
 ```
 
-## Quality Checklist
+## Quality Verification
 
+Before finalizing, check:
+
+**Information Retention**: 95%+
+- [ ] Every test prompt is 100% verbatim
+- [ ] Every code example is 100% exact
+- [ ] Every schema/API call is 100% exact
+- [ ] Model outputs preserve structure + key content
+- [ ] Can reproduce any test from compressed version
+- [ ] Score justifications are complete (not "good")
+
+**Compression Metrics**: 85%
 - [ ] 19-22KB size
 - [ ] 400-450 lines
-- [ ] All prompts/code verbatim (γ=1.0 maintained)
-- [ ] No prose paragraphs (σ maximized)
-- [ ] Tables: single-letter headers (σ maximized)
-- [ ] Symbols: ✓✗⚠→ (σ increased)
-- [ ] Abbreviations consistent (σ increased)
-- [ ] No subjects in analysis (κ reduced)
-- [ ] Zero scaffolding (κ≈0.1)
-- [ ] 100% completeness (γ=1.0)
+- [ ] Prose → fragments
+- [ ] Headers abbreviated
+- [ ] Zero scaffolding
+
+**Format Standards**:
+- [ ] Tables: single-letter headers
+- [ ] Symbols: ✓✗⚠→ in analysis
+- [ ] Abbreviations: E/R, CoT in prose only
+- [ ] No subjects in analysis fragments
+
+## Red Flags (Stop & Fix)
+
+❌ **If you see any of these, you've gone too far**:
+- Prompt phrases shortened ("think step by step" → "think stepwise")
+- Code examples abbreviated
+- API parameters simplified
+- Output structure lost
+- "Cannot reproduce test from this" feeling
+- Information retention feels <90%
 
 ## Process
 
-1. Read source doc
-2. Apply 10 rules systematically
-3. Verify checklist
-4. Output compressed
-5. Report: [original] → [compressed] → [%]
+1. **Identify sacred content** (mark all prompts/code/schemas)
+2. **Preserve sacred** (copy verbatim to output)
+3. **Compress format** (apply rules 1-5, 7-9 to prose/headers/analysis)
+4. **Verify retention** (can you reproduce every test?)
+5. **Report**: [original] → [compressed] → [% size] + [% information retained]
+
+## Examples
+
+### ✅ CORRECT Compression
+
+**Original**:
+```markdown
+**Test Prompt**:
+"A logistics manager has to move items between three warehouses: A, B, and C.
+- Starting state: Warehouse A has 40 units, B has 30, and C has 20.
+Let's think step by step to determine the final number of units."
+
+**Model Output**:
+"Certainly. Let's break down the movement step by step.
+**Step 1**: Half of A to B means 40/2 = 20 units moved..."
+```
+
+**Compressed**:
+```markdown
+**Prompt**:
+```
+A logistics manager has to move items between three warehouses: A, B, and C.
+- Starting state: Warehouse A has 40 units, B has 30, and C has 20.
+Let's think step by step to determine the final number of units.
+```
+
+**Output**: Confirmed step-by-step breakdown. Step 1: 40/2=20 moved A→B...
+```
+
+✅ **Prompt verbatim**, Output structure preserved, 95%+ retention
+
+### ❌ WRONG Compression
+
+**Original**: [same as above]
+
+**Compressed (BAD)**:
+```markdown
+**Test**: Logistics problem w/ 3 warehouses, move units
+**Output**: Model showed correct step-by-step
+```
+
+❌ **Prompt lost**, Output summarized, ~40% retention - **UNUSABLE**
 
 ## Claude Notes
 
-- LLM eyes only (not human-readable)
-- Completeness > readability (γ priority)
-- When unsure: keep content (maintain γ), abbreviate format (increase σ)
-- Prompts/code = untouchable (γ=1.0)
-- Scaffolding = noise (minimize κ)
+- **When uncertain → preserve, don't compress**
+- γ=1.0 is NON-NEGOTIABLE (95%+ retention required)
+- Only compress FORMAT (headers, prose, scaffolding)
+- Prompts/code = completely untouchable
+- Target: V7 quality (23KB, 95% retention) not summarization
+- If output <90% retention → failed, try again
