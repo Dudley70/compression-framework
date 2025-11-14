@@ -1,6 +1,6 @@
 ---
 name: llm-doc-compression
-description: Compress technical documentation to maximum density (~85% reduction) while maintaining 95%+ information retention. CRITICAL: Preserves ALL test prompts, code, schemas, and outputs VERBATIM - only compresses prose, headers, and scaffolding. Use when user wants LLM-optimized docs with complete reproducibility, or requests "compress for LLM" maintaining full detail.
+description: Compress technical docs to max density (85% reduction) while maintaining 95% information retention. Preserves ALL prompts, code, schemas, outputs verbatim - only compresses format. Use for LLM-optimized docs with complete reproducibility.
 ---
 
 # LLM Documentation Compression
