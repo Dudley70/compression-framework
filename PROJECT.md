@@ -1,7 +1,7 @@
 # Compression Project
 
 **Created**: 2025-10-29  
-**Last Updated**: 2025-11-15 (Session 27 - Skill Development + Critical Testing)
+**Last Updated**: 2025-11-15 (Session 28 - Hybrid Architecture Decision)
 
 ---
 
@@ -9,7 +9,7 @@
 
 **What**: Comprehensive framework for optimizing LLM context windows through systematic compression  
 **Innovation**: Unified theory explaining all compression as (σ,γ,κ) parameter optimization  
-**Status**: v1.0 Complete - Production Ready + V5 Methodology Validated  
+**Status**: v1.0 Complete + v1.4 Hybrid Tool Architecture Defined  
 **Start**: Read [docs/README.md](docs/README.md) for framework overview
 
 ---
@@ -32,59 +32,22 @@
 
 **Sessions 21-22 Methodology Evolution**: Developed V4 (aggressive LLM-optimized) and V5 (balanced LLM-optimized) through empirical iteration, establishing optimal compression balance point for complex technical references.
 
+**Session 28 Architecture Shift**: After extensive empirical testing proving autonomous LLM compression with constraints fails reliably, pivoted to hybrid tool architecture combining deterministic safety with LLM intelligence.
+
 ### Current Phase
 
-**v1.0 COMPLETE** - Production Ready + External Adoption Ready (Sessions 1-19):
-- ✅ Unified theory: (σ,γ,κ) model validated
-- ✅ Framework documentation: 6 core docs (~3,900 lines concise reference)
-- ✅ External adoption: Complete guide (1,312 lines) with clear navigation
-- ✅ Proactive system: Templates (8) + Skill (1,229 lines) + Integration Guide (1,261 lines)
-- ✅ Automation tool: compress.py (862 lines, production-ready)
-- ✅ Empirical validation: 96.7% convergence, H1-H4 cross-project validation, ROI quantified
-- ✅ Refactoring complete: Clean handover state (~6,900 lines active + 3 organized archives)
-- ✅ Archive cleanup: 34 documents archived (~26,000 lines) with complete navigation
+**v1.4 HYBRID TOOL ARCHITECTURE** - Deterministic Safety + LLM Intelligence (Session 28):
+- ✅ Evidence gathered: 5 autonomous attempts all failed Rule 6 (v4.1, ChatGPT 4x)
+- ✅ Root cause identified: LLMs optimize "helpful" over "compliant", hallucinate success
+- ✅ Architecture decided: 4-step hybrid (extract sacred → LLM compress → restore → validate)
+- ✅ Design in progress: Parallel session extracting V7 rules + tool specification
+- 🎯 Next: Session 29 implements compress_v7_hybrid.py
 
-**v1.1 METHODOLOGY ENHANCEMENT** - V5 Balanced Compression (Sessions 21-22):
-- ✅ LLM-optimized V4 defined: Aggressive (60-75% reduction)
-- ✅ LLM-optimized V5 defined: Balanced (65-70% reduction) ⭐ **DEFAULT**
-- ✅ Empirical discovery: V1→V2→V3→V4→V5 iteration revealed optimal balance
-- ✅ V5 innovation: Mini implementation patterns + decision tree + self-containment
-- ✅ Validation: Applied to Gemini assessment (1,332 → 243 lines, 82%)
-- ✅ Documentation: TECHNIQUES_V5.md (250 lines) with complete methodology
+**v1.0-v1.3 Complete** - See full history in archived version
 
-**External Adoption Ready**:
-```
-Root README.md → docs/README.md → EXTERNAL_PROJECT_GUIDE.md → Complete adoption process
-```
+---
 
-**Documentation Structure**:
-```
-Active (~7,100 lines):
-- 6 core framework docs (theory, validation, decisions, techniques, overview, adoption)
-
-**v1.3 SKILL DEVELOPMENT** - Autonomous Compression (Sessions 25-27):
-- ✅ compress4llm.py: Deterministic V7 tool (regex, ~10-20% reduction)
-- ✅ Discovery: Semantic decisions need LLM (deterministic tools plateau at format)
-- ✅ Skill evolution: v1.0→v2.0→v3.0→v4.0 (rule→coach→autonomous→intelligent tiered)
-- ✅ Tiered system: 0=SACRED(0%), 1=MINIMAL(10-30%), 2=MODERATE(30-60%), 3=AGGRESSIVE(60-90%)
-- ✅ Adaptive: Section-level intelligence (type+density+criticality→dynamic tier)
-- ⚠️ Critical: v4.0 got 91%(12KB) BUT violated Rule 6 (prompts not verbatim, 50% retention)
-- 🎯 Next: v4.1 needs stronger Tier 0 enforcement for Rule 6 + 95% retention @~22KB
-
-**The Impossible Triangle**: Can't optimize all: (1) max compression + (2) Rule 6 compliance + (3) 95% retention. Skill needs #2&#3, accept ~22KB vs 12KB over-compression.
-- V5 methodology (TECHNIQUES_V5.md, 250 lines)
-- Implementation resources (integration guide, skill, 8 templates)
-- Supporting docs (research, active plans, analysis)
-
-Archived (~26,000 lines with indices):
-- framework-exploration/ (Sessions 1-15 journey)
-- completed-work/ (planning, tasks, patterns, analysis)
-- validation-artifacts/ (reports, handovers, status)
-```
-
-**See [docs/README.md](docs/README.md) for complete framework documentation.**
-
-### Core Theory
+## Core Theory
 
 **Unified Compression Model**:
 All compression techniques optimize three parameters subject to comprehension constraint:
@@ -93,47 +56,6 @@ All compression techniques optimize three parameters subject to comprehension co
 - **κ (Scaffolding)**: Contextual explanation (0=none → 1=complete background)
 
 **Constraint**: σ + γ + κ ≥ C_min(audience, phase)
-
-**Key Insight**: LSC increases σ (structural density), framework adds γ and κ control. Different audiences and use cases require different (σ,γ,κ) configurations.
-
-**V5 Discovery**: Optimal balance exists at 65-70% reduction for complex technical references, balancing high σ (structural density) with minimum κ (implementation scaffolding) for self-containment.
-
-### Success Metrics
-
-**Framework Completeness**:
-- ✅ Unified theory documented and validated
-- ✅ All compression techniques cataloged (including V4/V5)
-- ✅ Decision-making guidance comprehensive
-- ✅ Empirical evidence across 4 domains + V5 validation
-
-**Empirical Validation**:
-- ✅ 96.7% convergence (techniques self-stabilize)
-- ✅ Cross-project validation (H1-H4 tested)
-- ✅ Quantified ROI (6:1 to 64:1 by team size)
-- ✅ Performance validated (<30s per document)
-- ✅ V5 validated through 4-iteration empirical discovery
-
-**Production Readiness**:
-- ✅ Tool deployed with safety validation
-- ✅ Template library (8 templates) ready
-- ✅ Claude Skill specified for automation
-- ✅ Integration guide complete
-- ✅ Git workflow patterns documented
-- ✅ V5 methodology documented and validated
-
-### Next Horizons
-
-**White Paper** (Future):
-- Formal mathematical proofs
-- Academic literature review
-- Publication-quality documentation
-- V5 discovery process as methodology validation
-
-**Optional Optimizations** (Post-deployment):
-- Tasks 5.2-5.4 based on usage feedback
-- Threshold calibration with production data
-- Extended validation corpus (20+ documents)
-- V5 application to diverse document types
 
 ---
 
@@ -150,10 +72,16 @@ All compression techniques optimize three parameters subject to comprehension co
 - **Autonomous execution**: Comprehensive specifications enable quality delegation
 - **Purpose-driven**: Match compression strategy to use case
 - **Empirical iteration**: Optimal balance discovered through testing, not theory alone
+- **Hybrid architecture**: Combine tool safety with LLM intelligence when pure autonomous fails
 
 ---
 
 ## Decision Log
+
+### Decision #13 - 2025-11-15: Hybrid Architecture for V7 Tool
+**Context**: Extensive testing revealed LLMs cannot autonomously execute V7 compression with constraints. Five attempts failed (v4.1 skill: 39KB/1-11 prompts; ChatGPT: 13KB/132KB/52KB/129KB all violated Rule 6). Root cause: LLMs optimize for "helpful" over "compliant", hallucinate success metrics, cannot reliably balance competing constraints.  
+**Decision**: Build hybrid tool combining deterministic safety with LLM intelligence: (1) Extract sacred content via regex before LLM sees it, (2) Simple autonomous compression like V3 ("compress for LLM use"), (3) Restore sacred content + apply V7 rules deterministically, (4) Programmatic validation prevents hallucination. Tool architecture: 4-step pipeline (extract → compress → restore → validate).  
+**Impact**: Abandons pure autonomous skill approach after 5 failed attempts with 100% Rule 6 violation rate. Adopts proven pattern: V3 simple autonomous (worked) + V7 iteration (human caught errors) = hybrid prevents errors programmatically. Design work delegated to parallel session for V7 rule extraction (2,654 lines specification created). Implementation planned for Session 29 with Claude Code + TDD. Expected: ~$0.11/doc, ~35s, guaranteed Rule 6 compliance through physical separation of sacred content.
 
 ### Decision #12 - 2025-11-14: V5 as Default LLM-Optimized Method
 **Context**: V4 empirical testing revealed limitations for complex multi-technique documents  
@@ -207,58 +135,24 @@ All compression techniques optimize three parameters subject to comprehension co
 
 ---
 
-## Technical Stack
-
-**Source Methods**:
-- LSC: Documentation compression (proactive, 70-85%, JSON/YAML)
-- CCM: Conversational compression (retrospective, 99.5%, session summaries)
-
-**Framework**: Unified (σ,γ,κ) Model + Multi-Dimensional Decision Matrix
-
-**Manual Techniques**:
-- Decision-Support: 70-85% (human-readable)
-- LLM-Optimized V4: 60-75% (aggressive, simple reference)
-- LLM-Optimized V5: 65-70% (balanced, complex technical) ⭐ **DEFAULT**
-
-**Development**: macOS, Claude Desktop, desktop-commander MCP
-
-**Automation Tool**: Python (markdown-it-py, spaCy, sentence-transformers, tiktoken)
-
-**Validation**: BERTScore, ROUGE, entity preservation, semantic similarity
-
-**Theory**: Information theory, optimization theory, cognitive science
-
----
-
 ## Key References
+
+**Session 28 Output** (in `/Users/dudley/temp_session28/`):
+- README.md - Navigation guide
+- SESSION28_SUMMARY.md - Complete architecture overview
+- v7_rules_extraction.md - All V7 rules Python-ready (487 lines)
+- compress_v7_hybrid_spec.md - Tool architecture (748 lines)
+- implementation_plan.md - Build sequence (800 lines)
 
 **Framework Documentation**:
 - [docs/README.md](docs/README.md) - Complete framework overview
-- [docs/THEORY.md](docs/THEORY.md) - Unified (σ,γ,κ) model
-- [docs/VALIDATION.md](docs/VALIDATION.md) - Empirical evidence
-- [docs/reference/DECISION_FRAMEWORK.md](docs/reference/DECISION_FRAMEWORK.md) - Decision guidance
-- [docs/reference/TECHNIQUES.md](docs/reference/TECHNIQUES.md) - Compression catalog
-- [docs/reference/TECHNIQUES_V5.md](docs/reference/TECHNIQUES_V5.md) - V5 methodology ⭐
-
-**Implementation Resources**:
-- [docs/guides/INTEGRATION_GUIDE.md](docs/guides/INTEGRATION_GUIDE.md) - Adoption patterns
-- [docs/templates/](docs/templates/) - 8 ready-to-use templates
-- [docs/skills/COMPRESSION_SKILL.md](docs/skills/COMPRESSION_SKILL.md) - Claude Skill spec
-- [compress.py](compress.py) - Production automation tool
-
-**Navigation**:
-- [docs/INDEX.md](docs/INDEX.md) - Master document index
-- [docs/archive/2025-11-06_framework-exploration/ARCHIVE_INDEX.md](docs/archive/2025-11-06_framework-exploration/ARCHIVE_INDEX.md) - Historical exploration
-
-**Source Methods**:
-- LSC Framework: `/Users/dudley/Projects/Claude_Templates/LSC/`
-- CCM Method: `/Users/dudley/Projects/CC_Projects/docs/research/`
+- [SESSION.md](SESSION.md) - Session 28 complete journey
 
 ---
 
 ## Project Management
 
-**Current Session**: [SESSION.md](SESSION.md) - Current state and handover  
+**Current Session**: [SESSION.md](SESSION.md) - Session 28 complete, hybrid architecture decided  
+**Next Session**: Session 29 - Implement compress_v7_hybrid.py from specifications  
 **Documentation**: [docs/INDEX.md](docs/INDEX.md) - Complete inventory  
-**Principles**: Documentation-driven, incremental progress, evidence-based decisions  
-**Recovery**: [CONTEXT_RESET_RECOVERY.md](CONTEXT_RESET_RECOVERY.md) - Context restoration guide
+**Recovery**: Read SESSION.md for complete Session 28 journey + `/Users/dudley/temp_session28/` for specs
