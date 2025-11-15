@@ -1,7 +1,7 @@
 # Compression Project
 
 **Created**: 2025-10-29  
-**Last Updated**: 2025-11-14 (Session 24 - V7 Complete LLM-Optimized Standard)
+**Last Updated**: 2025-11-15 (Session 27 - Skill Development + Critical Testing)
 
 ---
 
@@ -9,7 +9,7 @@
 
 **What**: Comprehensive framework for optimizing LLM context windows through systematic compression  
 **Innovation**: Unified theory explaining all compression as (σ,γ,κ) parameter optimization  
-**Status**: v1.0 Complete - Production Ready + V7 Complete LLM-Optimized Standard  
+**Status**: v1.0 Complete - Production Ready + V5 Methodology Validated  
 **Start**: Read [docs/README.md](docs/README.md) for framework overview
 
 ---
@@ -53,14 +53,6 @@
 - ✅ Documentation: TECHNIQUES_V5.md (250 lines) with complete methodology
 
 **External Adoption Ready**:
-
-**v1.2 NATURAL COMPRESSION LIMIT** - V7 Complete LLM-Optimized (Sessions 23-24):
-- ✅ V6 ultra-aggressive: 92.3% reduction but lost completeness (rejected)
-- ✅ V7 complete LLM-optimized: 84.4% reduction, maintains V3 full completeness ⭐ **NEW STANDARD**
-- ✅ Discovery: ~21KB natural compression limit for complete self-contained reference
-- ✅ V7 achievement: V3 completeness (all test patterns) at V5 efficiency through aggressive LLM formatting
-- ✅ Validation: Applied to Gemini assessment (1,332L/134KB → 413L/21KB, complete + efficient)
-- ✅ Documentation: V7 methodology + compression limit theory
 ```
 Root README.md → docs/README.md → EXTERNAL_PROJECT_GUIDE.md → Complete adoption process
 ```
@@ -69,6 +61,17 @@ Root README.md → docs/README.md → EXTERNAL_PROJECT_GUIDE.md → Complete ado
 ```
 Active (~7,100 lines):
 - 6 core framework docs (theory, validation, decisions, techniques, overview, adoption)
+
+**v1.3 SKILL DEVELOPMENT** - Autonomous Compression (Sessions 25-27):
+- ✅ compress4llm.py: Deterministic V7 tool (regex, ~10-20% reduction)
+- ✅ Discovery: Semantic decisions need LLM (deterministic tools plateau at format)
+- ✅ Skill evolution: v1.0→v2.0→v3.0→v4.0 (rule→coach→autonomous→intelligent tiered)
+- ✅ Tiered system: 0=SACRED(0%), 1=MINIMAL(10-30%), 2=MODERATE(30-60%), 3=AGGRESSIVE(60-90%)
+- ✅ Adaptive: Section-level intelligence (type+density+criticality→dynamic tier)
+- ⚠️ Critical: v4.0 got 91%(12KB) BUT violated Rule 6 (prompts not verbatim, 50% retention)
+- 🎯 Next: v4.1 needs stronger Tier 0 enforcement for Rule 6 + 95% retention @~22KB
+
+**The Impossible Triangle**: Can't optimize all: (1) max compression + (2) Rule 6 compliance + (3) 95% retention. Skill needs #2&#3, accept ~22KB vs 12KB over-compression.
 - V5 methodology (TECHNIQUES_V5.md, 250 lines)
 - Implementation resources (integration guide, skill, 8 templates)
 - Supporting docs (research, active plans, analysis)
@@ -148,18 +151,11 @@ All compression techniques optimize three parameters subject to comprehension co
 - **Purpose-driven**: Match compression strategy to use case
 - **Empirical iteration**: Optimal balance discovered through testing, not theory alone
 
-
-### Decision #13 - 2025-11-14: V7 as New Standard - Natural Compression Limit Discovered
-**Context**: V6 (92% reduction) failed completeness test. User requirement: "Keep V3 completeness but abbreviate for LLM only"
-**Decision**: V7 established as new standard. Maintains V3 full completeness (all test patterns, reproducible prompts, API configs) while achieving V5 efficiency (21KB, ~5,200 tokens) through aggressive LLM-only formatting. Discovery: ~21KB appears to be natural compression limit for complete self-contained technical reference.
-**Impact**: V7 = optimal balance - complete AND efficient at compression limit. Below 21KB sacrifices completeness (V6). Above 21KB adds verbosity (V3 at 25KB). V7 supersedes V5 as default for complex technical references requiring full reproducibility. V5 remains alternate for quick-scan use cases. Framework principle validated: purpose-driven compression with empirical iteration discovers optimal points AND natural limits.
-
-### Decision #12 - 2025-11-14: V5 as Default LLM-Optimized Method (Superseded by Decision #13)
 ---
 
 ## Decision Log
 
-### Decision #12 - 2025-11-14: V5 as Default LLM-Optimized Method (Superseded by Decision #13)
+### Decision #12 - 2025-11-14: V5 as Default LLM-Optimized Method
 **Context**: V4 empirical testing revealed limitations for complex multi-technique documents  
 **Decision**: V5 (65-70% reduction) is default for complex technical references. V4 (60-75%) for simple lookups only. V5 adds mini implementation patterns (~10-15 lines per technique), API config snippets, and decision tree while maintaining high compression. Self-contained for 90% of use cases.  
 **Impact**: Framework now has complete compression spectrum (V4 aggressive → V5 balanced → Decision-Support conservative). Optimal balance discovered empirically through V1→V2→V3→V4→V5 iteration. Validates framework principle: purpose-driven compression with empirical validation essential.
@@ -222,8 +218,7 @@ All compression techniques optimize three parameters subject to comprehension co
 **Manual Techniques**:
 - Decision-Support: 70-85% (human-readable)
 - LLM-Optimized V4: 60-75% (aggressive, simple reference)
-- LLM-Optimized V7: 84% (complete at natural limit ~21KB, all test patterns) ⭐ **DEFAULT**
-- LLM-Optimized V5: 84.5% (balanced, alternate for quick-scan)
+- LLM-Optimized V5: 65-70% (balanced, complex technical) ⭐ **DEFAULT**
 
 **Development**: macOS, Claude Desktop, desktop-commander MCP
 
