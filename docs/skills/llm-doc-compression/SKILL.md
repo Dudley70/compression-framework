@@ -1,91 +1,146 @@
 ---
 name: llm-doc-compression
-description: Interactive V7 compression coach - guides you through compressing technical docs step-by-step with checkpoints, feedback, and running size totals. Achieves 85% reduction (134KB→22KB) with 95% information retention through structured process.
+description: Autonomous V7 compression - compresses technical docs step-by-step with checkpoints and self-correction. Achieves 85% reduction (134KB→22KB) with 95% information retention.
 ---
 
-# LLM Documentation Compression Coach
+# LLM Documentation Compression (Autonomous)
 
-**Version**: 2.0.0 | **Mode**: Interactive Step-by-Step Guidance
+**Version**: 3.0.0 | **Mode**: Autonomous Compression with Checkpoints
 
 ## How This Works
 
-I'm your compression coach. I'll guide you through V7 compression in stages:
-1. I analyze your document structure
-2. We compress section-by-section
-3. I check each section's size and quality
-4. I give you specific feedback ("compress more" or "good")
-5. We track running total toward 22KB target
+I'll compress your document automatically, section by section:
+1. Analyze document structure
+2. Compress each section following V7 rules
+3. Check size after each section
+4. Self-correct if over budget
+5. Show you the final result
 
-**You provide**: The document to compress
-**I provide**: Step-by-step instructions, checkpoints, feedback
-
----
-
-## Initial Analysis
-
-When you provide a document, I'll first analyze:
-- Document size (KB/lines)
-- Section structure
-- Sacred content (prompts/code to preserve 100%)
-- Target size (typically 19-22KB for 130KB+ docs)
-- Compression plan with size budget per section
-
-**Example analysis output**:
-```
-📊 Document Analysis:
-- Size: 134KB, 1,332 lines
-- Structure: Exec summary + 10 test sections + conclusion
-- Sacred content: 15 test prompts (~6KB) - PRESERVE VERBATIM
-- Target: 22KB (84% reduction)
-
-📋 Compression Plan:
-1. Exec summary: 1KB (from 3KB)
-2. Methodology: 1KB (from 5KB)
-3. Tests 1-5: 10KB total (from 60KB)
-4. Tests 6-10: 8KB total (from 55KB)
-5. Conclusion: 2KB (from 5KB)
-```
+You provide the document, I compress it, you review the result.
 
 ---
 
-## Step-by-Step Process
+## Compression Rules
 
-After analysis, I'll guide you through each section:
+### SACRED CONTENT (0% compression)
+**NEVER modify these**:
+- Test prompts: 100% verbatim, every word exact
+- Code blocks: 100% exact
+- Persona descriptions in prompts: Complete
+- API examples: Exact
+- Technical numbers, calculations: Exact
 
-### STEP 1: Executive Summary
-
-**Instructions**:
-- Reduce to 3 sentences maximum
-- Format: "Assessment of [model] for [purpose]. Findings: [key results]. Conclusion: [recommendation]."
-- Delete: All scaffolding, elaboration, background
-- Keep: Core finding, main conclusion
+### OUTPUT COMPRESSION (70% reduction)
+**Extract key results only**:
+- Keep: Final answer, key numbers, proof of success/failure
+- Delete: "Certainly", "Let me", narration, step-by-step elaboration
+- Decision question: "Minimum text to prove model succeeded?"
 
 **Example**:
-❌ Before (verbose, 3KB):
-"This report presents a systematic, evidence-based self-assessment of the Gemini 2.5 Pro large language model, with a specific focus on its capacity to execute advanced prompting techniques within a single-shot, non-conversational context..."
+❌ Before (200 chars):
+```
+Certainly. Let's break down the movement step by step.
+**Step 1**: Half of A to B means 40/2 = 20 units moved...
+This leaves A with 20 units and gives B 30 + 20 = 50 units.
+```
 
-✅ After (terse, 0.9KB):
-"Systematic assessment: Gemini 2.5 Pro advanced prompting in single-shot execution. Findings: Exceptional on native API features (structured output, grounding, Thinking), strong on emergent capabilities (CoT, Socratic). Conclusion: Highly capable for complex single-shot when leveraging architecture."
+✅ After (40 chars):
+```
+Perfect step-by-step. S1: 40/2=20 A→B (A=20, B=50). Final: A=50, B=0, C=40.
+```
 
-**Size check**: Should be ~1KB
+### ANALYSIS COMPRESSION (67% reduction)
+**Fragments, no subjects, keep reasoning**:
+- Delete subjects: "The model" → start with verb
+- Keep reasoning: "broke down problem→sequential steps" 
+- Delete filler: "As we can see", "It should be noted"
+- Use symbols: "to" → "→", "with" → "w/"
 
-**When you provide your compressed version, I'll**:
-- Check size (✓ if 0.8-1.2KB, ⚠ if over)
-- Check quality (3 sentences? Core info preserved?)
-- Give feedback: "Good! 0.9KB ✓" or "Still 2KB - compress to 3 sentences max"
+**Example**:
+❌ Before: "The model correctly executed multi-step reasoning. It broke down the problem..."
+✅ After: "Correctly executed multi-step reasoning. Broke down problem→sequential steps..."
+
+### HEADERS (Ultra-terse)
+- **Definition**: → **Def**:
+- **Documentation**: → **Doc**:
+- **Example**: → **Ex**:
+- 1,332 lines → 1,332L
+- 134 kilobytes → 134KB
+
+### META-SECTIONS (67% compression)
+- Executive summary: 3 sentences max
+- Introduction: 2-3 sentences
+- Methodology: Key points only
 
 ---
 
-### STEP 2: Each Test Section
+## Autonomous Compression Process
 
-For each test, I'll guide you through this format:
+When you provide a document, I will:
+
+### PHASE 1: Analysis
+```
+📊 Document: 134KB, 1,332L → Target: 22KB (84% reduction)
+
+Structure breakdown:
+- Exec summary: 3KB → 1KB
+- Methodology: 5KB → 1KB
+- 10 tests: 115KB → 18KB
+- Conclusion: 5KB → 2KB
+
+Sacred content: 15 prompts (~6KB) - preserve verbatim
+```
+
+### PHASE 2: Section-by-Section Compression
+
+I'll compress each section and show running total:
+
+```
+✅ Executive Summary: 0.9KB ✓
+   Target: 1KB | Running: 0.9KB / 22KB (4%)
+
+✅ Methodology: 1.1KB ✓
+   Target: 1KB | Running: 2.0KB / 22KB (9%)
+
+✅ Test 1 (CoT): 2.1KB ✓
+   Prompt: Verbatim ✓ | Output: Key results ✓ | Analysis: Complete ✓
+   Target: 2KB | Running: 4.1KB / 22KB (19%)
+```
+
+If any section goes over budget:
+```
+⚠️ Test 2: 3.5KB (target: 2KB) - OVER
+   Compressing output more aggressively...
+   ✅ Test 2 (revised): 2.0KB ✓
+   Running: 6.1KB / 22KB (28%)
+```
+
+### PHASE 3: Final Result
+
+After completing all sections:
+```
+📊 Compression Complete:
+- Final size: 21.8KB (target: 19-22KB) ✓
+- Reduction: 83.7% ✓
+- All prompts verbatim: ✓
+- All analysis has reasoning: ✓
+- Can reproduce tests: ✓
+
+[Download compressed document]
+```
+
+---
+
+## Standard Test Section Format
+
+For each test, I'll use this format:
 
 ```
 ### [N]. [Name]
 
 **Def**: [1 terse sentence]
 **Doc**: [✓/✗/⚠ + brief]
-**Test**: [Key requirement in 1 line]
+**Test**: [Key requirement]
 
 **Prompt**:
 ```
@@ -94,156 +149,81 @@ For each test, I'll guide you through this format:
 
 **Output**: [Key results only - no narration]
 **Analysis**: [Fragments, no subjects, keep reasoning]
-**Scores**: E=[N]/10 ([full reasoning]), R=[N]/10 ([full reasoning])
+**Scores**: E=[N]/10 ([reasoning]), R=[N]/10 ([reasoning])
 ```
 
-**For each test section, I'll specify**:
+---
 
-1. **Sacred content** (what to preserve 100%):
-   - The entire prompt in code block
-   - Any persona descriptions in prompt
-   - Technical numbers, calculations
+## Size Budgets (for 134KB document)
 
-2. **Output compression** (70% reduction):
-   - Extract: Final answer, key numbers, proof of success
-   - Delete: "Certainly", "Let me", "This means", step narration
-   - Keep: All technical accuracy, all numbers
-   
-   Decision question: "What's minimum text to prove model succeeded?"
+| Component | Original | Target | Compression |
+|-----------|----------|--------|-------------|
+| Prompts | 6KB | 6KB | 0% (SACRED) |
+| Outputs | 10KB | 3KB | 70% |
+| Analysis | 12KB | 4KB | 67% |
+| Meta-sections | 15KB | 5KB | 67% |
+| Structure | 15KB | 4KB | 73% |
 
-3. **Analysis compression** (67% reduction):
-   - Delete subjects: "The model" → start with verb
-   - Keep reasoning: Why the score? What's the insight?
-   - Format: Fragments with → and symbols
-   
-   Decision question: "What's core insight justifying the score?"
+---
 
-**Size check per test**: ~2KB each (prompts ~0.6KB + output ~0.4KB + analysis ~0.5KB + scores ~0.5KB)
+## Self-Correction Triggers
 
-**When you provide compressed test, I'll**:
-- ✓ Prompt is 100% verbatim
+I'll automatically compress more if:
+- Any section >50% over budget
+- Running total >10% ahead of pace
+- Output section >0.5KB per test
+- Analysis section >0.6KB per test
+
+---
+
+## Quality Checks
+
+After each section:
+- ✓ Prompts 100% verbatim
 - ✓ Output has key results
-- ✓ Analysis has complete reasoning in fragments
-- ✓ Size is ~2KB
-- Give specific feedback if any element is wrong
+- ✓ Analysis has complete reasoning
+- ✓ Size within budget
+
+Final verification:
+- ✓ Total: 19-22KB
+- ✓ Information retention: 95%+
+- ✓ All tests reproducible
+- ✓ All scores justified
 
 ---
 
-### Running Total Tracking
+## Usage
 
-After each section, I'll show:
-```
-✅ Executive Summary: 0.9KB (target: 1KB) ✓
-✅ Methodology: 1.1KB (target: 1KB) ✓
-✅ Test 1 (CoT): 2.1KB (target: 2KB) ✓
-   Running total: 4.1KB / 22KB target (19% complete)
-   
-⚠️ Test 2 (Structured Output): 3.5KB (target: 2KB) ⚠️ OVER
-   → Compress output section more (currently 1.2KB, should be ~0.4KB)
-   Running total: 7.6KB / 22KB (behind pace)
-```
+**Simple**: Attach document and say "compress this"
 
-This keeps you on track toward the 22KB goal.
+I'll:
+1. Analyze structure
+2. Compress section by section
+3. Show running total
+4. Self-correct if over budget
+5. Provide final compressed document
+
+**No manual work required** - I handle the entire compression process autonomously.
 
 ---
 
-## Feedback Types
+## Example Output
 
-**✓ Good**: Section meets size and quality targets
-- "Good! 2.1KB, prompt verbatim, analysis complete ✓"
+```
+📊 Starting compression of Gemini assessment (134KB → 22KB)...
 
-**⚠ Over**: Section too large, needs more compression
-- "⚠ 3.5KB (target: 2KB). Output section verbose - extract key results only"
-- I'll specify which part to compress more
+✅ Executive Summary: 0.9KB ✓ (1/15 sections, 4% complete)
+✅ Methodology: 1.0KB ✓ (2/15 sections, 9% complete)
+✅ Test 1 (CoT): 2.1KB ✓ (3/15 sections, 19% complete)
+✅ Test 2 (Structured Output): 1.9KB ✓ (4/15 sections, 27% complete)
+...
+✅ All sections complete: 21.8KB ✓
 
-**❌ Quality Issue**: Size good but content wrong
-- "❌ Prompt altered ('think stepwise' instead of 'think step by step') - must be 100% exact"
-- "❌ Analysis missing reasoning for E=10 score - why 10?"
-
-**🎯 On Target**: Running total on pace
-- "🎯 Running total: 12KB / 22KB (55% complete, on pace)"
-
-**📊 Final Check**: When complete
-- Total size (19-22KB? ✓)
-- All prompts verbatim? ✓
-- All analysis has reasoning? ✓
-- Can reproduce tests? ✓
+Compression successful! 83.7% reduction with 95%+ retention ✓
+```
 
 ---
 
-## Example Interaction
+## Start Compressing
 
-**User**: [Provides Gemini assessment, 134KB]
-
-**Me**: 
-```
-📊 Analysis: 134KB, 1,332L → Target: 22KB, 450L (84% reduction)
-
-Structure:
-- Exec summary: 3KB → 1KB
-- Methodology: 5KB → 1KB  
-- 10 test sections: 115KB → 18KB (~1.8KB each)
-- Conclusion: 5KB → 2KB
-
-Sacred content: 15 test prompts (~6KB total) - PRESERVE 100%
-
-Ready to start? I'll guide you section by section with checkpoints.
-
-STEP 1: Compress executive summary to 3 sentences max (~1KB)
-```
-
-**User**: [Provides compressed exec summary]
-
-**Me**:
-```
-✓ Good! 0.9KB, 3 sentences, core findings preserved.
-
-Running total: 0.9KB / 22KB (4%)
-
-STEP 2: Compress methodology section
-- Delete: Long explanations of why hybrid approach
-- Keep: Key point that it's doc analysis + empirical testing
-- Target: ~1KB (currently 5KB)
-```
-
-[Continue through document with feedback at each step]
-
----
-
-## Key Advantages Over Rule-Based Skill
-
-**Old approach** (rule-based):
-- Give all rules upfront
-- User tries to apply to entire 134KB doc
-- No feedback until complete
-- Result: 58KB, 61KB (inconsistent, over-target)
-
-**New approach** (coaching):
-- Break into small chunks (1-2KB at a time)
-- Immediate feedback on each chunk
-- Course-correct before moving to next section
-- Running total keeps user on track
-- Result: Consistent 22KB ✓
-
----
-
-## What I Need From You
-
-**To start**: Attach your document and say "compress this"
-
-**During process**: 
-- Provide compressed version of each section as I request
-- If you get stuck, ask "show me an example for this section"
-- If feedback unclear, ask "what specifically should I change?"
-
-**My commitment**:
-- Clear, specific guidance for each section
-- Size checks with explicit targets
-- Feedback on what's right and what needs adjustment
-- Support until we hit 22KB with 95% retention
-
----
-
-## Start Now
-
-Ready to compress? Attach your document and I'll begin with the analysis and step 1.
+Ready? Attach your document and I'll begin the autonomous compression process.
