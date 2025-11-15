@@ -1,22 +1,81 @@
 ---
 name: llm-doc-compression
-description: Autonomous V7 compression - compresses technical docs step-by-step with checkpoints and self-correction. Achieves 85% reduction (134KB→22KB) with 95% information retention.
+description: Autonomous V7 compression with safety checks - compresses technical docs while preserving sacred content and detecting pre-compressed documents. Achieves 85% reduction (134KB→22KB) with 95% information retention.
 ---
 
 # LLM Documentation Compression (Autonomous)
 
-**Version**: 3.0.0 | **Mode**: Autonomous Compression with Checkpoints
+**Version**: 3.1.0 | **Mode**: Autonomous Compression with Safety Checks
 
 ## How This Works
 
-I'll compress your document automatically, section by section:
-1. Analyze document structure
-2. Compress each section following V7 rules
-3. Check size after each section
-4. Self-correct if over budget
-5. Show you the final result
+I'll compress your document automatically with built-in safety:
+1. **Safety check**: Verify document needs compression
+2. **Analyze**: Document structure and sacred content
+3. **Compress**: Section by section with checkpoints
+4. **Verify**: Quality and completeness
+5. **Deliver**: Final compressed document
 
-You provide the document, I compress it, you review the result.
+---
+
+## CRITICAL SAFETY CHECKS
+
+### Before Starting Compression
+
+I will check for:
+
+**1. Already Compressed Documents**
+- Ultra-terse headers (Def:, Doc:, Ex:)
+- Heavy symbol use (✓✗⚠→)
+- Fragment-style prose (no subjects)
+- Size already in target range (19-25KB)
+
+**If detected**: 
+```
+⚠️ SAFETY CHECK FAILED
+This document appears already compressed (V7 format detected).
+- Size: 22KB (already in target range)
+- Format: Uses V7 conventions (Def:, →, fragments)
+- Recommendation: Document does not need compression
+
+Proceed anyway? (This may damage the document)
+```
+
+**2. Documents That Shouldn't Be Compressed**
+- Pure code files (no prose to compress)
+- Already minimal documentation
+- Files <10KB (compression overhead not worth it)
+- Binary/non-text content
+
+**If detected**:
+```
+⚠️ SAFETY CHECK FAILED
+This document may not be suitable for V7 compression:
+- Type: Pure code file / minimal doc
+- Size: 8KB (below minimum threshold)
+- Recommendation: Document too small to benefit
+
+Proceed anyway?
+```
+
+**3. Sacred Content Detection**
+I will identify and mark:
+- Test prompts (exact preservation required)
+- Code blocks (exact preservation required)
+- Persona descriptions (complete preservation required)
+- API examples (exact preservation required)
+- Mathematical formulas (exact preservation required)
+- Citations/references (exact preservation required)
+
+**Safety guarantee**:
+```
+✓ Sacred Content Detected: 15 items (~7KB)
+  - 12 test prompts
+  - 8 code blocks
+  - 3 persona descriptions
+  
+These will be preserved 100% verbatim.
+```
 
 ---
 
@@ -26,9 +85,16 @@ You provide the document, I compress it, you review the result.
 **NEVER modify these**:
 - Test prompts: 100% verbatim, every word exact
 - Code blocks: 100% exact
-- Persona descriptions in prompts: Complete
+- Persona descriptions: Complete
 - API examples: Exact
-- Technical numbers, calculations: Exact
+- Mathematical formulas: Exact
+- Citations: Exact
+- Schema definitions: Exact
+
+**Verification after compression**:
+- All prompts byte-for-byte identical ✓
+- All code blocks unchanged ✓
+- All formulas preserved ✓
 
 ### OUTPUT COMPRESSION (70% reduction)
 **Extract key results only**:
@@ -76,9 +142,35 @@ Perfect step-by-step. S1: 40/2=20 A→B (A=20, B=50). Final: A=50, B=0, C=40.
 
 ## Autonomous Compression Process
 
-When you provide a document, I will:
+### PHASE 1: Safety Checks
+```
+🔍 Safety Analysis:
 
-### PHASE 1: Analysis
+✓ Document size: 134KB (compression recommended)
+✓ Format: Uncompressed (verbose prose detected)
+✓ Content type: Technical assessment (suitable)
+✓ Sacred content: 15 items identified for preservation
+
+Proceeding with compression...
+```
+
+OR if issues detected:
+```
+⚠️ SAFETY ISSUE DETECTED:
+- Document appears pre-compressed (V7 format)
+- Size: 22KB (already optimal)
+- Symbols: Heavy use of ✓✗⚠→
+
+Recommendation: Skip compression (may damage document)
+
+Options:
+1. Cancel (recommended)
+2. Proceed anyway (may degrade quality)
+
+Please confirm your choice.
+```
+
+### PHASE 2: Structure Analysis
 ```
 📊 Document: 134KB, 1,332L → Target: 22KB (84% reduction)
 
@@ -88,10 +180,12 @@ Structure breakdown:
 - 10 tests: 115KB → 18KB
 - Conclusion: 5KB → 2KB
 
-Sacred content: 15 prompts (~6KB) - preserve verbatim
+Sacred content (PRESERVE 100%):
+- 12 test prompts (~6KB)
+- 8 code blocks (~1KB)
 ```
 
-### PHASE 2: Section-by-Section Compression
+### PHASE 3: Section-by-Section Compression
 
 I'll compress each section and show running total:
 
@@ -115,16 +209,25 @@ If any section goes over budget:
    Running: 6.1KB / 22KB (28%)
 ```
 
-### PHASE 3: Final Result
+### PHASE 4: Quality Verification
 
 After completing all sections:
 ```
-📊 Compression Complete:
-- Final size: 21.8KB (target: 19-22KB) ✓
-- Reduction: 83.7% ✓
-- All prompts verbatim: ✓
-- All analysis has reasoning: ✓
-- Can reproduce tests: ✓
+📊 Compression Complete - Quality Verification:
+
+Size Check:
+✓ Final size: 21.8KB (target: 19-22KB)
+✓ Reduction: 83.7%
+
+Sacred Content Verification:
+✓ All 12 prompts preserved verbatim (byte-for-byte match)
+✓ All 8 code blocks unchanged
+✓ All formulas exact
+
+Information Retention:
+✓ All test reproducible from compressed version
+✓ All scores have complete reasoning
+✓ All analysis preserves core insights
 
 [Download compressed document]
 ```
@@ -176,19 +279,33 @@ I'll automatically compress more if:
 
 ---
 
-## Quality Checks
+## Error Handling
 
-After each section:
-- ✓ Prompts 100% verbatim
-- ✓ Output has key results
-- ✓ Analysis has complete reasoning
-- ✓ Size within budget
+**If compression would damage document**:
+```
+❌ COMPRESSION ABORTED
 
-Final verification:
-- ✓ Total: 19-22KB
-- ✓ Information retention: 95%+
-- ✓ All tests reproducible
-- ✓ All scores justified
+Reason: Sacred content exceeds 30% of document
+- Document: 40KB
+- Sacred content: 15KB (37%)
+- Compressible content: 25KB
+
+Compression would yield minimal benefit (only 10KB reduction possible)
+while risking sacred content integrity.
+
+Recommendation: Document not suitable for V7 compression.
+```
+
+**If sacred content gets modified**:
+```
+❌ QUALITY CHECK FAILED
+
+Verification detected sacred content modification:
+- Test prompt #3: Changed "step by step" to "stepwise"
+- Code block #5: Indentation altered
+
+Reverting to original. Retrying with stronger preservation rules...
+```
 
 ---
 
@@ -197,33 +314,66 @@ Final verification:
 **Simple**: Attach document and say "compress this"
 
 I'll:
-1. Analyze structure
-2. Compress section by section
-3. Show running total
-4. Self-correct if over budget
-5. Provide final compressed document
+1. ✓ Run safety checks
+2. ✓ Identify sacred content
+3. ✓ Compress section by section
+4. ✓ Verify all sacred content preserved
+5. ✓ Deliver final compressed document
 
-**No manual work required** - I handle the entire compression process autonomously.
+**If safety issues detected**: I'll warn you and ask permission before proceeding.
 
 ---
 
-## Example Output
+## Example Output (Success)
 
 ```
-📊 Starting compression of Gemini assessment (134KB → 22KB)...
+🔍 Safety Check: ✓ Document suitable for compression
+
+📊 Starting compression: 134KB → 22KB target
+   Sacred content: 12 prompts, 8 code blocks (preserve 100%)
 
 ✅ Executive Summary: 0.9KB ✓ (1/15 sections, 4% complete)
 ✅ Methodology: 1.0KB ✓ (2/15 sections, 9% complete)
 ✅ Test 1 (CoT): 2.1KB ✓ (3/15 sections, 19% complete)
-✅ Test 2 (Structured Output): 1.9KB ✓ (4/15 sections, 27% complete)
+   - Prompt preserved: ✓ Byte-for-byte match
 ...
-✅ All sections complete: 21.8KB ✓
 
-Compression successful! 83.7% reduction with 95%+ retention ✓
+📊 Quality Verification:
+✓ Size: 21.8KB (83.7% reduction)
+✓ All sacred content verified identical
+✓ Information retention: 95%+
+
+Compression successful!
+```
+
+## Example Output (Safety Warning)
+
+```
+🔍 Safety Check: ⚠️ Issues detected
+
+Document appears pre-compressed:
+- Size: 22KB (already in target range)
+- Format: V7 conventions detected (Def:, →, symbols)
+- Headers: Already ultra-terse
+
+⚠️ RECOMMENDATION: Skip compression
+
+This document is already optimally compressed. Further compression
+may reduce readability without meaningful size benefit.
+
+Options:
+1. Cancel (recommended)
+2. Proceed anyway (not recommended)
+
+Please confirm your choice.
 ```
 
 ---
 
 ## Start Compressing
 
-Ready? Attach your document and I'll begin the autonomous compression process.
+Ready? Attach your document and I'll:
+1. Run safety checks
+2. Identify sacred content
+3. Compress autonomously if safe
+4. Deliver final result with verification
