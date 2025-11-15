@@ -256,3 +256,69 @@ Score justifications complete
 - **Format**: Ultra-dense but fully reproducible
 
 Remember: V7 is FORMAT compression, not CONTENT summarization.
+
+## CRITICAL: The 58KB Problem
+
+**Common Failure Pattern**: Preserving prompts correctly (Rule 6 ✓) but under-compressing everything else.
+
+**Symptom**: 58KB output when target is 22KB (2.6x too large)
+
+**Root Cause**: Applying aggressive compression ONLY to prompts (which should be untouched) and light compression to everything else (which should be heavily compressed).
+
+**The Fix - Size Budget Breakdown**:
+
+For a 134KB → 22KB compression:
+
+| Component | Original | Target | Compression |
+|-----------|----------|--------|-------------|
+| **Prompts** | ~6KB | ~6KB | **0%** (SACRED) |
+| **Outputs** | ~10KB | ~3KB | **70%** |
+| **Analysis** | ~12KB | ~4KB | **67%** |
+| **Meta-sections** | ~15KB | ~5KB | **67%** |
+| **Structure/Headers** | ~15KB | ~4KB | **73%** |
+
+**Key Insight**: Prompts are only ~5% of document. The other 95% needs aggressive compression.
+
+### What "Aggressive Compression" Means
+
+**Outputs** (10KB → 3KB):
+```
+❌ WRONG (preserves too much):
+"Certainly. Let's break down the movement step by step.
+**Step 1**: Half of A to B means 40/2 = 20 units moved from A to B.
+This leaves A with 20 units and gives B 30 + 20 = 50 units.
+**Step 2**: One-third of B to C means 50/3 ≈ 16.67 units..."
+
+✅ CORRECT (key results only):
+"Perfect step-by-step breakdown. Step 1: 40/2=20 moved A→B. Step 2: 50/3≈17 moved B→C. Final: A=25, B=33, C=37."
+```
+
+**Analysis** (12KB → 4KB):
+```
+❌ WRONG (full sentences):
+"The model correctly executed multi-step reasoning. It broke down the problem into sequential steps, showed intermediate calculations, and arrived at the correct final state. This demonstrates that the Chain-of-Thought approach is highly effective for this model when dealing with logical problems."
+
+✅ CORRECT (fragments, no subjects):
+"Correctly executed multi-step reasoning. Broke down problem→sequential steps, showed intermediate calc, arrived at correct final state. Demonstrates CoT is highly effective for this model on logical problems."
+```
+
+**Meta-sections** (15KB → 5KB):
+```
+❌ WRONG (verbose):
+"This report presents a systematic, evidence-based self-assessment of the Gemini 2.5 Pro large language model, with a specific focus on its capacity to execute advanced prompting techniques within a single-shot, non-conversational context."
+
+✅ CORRECT (terse):
+"Systematic self-assessment of Gemini 2.5 Pro's advanced prompting capabilities in single-shot execution."
+```
+
+### Size Checkpoints
+
+After compressing each section, verify:
+- [ ] Prompts: ~6KB (unchanged from original)
+- [ ] Outputs: ~3KB (70% reduction applied)
+- [ ] Analysis: ~4KB (67% reduction applied)
+- [ ] Meta: ~5KB (67% reduction applied)
+- [ ] Structure: ~4KB (73% reduction applied)
+- [ ] **Total: 19-22KB**
+
+If any component is >50% over budget → not compressed aggressively enough.
