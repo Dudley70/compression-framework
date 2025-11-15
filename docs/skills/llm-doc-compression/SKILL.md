@@ -1,324 +1,249 @@
 ---
 name: llm-doc-compression
-description: Compress technical docs to max density (85% reduction) while maintaining 95% information retention. Preserves ALL prompts, code, schemas, outputs verbatim - only compresses format. Use for LLM-optimized docs with complete reproducibility.
+description: Interactive V7 compression coach - guides you through compressing technical docs step-by-step with checkpoints, feedback, and running size totals. Achieves 85% reduction (134KB→22KB) with 95% information retention through structured process.
 ---
 
-# LLM Documentation Compression
+# LLM Documentation Compression Coach
 
-**Version**: 1.0.1 | **Target**: 95%+ information retention at 85% size reduction
+**Version**: 2.0.0 | **Mode**: Interactive Step-by-Step Guidance
 
-## CRITICAL RULES (Read First)
+## How This Works
 
-### Rule #1: NEVER COMPRESS CONTENT
-**If it's needed for reproduction → keep 100% verbatim**
+I'm your compression coach. I'll guide you through V7 compression in stages:
+1. I analyze your document structure
+2. We compress section-by-section
+3. I check each section's size and quality
+4. I give you specific feedback ("compress more" or "good")
+5. We track running total toward 22KB target
 
-**SACRED CONTENT (NEVER TOUCH)**:
-- Test prompts (every word exact)
-- Code examples (every character exact)  
-- Command-line examples (exact)
-- API calls (exact)
-- Schema definitions (exact)
-- Model outputs (structure + content preserved)
-- Persona descriptions (complete)
-- Multi-paragraph analysis (keep complete, just remove filler)
+**You provide**: The document to compress
+**I provide**: Step-by-step instructions, checkpoints, feedback
 
-**Example - WRONG**:
+---
+
+## Initial Analysis
+
+When you provide a document, I'll first analyze:
+- Document size (KB/lines)
+- Section structure
+- Sacred content (prompts/code to preserve 100%)
+- Target size (typically 19-22KB for 130KB+ docs)
+- Compression plan with size budget per section
+
+**Example analysis output**:
 ```
-Original: "Let's think step by step to determine the final number"
-Compressed: "Think stepwise for final #" ❌ DESTROYED
+📊 Document Analysis:
+- Size: 134KB, 1,332 lines
+- Structure: Exec summary + 10 test sections + conclusion
+- Sacred content: 15 test prompts (~6KB) - PRESERVE VERBATIM
+- Target: 22KB (84% reduction)
+
+📋 Compression Plan:
+1. Exec summary: 1KB (from 3KB)
+2. Methodology: 1KB (from 5KB)
+3. Tests 1-5: 10KB total (from 60KB)
+4. Tests 6-10: 8KB total (from 55KB)
+5. Conclusion: 2KB (from 5KB)
 ```
 
-**Example - CORRECT**:
+---
+
+## Step-by-Step Process
+
+After analysis, I'll guide you through each section:
+
+### STEP 1: Executive Summary
+
+**Instructions**:
+- Reduce to 3 sentences maximum
+- Format: "Assessment of [model] for [purpose]. Findings: [key results]. Conclusion: [recommendation]."
+- Delete: All scaffolding, elaboration, background
+- Keep: Core finding, main conclusion
+
+**Example**:
+❌ Before (verbose, 3KB):
+"This report presents a systematic, evidence-based self-assessment of the Gemini 2.5 Pro large language model, with a specific focus on its capacity to execute advanced prompting techniques within a single-shot, non-conversational context..."
+
+✅ After (terse, 0.9KB):
+"Systematic assessment: Gemini 2.5 Pro advanced prompting in single-shot execution. Findings: Exceptional on native API features (structured output, grounding, Thinking), strong on emergent capabilities (CoT, Socratic). Conclusion: Highly capable for complex single-shot when leveraging architecture."
+
+**Size check**: Should be ~1KB
+
+**When you provide your compressed version, I'll**:
+- Check size (✓ if 0.8-1.2KB, ⚠ if over)
+- Check quality (3 sentences? Core info preserved?)
+- Give feedback: "Good! 0.9KB ✓" or "Still 2KB - compress to 3 sentences max"
+
+---
+
+### STEP 2: Each Test Section
+
+For each test, I'll guide you through this format:
+
 ```
-Original: "Let's think step by step to determine the final number"  
-Compressed: "Let's think step by step to determine the final number" ✓ EXACT
-```
+### [N]. [Name]
 
-### Rule #2: ONLY COMPRESS FORMAT
-**Compress headers, symbols, abbreviations - NOT meaning**
-
-**OK TO COMPRESS**:
-- Headers: "**Source**: 1,332 lines" → "**Src**: 1,332L"
-- Prose subjects: "The model's performance" → "Performance"
-- Symbols: "passed" → "✓", "failed" → "✗"
-- Abbreviations: "with" → "w/", "Chain-of-Thought" → "CoT"
-
-**NEVER COMPRESS**:
-- Substantive content in analysis paragraphs
-- Technical explanations
-- Test descriptions
-- Reasoning/justifications
-
-## V7 Compression Pattern
-
-V7 = **Format compression** with **content preservation**
-
-**Standard test section template**:
-```
-### [N]. [Technique Name]
-
-**Def**: [Terse 1-sentence definition - compress this]
-**Doc**: [✓ Strong / ✗ None / ⚠ Partial - compress this]  
-**Test**: [Keep complete test description]
+**Def**: [1 terse sentence]
+**Doc**: [✓/✗/⚠ + brief]
+**Test**: [Key requirement in 1 line]
 
 **Prompt**:
 ```
-[KEEP 100% VERBATIM - EVERY SINGLE WORD]
-[Include all persona descriptions, test requirements, structure]
-[Do NOT shorten, abbreviate, or "improve" prompts]
+[100% VERBATIM - EVERY WORD EXACT]
 ```
 
-**Output**: [Keep structure + key findings. Can compress prose but preserve substance]
-
-**Analysis**: [Keep complete. Remove filler ("As we can see") but preserve reasoning]
-
-**Scores**: E=[N]/10 ([keep full reasoning]), R=[N]/10 ([keep full reasoning])
+**Output**: [Key results only - no narration]
+**Analysis**: [Fragments, no subjects, keep reasoning]
+**Scores**: E=[N]/10 ([full reasoning]), R=[N]/10 ([full reasoning])
 ```
 
-## Complete Examples
+**For each test section, I'll specify**:
 
-### Example 1: CORRECT V7 Compression
+1. **Sacred content** (what to preserve 100%):
+   - The entire prompt in code block
+   - Any persona descriptions in prompt
+   - Technical numbers, calculations
 
-**BEFORE** (Original):
-```markdown
-### Chain-of-Thought (CoT) Prompting
+2. **Output compression** (70% reduction):
+   - Extract: Final answer, key numbers, proof of success
+   - Delete: "Certainly", "Let me", "This means", step narration
+   - Keep: All technical accuracy, all numbers
+   
+   Decision question: "What's minimum text to prove model succeeded?"
 
-#### Definition
-Chain-of-Thought (CoT) prompting is a technique designed to improve the reasoning abilities of large language models by encouraging them to break down complex problems into a sequence of intermediate, logical steps.
+3. **Analysis compression** (67% reduction):
+   - Delete subjects: "The model" → start with verb
+   - Keep reasoning: Why the score? What's the insight?
+   - Format: Fragments with → and symbols
+   
+   Decision question: "What's core insight justifying the score?"
 
-#### Documentation Support
-Official Google AI documentation provides strong support for CoT prompting. One guide explicitly names "Chain of Thought (CoT) Prompts" as a technique.
+**Size check per test**: ~2KB each (prompts ~0.6KB + output ~0.4KB + analysis ~0.5KB + scores ~0.5KB)
 
-#### Practical Test Design
-**Test Prompt**:
-"A logistics manager has to move items between three warehouses: A, B, and C.
-- Starting state: Warehouse A has 40 units, B has 30, and C has 20.
-- Move operations: First, move half of A to B. Second, move one-third of B to C. Third, move one-quarter of C back to A.
-Let's think step by step to determine the final number of units in each warehouse."
+**When you provide compressed test, I'll**:
+- ✓ Prompt is 100% verbatim
+- ✓ Output has key results
+- ✓ Analysis has complete reasoning in fragments
+- ✓ Size is ~2KB
+- Give specific feedback if any element is wrong
 
-**Model Output**:
-"Certainly. Let's break down the movement step by step.
-**Step 1**: Half of A to B means 40/2 = 20 units moved from A to B..."
+---
 
-**Analysis**:
-The model correctly executed multi-step reasoning. It broke down the problem into sequential steps, showed intermediate calculations, and arrived at the correct final state. This demonstrates that the CoT approach is highly effective for this model.
+### Running Total Tracking
 
-**Scores**:
-- **Effectiveness**: 10/10 (Perfect step-by-step breakdown with correct math)
-- **Reliability**: 9/10 (Consistently performs well on logical problems)
+After each section, I'll show:
+```
+✅ Executive Summary: 0.9KB (target: 1KB) ✓
+✅ Methodology: 1.1KB (target: 1KB) ✓
+✅ Test 1 (CoT): 2.1KB (target: 2KB) ✓
+   Running total: 4.1KB / 22KB target (19% complete)
+   
+⚠️ Test 2 (Structured Output): 3.5KB (target: 2KB) ⚠️ OVER
+   → Compress output section more (currently 1.2KB, should be ~0.4KB)
+   Running total: 7.6KB / 22KB (behind pace)
 ```
 
-**AFTER** (V7):
-```markdown
-### 1. Chain-of-Thought (CoT)
+This keeps you on track toward the 22KB goal.
 
-**Def**: Improve reasoning by encouraging step-by-step breakdown of complex problems.
-**Doc**: ✓ Strong - Explicitly named in guides
-**Test**: Logistics problem w/ 3 warehouses, multi-step moves
+---
 
-**Prompt**:
+## Feedback Types
+
+**✓ Good**: Section meets size and quality targets
+- "Good! 2.1KB, prompt verbatim, analysis complete ✓"
+
+**⚠ Over**: Section too large, needs more compression
+- "⚠ 3.5KB (target: 2KB). Output section verbose - extract key results only"
+- I'll specify which part to compress more
+
+**❌ Quality Issue**: Size good but content wrong
+- "❌ Prompt altered ('think stepwise' instead of 'think step by step') - must be 100% exact"
+- "❌ Analysis missing reasoning for E=10 score - why 10?"
+
+**🎯 On Target**: Running total on pace
+- "🎯 Running total: 12KB / 22KB (55% complete, on pace)"
+
+**📊 Final Check**: When complete
+- Total size (19-22KB? ✓)
+- All prompts verbatim? ✓
+- All analysis has reasoning? ✓
+- Can reproduce tests? ✓
+
+---
+
+## Example Interaction
+
+**User**: [Provides Gemini assessment, 134KB]
+
+**Me**: 
 ```
-A logistics manager has to move items between three warehouses: A, B, and C.
-- Starting state: Warehouse A has 40 units, B has 30, and C has 20.
-- Move operations: First, move half of A to B. Second, move one-third of B to C. Third, move one-quarter of C back to A.
-Let's think step by step to determine the final number of units in each warehouse.
-```
+📊 Analysis: 134KB, 1,332L → Target: 22KB, 450L (84% reduction)
 
-**Output**: Perfect step-by-step breakdown. Step 1: 40/2=20 moved A→B. Correct intermediate calc + final state.
+Structure:
+- Exec summary: 3KB → 1KB
+- Methodology: 5KB → 1KB  
+- 10 test sections: 115KB → 18KB (~1.8KB each)
+- Conclusion: 5KB → 2KB
 
-**Analysis**: Correctly executed multi-step reasoning. Broke down problem→sequential steps, showed intermediate calc, arrived at correct final state. Demonstrates CoT is highly effective for this model.
+Sacred content: 15 test prompts (~6KB total) - PRESERVE 100%
 
-**Scores**: E=10/10 (Perfect step-by-step w/ correct math), R=9/10 (Consistently performs well on logical problems)
-```
+Ready to start? I'll guide you section by section with checkpoints.
 
-✅ **What Changed**:
-- Headers compressed (Def, Doc, Test not full words)
-- Symbols added (✓, →, w/)
-- Test description shortened BUT prompt 100% verbatim
-- Output condensed BUT key facts preserved
-- Analysis complete BUT subjects removed ("The model" → direct statements)
-- Score reasoning kept complete
-
-✅ **What Stayed Identical**:
-- Every word in the prompt
-- All substantive analysis points
-- Score justifications (complete reasoning)
-- Technical accuracy
-
-### Example 2: WRONG - Over-Compression
-
-**WRONG APPROACH**:
-```markdown
-### 1. CoT
-
-**Test**: Logistics
-**Prompt**: "Warehouse problem, think step by step"
-**Output**: Model did well
-**Scores**: E=10, R=9
-```
-
-❌ **Why This Fails**:
-- Prompt destroyed (not reproducible)
-- Output summarized (lost technical detail)
-- Analysis missing (can't understand why scores given)
-- Document now ~40% information retention (FAILED)
-
-## Compression Techniques
-
-### 1. Ultra-Terse Headers
-`**Definition**: ` → `**Def**: `
-`**Documentation**: ` → `**Doc**: `
-`**Example**: ` → `**Ex**: `
-`1,332 lines` → `1,332L`
-`134 kilobytes` → `134KB`
-
-### 2. Extreme Abbreviations (Prose Only)
-`Effectiveness` → `E`
-`Reliability` → `R`
-`Chain-of-Thought` → `CoT`
-`with` → `w/`
-`without` → `w/o`
-`documentation` → `doc`
-
-**DO NOT use in prompts/code**
-
-### 3. Symbols (Analysis Only)
-`passed` → `✓`
-`failed` → `✗`
-`warning` → `⚠`
-`to` → `→`
-`increases` → `↑`
-`decreases` → `↓`
-
-### 4. Prose→Fragments (Remove Subjects)
-`The model's performance was excellent` → `Performance was excellent` or `Excellent perf`
-`This approach demonstrates` → `Demonstrates`
-`As we can see,` → [delete]
-`It should be noted that` → [delete]
-
-**Keep substantive content**
-
-### 5. Table Compression
-Headers only: `Effectiveness` → `E`
-Keep all data in cells
-
-### 6. Complete Prompts (SACRED)
-100% verbatim
-Every word exact
-No "improvements"
-No summaries
-
-### 7. Complete Analysis (FORMAT ONLY)
-Keep all reasoning
-Remove subjects/filler
-Preserve technical substance
-Score justifications complete
-
-## Quality Verification
-
-**Information Retention**: 95%+
-- [ ] Every test prompt 100% verbatim
-- [ ] Every code example 100% exact
-- [ ] Model outputs preserve structure + key content
-- [ ] Analysis paragraphs complete (format compressed only)
-- [ ] Score justifications have full reasoning
-- [ ] Can reproduce any test from compressed version
-
-**Compression Metrics**: 85%
-- [ ] 19-22KB size  
-- [ ] 400-450 lines
-- [ ] Headers abbreviated
-- [ ] Symbols used (✓✗⚠→)
-- [ ] Subjects removed from prose
-
-## Process
-
-1. **Identify sacred content** (mark all prompts/code)
-2. **Preserve sacred 100%** (copy verbatim)
-3. **Compress format** (headers, symbols, abbreviations)
-4. **Keep analysis complete** (remove filler, not substance)
-5. **Verify**: Can you reproduce every test? Is reasoning clear?
-
-## Red Flags (Stop & Fix)
-
-❌ **If you see these, you've over-compressed**:
-- Prompt phrases changed
-- Analysis reduced to bullet points
-- Score reasoning missing ("good" instead of "Perfect step-by-step w/ correct math")
-- Can't reproduce tests from output
-- Feels like <90% retention
-
-## Target Output
-
-- **Size**: 19-22KB (for 130KB original)
-- **Lines**: 400-450 (for 1,300L original)
-- **Retention**: 95%+ (prompts exact, analysis complete)
-- **Format**: Ultra-dense but fully reproducible
-
-Remember: V7 is FORMAT compression, not CONTENT summarization.
-
-## CRITICAL: The 58KB Problem
-
-**Common Failure Pattern**: Preserving prompts correctly (Rule 6 ✓) but under-compressing everything else.
-
-**Symptom**: 58KB output when target is 22KB (2.6x too large)
-
-**Root Cause**: Applying aggressive compression ONLY to prompts (which should be untouched) and light compression to everything else (which should be heavily compressed).
-
-**The Fix - Size Budget Breakdown**:
-
-For a 134KB → 22KB compression:
-
-| Component | Original | Target | Compression |
-|-----------|----------|--------|-------------|
-| **Prompts** | ~6KB | ~6KB | **0%** (SACRED) |
-| **Outputs** | ~10KB | ~3KB | **70%** |
-| **Analysis** | ~12KB | ~4KB | **67%** |
-| **Meta-sections** | ~15KB | ~5KB | **67%** |
-| **Structure/Headers** | ~15KB | ~4KB | **73%** |
-
-**Key Insight**: Prompts are only ~5% of document. The other 95% needs aggressive compression.
-
-### What "Aggressive Compression" Means
-
-**Outputs** (10KB → 3KB):
-```
-❌ WRONG (preserves too much):
-"Certainly. Let's break down the movement step by step.
-**Step 1**: Half of A to B means 40/2 = 20 units moved from A to B.
-This leaves A with 20 units and gives B 30 + 20 = 50 units.
-**Step 2**: One-third of B to C means 50/3 ≈ 16.67 units..."
-
-✅ CORRECT (key results only):
-"Perfect step-by-step breakdown. Step 1: 40/2=20 moved A→B. Step 2: 50/3≈17 moved B→C. Final: A=25, B=33, C=37."
+STEP 1: Compress executive summary to 3 sentences max (~1KB)
 ```
 
-**Analysis** (12KB → 4KB):
-```
-❌ WRONG (full sentences):
-"The model correctly executed multi-step reasoning. It broke down the problem into sequential steps, showed intermediate calculations, and arrived at the correct final state. This demonstrates that the Chain-of-Thought approach is highly effective for this model when dealing with logical problems."
+**User**: [Provides compressed exec summary]
 
-✅ CORRECT (fragments, no subjects):
-"Correctly executed multi-step reasoning. Broke down problem→sequential steps, showed intermediate calc, arrived at correct final state. Demonstrates CoT is highly effective for this model on logical problems."
+**Me**:
 ```
+✓ Good! 0.9KB, 3 sentences, core findings preserved.
 
-**Meta-sections** (15KB → 5KB):
-```
-❌ WRONG (verbose):
-"This report presents a systematic, evidence-based self-assessment of the Gemini 2.5 Pro large language model, with a specific focus on its capacity to execute advanced prompting techniques within a single-shot, non-conversational context."
+Running total: 0.9KB / 22KB (4%)
 
-✅ CORRECT (terse):
-"Systematic self-assessment of Gemini 2.5 Pro's advanced prompting capabilities in single-shot execution."
+STEP 2: Compress methodology section
+- Delete: Long explanations of why hybrid approach
+- Keep: Key point that it's doc analysis + empirical testing
+- Target: ~1KB (currently 5KB)
 ```
 
-### Size Checkpoints
+[Continue through document with feedback at each step]
 
-After compressing each section, verify:
-- [ ] Prompts: ~6KB (unchanged from original)
-- [ ] Outputs: ~3KB (70% reduction applied)
-- [ ] Analysis: ~4KB (67% reduction applied)
-- [ ] Meta: ~5KB (67% reduction applied)
-- [ ] Structure: ~4KB (73% reduction applied)
-- [ ] **Total: 19-22KB**
+---
 
-If any component is >50% over budget → not compressed aggressively enough.
+## Key Advantages Over Rule-Based Skill
+
+**Old approach** (rule-based):
+- Give all rules upfront
+- User tries to apply to entire 134KB doc
+- No feedback until complete
+- Result: 58KB, 61KB (inconsistent, over-target)
+
+**New approach** (coaching):
+- Break into small chunks (1-2KB at a time)
+- Immediate feedback on each chunk
+- Course-correct before moving to next section
+- Running total keeps user on track
+- Result: Consistent 22KB ✓
+
+---
+
+## What I Need From You
+
+**To start**: Attach your document and say "compress this"
+
+**During process**: 
+- Provide compressed version of each section as I request
+- If you get stuck, ask "show me an example for this section"
+- If feedback unclear, ask "what specifically should I change?"
+
+**My commitment**:
+- Clear, specific guidance for each section
+- Size checks with explicit targets
+- Feedback on what's right and what needs adjustment
+- Support until we hit 22KB with 95% retention
+
+---
+
+## Start Now
+
+Ready to compress? Attach your document and I'll begin with the analysis and step 1.
