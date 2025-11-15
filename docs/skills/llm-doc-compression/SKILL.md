@@ -1,379 +1,549 @@
 ---
 name: llm-doc-compression
-description: Autonomous V7 compression with safety checks - compresses technical docs while preserving sacred content and detecting pre-compressed documents. Achieves 85% reduction (134KB→22KB) with 95% information retention.
+description: Intelligent V7 compression with adaptive strategies - evaluates each section, categorizes content type, applies tiered compression rules. Achieves 85% reduction with 95% retention while protecting critical content.
 ---
 
-# LLM Documentation Compression (Autonomous)
+# LLM Documentation Compression (Intelligent)
 
-**Version**: 3.1.0 | **Mode**: Autonomous Compression with Safety Checks
+**Version**: 4.0.0 | **Mode**: Adaptive Compression with Section-Level Intelligence
 
 ## How This Works
 
-I'll compress your document automatically with built-in safety:
-1. **Safety check**: Verify document needs compression
-2. **Analyze**: Document structure and sacred content
-3. **Compress**: Section by section with checkpoints
-4. **Verify**: Quality and completeness
-5. **Deliver**: Final compressed document
+I evaluate each section individually and apply the right strategy:
+1. **Analyze section**: Categorize content type
+2. **Determine tier**: Apply appropriate compression level
+3. **Compress intelligently**: Adapt to content characteristics
+4. **Verify quality**: Ensure preservation requirements met
+5. **Self-correct**: Adjust if constraints violated
+
+Sections can be mixed-type - I handle each appropriately.
 
 ---
 
-## CRITICAL SAFETY CHECKS
+## CONTENT CATEGORIZATION SYSTEM
 
-### Before Starting Compression
+### Section-Level Evaluation
 
-I will check for:
+For each section, I evaluate:
 
-**1. Already Compressed Documents**
-- Ultra-terse headers (Def:, Doc:, Ex:)
-- Heavy symbol use (✓✗⚠→)
-- Fragment-style prose (no subjects)
-- Size already in target range (19-25KB)
-
-**If detected**: 
+**1. Content Type Distribution**
 ```
-⚠️ SAFETY CHECK FAILED
-This document appears already compressed (V7 format detected).
-- Size: 22KB (already in target range)
-- Format: Uses V7 conventions (Def:, →, fragments)
-- Recommendation: Document does not need compression
+Section Analysis:
+- Prose: 40% (compressible)
+- Code blocks: 30% (sacred)
+- Test prompts: 20% (sacred)
+- Data tables: 10% (minimal compression)
 
-Proceed anyway? (This may damage the document)
+Classification: MIXED (sacred-heavy)
+Tier: 2 (Moderate compression)
 ```
 
-**2. Documents That Shouldn't Be Compressed**
-- Pure code files (no prose to compress)
-- Already minimal documentation
-- Files <10KB (compression overhead not worth it)
-- Binary/non-text content
+**2. Information Density**
+- **Dense**: Technical specs, formulas, schemas → Minimal compression
+- **Medium**: Analysis, explanations → Moderate compression
+- **Sparse**: Scaffolding, transitions, meta-commentary → Aggressive compression
 
-**If detected**:
-```
-⚠️ SAFETY CHECK FAILED
-This document may not be suitable for V7 compression:
-- Type: Pure code file / minimal doc
-- Size: 8KB (below minimum threshold)
-- Recommendation: Document too small to benefit
-
-Proceed anyway?
-```
-
-**3. Sacred Content Detection**
-I will identify and mark:
-- Test prompts (exact preservation required)
-- Code blocks (exact preservation required)
-- Persona descriptions (complete preservation required)
-- API examples (exact preservation required)
-- Mathematical formulas (exact preservation required)
-- Citations/references (exact preservation required)
-
-**Safety guarantee**:
-```
-✓ Sacred Content Detected: 15 items (~7KB)
-  - 12 test prompts
-  - 8 code blocks
-  - 3 persona descriptions
-  
-These will be preserved 100% verbatim.
-```
+**3. Reproduction Criticality**
+- **Critical**: Must reproduce exactly (prompts, code, formulas) → 0% compression
+- **Important**: Key insights must remain (analysis) → 30-50% compression
+- **Supporting**: Context/scaffolding (transitions) → 70-90% compression
 
 ---
 
-## Compression Rules
+## TIERED COMPRESSION RULES
 
-### SACRED CONTENT (0% compression)
-**NEVER modify these**:
-- Test prompts: 100% verbatim, every word exact
-- Code blocks: 100% exact
-- Persona descriptions: Complete
-- API examples: Exact
-- Mathematical formulas: Exact
-- Citations: Exact
-- Schema definitions: Exact
+### Tier 0: SACRED (0% compression)
+**Applied to**:
+- Test prompts (every word matters)
+- Code blocks (syntax critical)
+- Mathematical formulas (precision required)
+- API schemas (structure exact)
+- Citations (verification required)
+- Persona descriptions in prompts (completeness required)
 
-**Verification after compression**:
-- All prompts byte-for-byte identical ✓
-- All code blocks unchanged ✓
-- All formulas preserved ✓
-
-### OUTPUT COMPRESSION (70% reduction)
-**Extract key results only**:
-- Keep: Final answer, key numbers, proof of success/failure
-- Delete: "Certainly", "Let me", narration, step-by-step elaboration
-- Decision question: "Minimum text to prove model succeeded?"
+**Rule**: Preserve byte-for-byte, no exceptions
 
 **Example**:
-❌ Before (200 chars):
 ```
-Certainly. Let's break down the movement step by step.
-**Step 1**: Half of A to B means 40/2 = 20 units moved...
-This leaves A with 20 units and gives B 30 + 20 = 50 units.
-```
-
-✅ After (40 chars):
-```
-Perfect step-by-step. S1: 40/2=20 A→B (A=20, B=50). Final: A=50, B=0, C=40.
+Input: "Let's think step by step to determine the final number"
+Output: "Let's think step by step to determine the final number"
+         [IDENTICAL - 0% compression]
 ```
 
-### ANALYSIS COMPRESSION (67% reduction)
-**Fragments, no subjects, keep reasoning**:
-- Delete subjects: "The model" → start with verb
-- Keep reasoning: "broke down problem→sequential steps" 
-- Delete filler: "As we can see", "It should be noted"
-- Use symbols: "to" → "→", "with" → "w/"
+### Tier 1: MINIMAL (10-30% compression)
+**Applied to**:
+- Technical specifications
+- Empirical data/results
+- Benchmark tables
+- Scoring justifications
+- Critical analysis with technical detail
+
+**Rule**: Compress format only, preserve all substance
+
+**Allowed**:
+- Header abbreviation: "Definition" → "Def"
+- Number formatting: "1,332 lines" → "1,332L"
+- Symbol substitution: "passed" → "✓"
+
+**Forbidden**:
+- Removing data points
+- Simplifying technical explanations
+- Omitting qualifications/caveats
 
 **Example**:
-❌ Before: "The model correctly executed multi-step reasoning. It broke down the problem..."
-✅ After: "Correctly executed multi-step reasoning. Broke down problem→sequential steps..."
+```
+Input: "The model's effectiveness score is 10/10. The output is perfect. 
+        It is accurate, well-structured, and fully adheres to all instructions."
+Output: "Effectiveness: 10/10. Output perfect: accurate, well-structured, 
+         fully adheres to all instructions."
+         [~20% compression - all substance preserved]
+```
 
-### HEADERS (Ultra-terse)
-- **Definition**: → **Def**:
-- **Documentation**: → **Doc**:
-- **Example**: → **Ex**:
-- 1,332 lines → 1,332L
-- 134 kilobytes → 134KB
+### Tier 2: MODERATE (30-60% compression)
+**Applied to**:
+- Analysis sections (mixed substance + scaffolding)
+- Methodology explanations
+- Test descriptions
+- Findings summaries
 
-### META-SECTIONS (67% compression)
-- Executive summary: 3 sentences max
-- Introduction: 2-3 sentences
-- Methodology: Key points only
+**Rule**: Remove scaffolding, keep insights in fragments
+
+**Allowed**:
+- Subject removal: "The model executed" → "Executed"
+- Filler deletion: "As we can see", "It should be noted"
+- Transition removal: "Furthermore", "Additionally"
+- Fragment conversion: Full sentences → noun phrases
+
+**Forbidden**:
+- Removing core insights
+- Omitting reasoning steps
+- Simplifying technical arguments
+
+**Example**:
+```
+Input: "The model's performance on this task is excellent. Each agent 
+        maintained its distinct persona, tone, and viewpoint throughout 
+        all three rounds. This demonstrates strong contextual awareness."
+Output: "Performance excellent. Each agent maintained distinct persona/tone/
+         viewpoint across rounds. Demonstrates strong contextual awareness."
+         [~40% compression - all insights preserved]
+```
+
+### Tier 3: AGGRESSIVE (60-90% compression)
+**Applied to**:
+- Executive summaries (overview only)
+- Introductions (context setting)
+- Meta-commentary (about the document itself)
+- Transitional prose
+- Scaffolding text
+
+**Rule**: Extract essence only, delete elaboration
+
+**Allowed**:
+- Severe condensing: Multi-paragraph → 1-3 sentences
+- Telegraphic style: "Assessment of X. Findings: Y. Conclusion: Z."
+- Maximum abbreviation and symbols
+
+**Forbidden**:
+- Losing key conclusions
+- Omitting critical context
+- Making content incomprehensible
+
+**Example**:
+```
+Input: "This report presents a systematic, evidence-based self-assessment 
+        of the Gemini 2.5 Pro large language model, with a specific focus 
+        on its capacity to execute advanced prompting techniques within a 
+        single-shot, non-conversational context. [continues 200 words...]"
+Output: "Systematic assessment: Gemini 2.5 Pro advanced prompting in 
+         single-shot execution. Exceptional on native API features, strong 
+         on emergent capabilities. Optimal for complex single-shot tasks."
+         [~85% compression - core message preserved]
+```
 
 ---
 
-## Autonomous Compression Process
+## INTELLIGENT SECTION ANALYSIS
 
-### PHASE 1: Safety Checks
+### Mixed-Content Handling
+
+When a section contains multiple content types:
+
+**Example Section**:
 ```
-🔍 Safety Analysis:
-
-✓ Document size: 134KB (compression recommended)
-✓ Format: Uncompressed (verbose prose detected)
-✓ Content type: Technical assessment (suitable)
-✓ Sacred content: 15 items identified for preservation
-
-Proceeding with compression...
-```
-
-OR if issues detected:
-```
-⚠️ SAFETY ISSUE DETECTED:
-- Document appears pre-compressed (V7 format)
-- Size: 22KB (already optimal)
-- Symbols: Heavy use of ✓✗⚠→
-
-Recommendation: Skip compression (may damage document)
-
-Options:
-1. Cancel (recommended)
-2. Proceed anyway (may degrade quality)
-
-Please confirm your choice.
+Title: "Chain-of-Thought Prompting"
+- Definition paragraph (Tier 2: 40% compression)
+- Documentation citations (Tier 1: 20% compression)
+- Test prompt (Tier 0: 0% compression)
+- Model output (Tier 2-3: 50-70% compression)
+- Analysis (Tier 2: 40% compression)
+- Scores with reasoning (Tier 1: 20% compression)
 ```
 
-### PHASE 2: Structure Analysis
+**My approach**:
 ```
-📊 Document: 134KB, 1,332L → Target: 22KB (84% reduction)
+Processing: Test Section #1
+✓ Definition: Tier 2 applied (40% reduction)
+✓ Citations: Tier 1 applied (20% reduction)
+✓ Prompt: Tier 0 applied (0% - preserved verbatim)
+✓ Output: Tier 3 applied (70% - key results only)
+✓ Analysis: Tier 2 applied (40% - fragments, kept insights)
+✓ Scores: Tier 1 applied (20% - full reasoning preserved)
 
-Structure breakdown:
-- Exec summary: 3KB → 1KB
-- Methodology: 5KB → 1KB
-- 10 tests: 115KB → 18KB
-- Conclusion: 5KB → 2KB
-
-Sacred content (PRESERVE 100%):
-- 12 test prompts (~6KB)
-- 8 code blocks (~1KB)
+Section result: 2.1KB (from 5KB, 58% reduction)
 ```
 
-### PHASE 3: Section-by-Section Compression
+### Adaptive Decision-Making
 
-I'll compress each section and show running total:
+**I evaluate each paragraph**:
 
 ```
-✅ Executive Summary: 0.9KB ✓
-   Target: 1KB | Running: 0.9KB / 22KB (4%)
+Paragraph 1: "The model executed the CoT prompt flawlessly..."
+- Type: Analysis
+- Density: Medium (some scaffolding, some insight)
+- Criticality: Important (explains score)
+→ TIER 2: Remove subjects, keep insights
 
-✅ Methodology: 1.1KB ✓
-   Target: 1KB | Running: 2.0KB / 22KB (9%)
+Paragraph 2: "**Prompt**: A logistics manager has to move items..."
+- Type: Test prompt
+- Density: N/A (sacred)
+- Criticality: Critical (must reproduce)
+→ TIER 0: Preserve 100% verbatim
 
-✅ Test 1 (CoT): 2.1KB ✓
-   Prompt: Verbatim ✓ | Output: Key results ✓ | Analysis: Complete ✓
-   Target: 2KB | Running: 4.1KB / 22KB (19%)
+Paragraph 3: "Certainly. Let's break down the movement..."
+- Type: Model output
+- Density: Sparse (narration heavy)
+- Criticality: Supporting (proof needed, not narration)
+→ TIER 3: Extract key results only
 ```
 
-If any section goes over budget:
+---
+
+## SAFETY CHECKS & CONSTRAINTS
+
+### Pre-Compression Analysis
+
+**1. Document-Level Check**:
 ```
-⚠️ Test 2: 3.5KB (target: 2KB) - OVER
-   Compressing output more aggressively...
-   ✅ Test 2 (revised): 2.0KB ✓
-   Running: 6.1KB / 22KB (28%)
+📊 Document Analysis:
+- Total size: 134KB
+- Sacred content: 7KB (5%)
+- Compressible: 127KB (95%)
+- Target reduction: 84%
+
+✓ Document suitable for compression
 ```
 
-### PHASE 4: Quality Verification
-
-After completing all sections:
+**2. Section-Level Check**:
 ```
-📊 Compression Complete - Quality Verification:
+Section: Test #3
+- Prompt: 0.8KB (Tier 0)
+- Output: 2.5KB (Tier 3 candidate)
+- Analysis: 1.2KB (Tier 2)
 
-Size Check:
-✓ Final size: 21.8KB (target: 19-22KB)
-✓ Reduction: 83.7%
+✓ Sacred content identified and protected
+```
 
-Sacred Content Verification:
-✓ All 12 prompts preserved verbatim (byte-for-byte match)
-✓ All 8 code blocks unchanged
-✓ All formulas exact
+### Post-Compression Verification
 
-Information Retention:
-✓ All test reproducible from compressed version
+**Tier 0 Verification** (Critical):
+```
+Verifying sacred content:
+✓ Prompt #1: Byte-for-byte match
+✓ Prompt #2: Byte-for-byte match
+✓ Code block #1: Byte-for-byte match
+...
+
+Result: All Tier 0 content verified identical
+```
+
+**Tier 1 Verification** (Important):
+```
+Verifying technical content:
+✓ All data points preserved
 ✓ All scores have complete reasoning
-✓ All analysis preserves core insights
+✓ All qualifications retained
 
-[Download compressed document]
+Result: Minimal compression successful
+```
+
+**Tier 2-3 Verification** (Supporting):
+```
+Verifying insight preservation:
+✓ All key insights present
+✓ All conclusions readable
+✓ Document coherent
+
+Result: Aggressive compression successful
 ```
 
 ---
 
-## Standard Test Section Format
+## COMPRESSION WORKFLOW
 
-For each test, I'll use this format:
-
+### Phase 1: Document Analysis
 ```
-### [N]. [Name]
+📊 Analyzing: Gemini_Assessment.md (134KB)
 
-**Def**: [1 terse sentence]
-**Doc**: [✓/✗/⚠ + brief]
-**Test**: [Key requirement]
+Content Distribution:
+- Sacred (Tier 0): 7KB (5%)
+- Technical (Tier 1): 25KB (19%)
+- Analysis (Tier 2): 55KB (41%)
+- Prose (Tier 3): 47KB (35%)
+
+Compression Strategy:
+- Target: 22KB (84% reduction)
+- Approach: Tiered (preserve sacred, aggressive on prose)
+- Estimated: ~21.5KB ±2KB
+```
+
+### Phase 2: Section-by-Section Processing
+```
+Processing Section 1/15: Executive Summary
+- Classification: Tier 3 (meta-commentary)
+- Original: 3KB
+- Target: ~1KB (67% reduction)
+- Result: 0.9KB ✓
+
+Processing Section 2/15: Test #1 (CoT)
+- Prompt: Tier 0 → 0.8KB (0% reduction) ✓
+- Output: Tier 3 → 0.4KB (80% reduction) ✓
+- Analysis: Tier 2 → 0.6KB (40% reduction) ✓
+- Scores: Tier 1 → 0.3KB (20% reduction) ✓
+- Total: 2.1KB ✓
+
+Running total: 3.0KB / 22KB (14%)
+```
+
+### Phase 3: Quality Verification
+```
+📊 Compression Complete: Quality Check
+
+Tier 0 (Sacred):
+✓ 12/12 prompts: Byte-for-byte identical
+✓ 8/8 code blocks: Unchanged
+✓ 5/5 formulas: Exact
+
+Tier 1 (Technical):
+✓ All data preserved
+✓ All reasoning complete
+✓ All scores justified
+
+Tier 2-3 (Analysis/Prose):
+✓ All insights present
+✓ Document coherent
+✓ Conclusions clear
+
+Final: 21.8KB (83.7% reduction) ✓
+Information retention: 95%+ ✓
+```
+
+---
+
+## ADAPTIVE RULES
+
+### Context-Sensitive Compression
+
+**Rule 1: Sacred Content in Tier 2 Section**
+```
+If section is Tier 2 BUT contains Tier 0 element:
+→ Extract Tier 0, compress remainder
+
+Example:
+Section: Analysis with embedded code
+- Analysis prose: Tier 2 (40% compression)
+- Code snippet: Tier 0 (0% compression)
+→ Compress analysis, preserve code exactly
+```
+
+**Rule 2: High-Density Tier 3 Section**
+```
+If section is Tier 3 BUT information-dense:
+→ Upgrade to Tier 2
+
+Example:
+Executive summary with critical technical specs
+- Usually: Tier 3 (70% compression)
+- This case: Tier 2 (40% compression)
+→ Preserve technical accuracy
+```
+
+**Rule 3: Low-Value Tier 1 Section**
+```
+If section is Tier 1 BUT redundant/obvious:
+→ Downgrade to Tier 2
+
+Example:
+Methodology section repeating standard practices
+- Usually: Tier 1 (20% compression)
+- This case: Tier 2 (40% compression)
+→ Remove obviousness, keep novel points
+```
+
+### Budget Adaptation
+
+**If section exceeds budget**:
+```
+Test #5: 2.8KB (target: 2KB) - OVER by 40%
+
+Analyzing composition:
+- Output: 1.2KB (should be 0.4KB) → Tier 3 not aggressive enough
+- Analysis: 0.8KB (appropriate) → Leave as-is
+
+Action: Re-compress output with stricter Tier 3 rules
+Result: 2.0KB ✓
+```
+
+---
+
+## EXAMPLE: INTELLIGENT PROCESSING
+
+### Input Section (5KB)
+```
+### Chain-of-Thought (CoT) Prompting
+
+#### Definition
+Chain-of-Thought (CoT) prompting is a technique designed to improve 
+the reasoning abilities of large language models by encouraging them 
+to break down complex problems into a sequence of intermediate, 
+logical steps.
+
+#### Documentation Support
+Official Google AI documentation provides strong support for CoT...
+
+#### Practical Test Design
+The test is designed to assess the model's ability to perform 
+zero-shot CoT reasoning...
+
+**Prompt:**
+A logistics manager has to move items between three warehouses...
+[full 200-word prompt]
+
+#### Test Execution and Analysis
+**Model Output:**
+Certainly. Let's break down the movement step by step.
+[full 400-word output with calculations]
+
+Analysis:
+The model executed the CoT prompt flawlessly. It correctly 
+interpreted the instruction and adopted a sequential approach...
+[full 150-word analysis]
+
+#### Scoring
+- Effectiveness: 10/10. The output is perfect. It is accurate...
+- Reliability: 10/10. This is a foundational capability...
+```
+
+### Intelligent Processing
+```
+Evaluating section components:
+
+1. Definition paragraph:
+   - Type: Explanatory prose
+   - Density: Medium
+   - Criticality: Supporting
+   → TIER 2: 40% compression
+
+2. Documentation paragraph:
+   - Type: Citations
+   - Density: Medium-High
+   - Criticality: Important (evidence)
+   → TIER 1: 20% compression
+
+3. Test design paragraph:
+   - Type: Scaffolding
+   - Density: Low
+   - Criticality: Supporting
+   → TIER 3: 70% compression
+
+4. Prompt:
+   - Type: Test prompt
+   - Density: N/A
+   - Criticality: CRITICAL
+   → TIER 0: 0% compression (PRESERVE VERBATIM)
+
+5. Model output:
+   - Type: Result demonstration
+   - Density: Low (heavy narration)
+   - Criticality: Supporting (proof needed, not narration)
+   → TIER 3: 80% compression (extract key results)
+
+6. Analysis:
+   - Type: Technical analysis
+   - Density: Medium
+   - Criticality: Important (justifies score)
+   → TIER 2: 40% compression
+
+7. Scores with reasoning:
+   - Type: Evaluation with justification
+   - Density: High
+   - Criticality: Important
+   → TIER 1: 20% compression
+```
+
+### Output Section (2.1KB)
+```
+### 1. Chain-of-Thought (CoT)
+
+**Def**: Break complex → intermediate logical steps. Encourage "think step by step."
+
+**Doc**: ✓ Strong - Explicitly named in guides, native Thinking architecture
+
+**Test**: Logic puzzle - warehouse inventory tracking w/ multi-step moves
 
 **Prompt**:
 ```
-[100% VERBATIM - EVERY WORD EXACT]
+A logistics manager has to move items between three warehouses: A, B, and C.
+- Starting state: Warehouse A has 40 units, B has 30, and C has 20.
+- Step 1: Move half of the units from A to B.
+- Step 2: Move 10 units from C to A.
+- Step 3: Evenly distribute all units currently in B among A and C.
+- Step 4: Move 5 units from A to C.
+
+Let's think step by step to determine the final number of units in each warehouse. Show your calculations for each step before providing the final answer.
 ```
 
-**Output**: [Key results only - no narration]
-**Analysis**: [Fragments, no subjects, keep reasoning]
-**Scores**: E=[N]/10 ([reasoning]), R=[N]/10 ([reasoning])
+**Output**: Perfect step-by-step. S1: 40/2=20 A→B (A=20, B=50). S2: 10 C→A (A=30, C=10). S3: Distribute B to A&C (A=55, B=0, C=35). S4: 5 A→C. Final: A=50, B=0, C=40.
+
+**Analysis**: Flawlessly executed CoT. Correctly interpreted "think step by step," adopted sequential approach. Each step calculated correctly, state tracked accurately. Exceptionally well-structured output. Native Thinking architecture highly attuned to this instruction type.
+
+**Scores**: E=10/10 (Perfect: accurate, well-structured, fully adheres to instructions), R=10/10 (Foundational capability, consistently high-quality on logic puzzles)
 ```
 
----
-
-## Size Budgets (for 134KB document)
-
-| Component | Original | Target | Compression |
-|-----------|----------|--------|-------------|
-| Prompts | 6KB | 6KB | 0% (SACRED) |
-| Outputs | 10KB | 3KB | 70% |
-| Analysis | 12KB | 4KB | 67% |
-| Meta-sections | 15KB | 5KB | 67% |
-| Structure | 15KB | 4KB | 73% |
-
----
-
-## Self-Correction Triggers
-
-I'll automatically compress more if:
-- Any section >50% over budget
-- Running total >10% ahead of pace
-- Output section >0.5KB per test
-- Analysis section >0.6KB per test
-
----
-
-## Error Handling
-
-**If compression would damage document**:
+### Compression Breakdown
 ```
-❌ COMPRESSION ABORTED
+Component breakdown:
+- Definition: 80 chars (from 200, Tier 2: 60% reduction)
+- Documentation: 70 chars (from 150, Tier 1: 53% reduction)
+- Test design: 60 chars (from 180, Tier 3: 67% reduction)
+- Prompt: 450 chars (from 450, Tier 0: 0% reduction) ✓
+- Output: 180 chars (from 1200, Tier 3: 85% reduction)
+- Analysis: 280 chars (from 500, Tier 2: 44% reduction)
+- Scores: 150 chars (from 250, Tier 1: 40% reduction)
 
-Reason: Sacred content exceeds 30% of document
-- Document: 40KB
-- Sacred content: 15KB (37%)
-- Compressible content: 25KB
-
-Compression would yield minimal benefit (only 10KB reduction possible)
-while risking sacred content integrity.
-
-Recommendation: Document not suitable for V7 compression.
-```
-
-**If sacred content gets modified**:
-```
-❌ QUALITY CHECK FAILED
-
-Verification detected sacred content modification:
-- Test prompt #3: Changed "step by step" to "stepwise"
-- Code block #5: Indentation altered
-
-Reverting to original. Retrying with stronger preservation rules...
+Total: 2.1KB (from 5KB, 58% reduction)
+Sacred content preserved: ✓
+Information retention: 95%+ ✓
 ```
 
 ---
 
-## Usage
+## USAGE
 
-**Simple**: Attach document and say "compress this"
+Attach document and say "compress this"
 
-I'll:
-1. ✓ Run safety checks
-2. ✓ Identify sacred content
-3. ✓ Compress section by section
-4. ✓ Verify all sacred content preserved
-5. ✓ Deliver final compressed document
+I will:
+1. Analyze entire document structure
+2. Categorize each section by content type
+3. Apply appropriate tier rules adaptively
+4. Self-correct if constraints violated
+5. Verify sacred content preservation
+6. Deliver compressed document with quality report
 
-**If safety issues detected**: I'll warn you and ask permission before proceeding.
-
----
-
-## Example Output (Success)
-
-```
-🔍 Safety Check: ✓ Document suitable for compression
-
-📊 Starting compression: 134KB → 22KB target
-   Sacred content: 12 prompts, 8 code blocks (preserve 100%)
-
-✅ Executive Summary: 0.9KB ✓ (1/15 sections, 4% complete)
-✅ Methodology: 1.0KB ✓ (2/15 sections, 9% complete)
-✅ Test 1 (CoT): 2.1KB ✓ (3/15 sections, 19% complete)
-   - Prompt preserved: ✓ Byte-for-byte match
-...
-
-📊 Quality Verification:
-✓ Size: 21.8KB (83.7% reduction)
-✓ All sacred content verified identical
-✓ Information retention: 95%+
-
-Compression successful!
-```
-
-## Example Output (Safety Warning)
-
-```
-🔍 Safety Check: ⚠️ Issues detected
-
-Document appears pre-compressed:
-- Size: 22KB (already in target range)
-- Format: V7 conventions detected (Def:, →, symbols)
-- Headers: Already ultra-terse
-
-⚠️ RECOMMENDATION: Skip compression
-
-This document is already optimally compressed. Further compression
-may reduce readability without meaningful size benefit.
-
-Options:
-1. Cancel (recommended)
-2. Proceed anyway (not recommended)
-
-Please confirm your choice.
-```
+**No manual work required** - fully autonomous with intelligent adaptation.
 
 ---
 
-## Start Compressing
+## START COMPRESSING
 
-Ready? Attach your document and I'll:
-1. Run safety checks
-2. Identify sacred content
-3. Compress autonomously if safe
-4. Deliver final result with verification
+Ready? Provide your document and I'll intelligently compress it using tiered, adaptive strategies while protecting all critical content.
