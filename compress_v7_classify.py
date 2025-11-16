@@ -17,6 +17,18 @@ import argparse
 from datetime import datetime
 from typing import Dict, List, Tuple, Optional
 
+# Import V7 compression functions for Phase 2
+sys.path.insert(0, '/home/user/compression-framework')
+from compress_v7_hybrid import (
+    apply_abbreviations,
+    apply_symbols,
+    compress_whitespace,
+    PROSE_FRAGMENT_RULES,
+    SECTION_HEADER_RULES,
+    SCAFFOLDING_PATTERNS,
+    SCAFFOLDING_KEEP_PATTERNS
+)
+
 
 # ============================================================================
 # PHASE 1: LLM CLASSIFICATION
@@ -164,17 +176,116 @@ def classify_sections(document: str, api_key: str, model: str = "claude-haiku-4-
 
 
 # ============================================================================
-# PHASE 2: DETERMINISTIC COMPRESSION (Placeholder for Checkpoint 2)
+# PHASE 2: DETERMINISTIC COMPRESSION
 # ============================================================================
+
+def apply_prose_transforms_without_scaffolding(text: str) -> str:
+    """Apply prose transforms but preserve scaffolding (for moderate tier)."""
+    # Prose fragment rules (regex)
+    for pattern, replacement in PROSE_FRAGMENT_RULES:
+        text = re.sub(pattern, replacement, text, flags=re.MULTILINE)
+
+    # Section header rules
+    for pattern, replacement in SECTION_HEADER_RULES:
+        text = re.sub(pattern, replacement, text)
+
+    # DO NOT remove scaffolding for moderate tier
+    return text
+
+
+def apply_prose_transforms_with_scaffolding(text: str) -> str:
+    """Apply all prose transforms including scaffolding removal (for aggressive tier)."""
+    # Prose fragment rules (regex)
+    for pattern, replacement in PROSE_FRAGMENT_RULES:
+        text = re.sub(pattern, replacement, text, flags=re.MULTILINE)
+
+    # Section header rules
+    for pattern, replacement in SECTION_HEADER_RULES:
+        text = re.sub(pattern, replacement, text)
+
+    # Remove scaffolding (but keep critical markers)
+    for pattern in SCAFFOLDING_PATTERNS:
+        # Check if any keep pattern exists nearby
+        has_keep_pattern = any(re.search(keep, text) for keep in SCAFFOLDING_KEEP_PATTERNS)
+        if not has_keep_pattern:
+            text = re.sub(pattern, '', text)
+
+    return text
+
 
 def compress_by_tier(section: Dict) -> str:
     """
     Apply tier-specific compression rules.
 
-    This will be implemented in Checkpoint 2.
-    For now, returns content as-is.
+    Compression tiers:
+    - sacred: 0% compression (verbatim) - test prompts, formulas
+    - minimal: ~10-20% compression (headers + symbols only) - technical specs, scoring
+    - moderate: ~30-50% compression (all rules except scaffolding) - analysis, methodology
+    - aggressive: ~50-70% compression (all V7 rules) - executive summary, scaffolding
+
+    Args:
+        section: Section dict with type, tier, and content
+
+    Returns:
+        Compressed text according to tier rules
     """
-    return section.get("content", "")
+    content = section.get("content", "")
+    tier = section.get("tier", "sacred")
+
+    # Tier 0 (sacred): No compression - preserve exactly
+    if tier == "sacred":
+        return content
+
+    # Tier 1 (minimal): Headers + symbols only
+    elif tier == "minimal":
+        text = apply_abbreviations(content)
+        text = apply_symbols(text)
+        text = compress_whitespace(text)
+        return text
+
+    # Tier 2 (moderate): All rules except scaffolding removal
+    elif tier == "moderate":
+        text = apply_abbreviations(content)
+        text = apply_symbols(text)
+        text = apply_prose_transforms_without_scaffolding(text)
+        text = compress_whitespace(text)
+        return text
+
+    # Tier 3 (aggressive): All V7 rules including scaffolding
+    elif tier == "aggressive":
+        text = apply_abbreviations(content)
+        text = apply_symbols(text)
+        text = apply_prose_transforms_with_scaffolding(text)
+        text = compress_whitespace(text)
+        return text
+
+    else:
+        # Unknown tier - return as-is
+        print(f"⚠️  Unknown tier '{tier}', returning content as-is")
+        return content
+
+
+def compress_from_classification(classification: List[Dict]) -> str:
+    """
+    Compress document from classification data.
+
+    This is a pure Python function - given the same classification,
+    it will always produce identical output (deterministic).
+
+    Args:
+        classification: List of classified sections from classify_sections()
+
+    Returns:
+        Compressed document text
+    """
+    compressed_sections = []
+
+    for section in classification:
+        compressed_content = compress_by_tier(section)
+        compressed_sections.append(compressed_content)
+
+    # Join sections with double newline
+    return "\n\n".join(compressed_sections)
 
 
 # ============================================================================
