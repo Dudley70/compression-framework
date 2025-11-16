@@ -71,7 +71,7 @@ Document to classify:
 """
 
 
-def classify_sections(document: str, api_key: str, model: str = "claude-haiku-4-5") -> List[Dict]:
+def classify_sections(document: str, api_key: str, model: str = "claude-haiku-4-5-20251001") -> List[Dict]:
     """
     Classify document sections using LLM.
 
@@ -100,7 +100,7 @@ def classify_sections(document: str, api_key: str, model: str = "claude-haiku-4-
         full_response = ""
         with client.messages.stream(
             model=model,
-            max_tokens=16000,  # Allow enough for classification JSON
+            max_tokens=51200,  # 80% of Haiku 4.5 output max (64K) - safe margin for large documents
             messages=[{
                 "role": "user",
                 "content": CLASSIFICATION_PROMPT.format(document=document)
