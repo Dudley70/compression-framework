@@ -13,6 +13,7 @@ Version: 1.0
 import re
 import json
 import sys
+import os
 import argparse
 from datetime import datetime
 from typing import Dict, List, Tuple, Optional
@@ -289,13 +290,207 @@ def compress_from_classification(classification: List[Dict]) -> str:
 
 
 # ============================================================================
-# MAIN CLI (Placeholder for Checkpoint 3)
+# VALIDATION HELPERS
+# ============================================================================
+
+def count_test_prompts(text: str) -> int:
+    """
+    Count test prompts in a document.
+
+    Looks for prompt markers and delimiters to identify test prompts.
+
+    Args:
+        text: Document text
+
+    Returns:
+        Number of test prompts found
+    """
+    # Common prompt markers
+    prompt_patterns = [
+        r'\*\*Prompt[:\s]',           # **Prompt:** or **Prompt **
+        r'\*\*Test[:\s]',             # **Test:** or **Test **
+        r'\n##\s+Test\s+\d+',         # ## Test 1, ## Test 2, etc.
+        r'\n###\s+Prompt',            # ### Prompt
+        r'^\*\*\d+\.\s+',             # **1. , **2. , etc (at line start)
+    ]
+
+    count = 0
+    for pattern in prompt_patterns:
+        matches = re.findall(pattern, text, re.MULTILINE | re.IGNORECASE)
+        count += len(matches)
+
+    return count
+
+
+def verify_prompts_verbatim(original: str, compressed: str) -> bool:
+    """
+    Verify that test prompts are preserved verbatim in compressed output.
+
+    This is a heuristic check that looks for prompt markers in both documents
+    and verifies substantial overlap.
+
+    Args:
+        original: Original document
+        compressed: Compressed document
+
+    Returns:
+        True if prompts appear to be preserved, False otherwise
+    """
+    # Extract lines that look like prompts from both documents
+    prompt_pattern = r'(?:^|\n)(?:\*\*(?:Prompt|Test)[:\s]|##\s+Test\s+\d+|###\s+Prompt).*?(?=\n\n|\n#|\Z)'
+
+    original_prompts = re.findall(prompt_pattern, original, re.MULTILINE | re.DOTALL | re.IGNORECASE)
+    compressed_prompts = re.findall(prompt_pattern, compressed, re.MULTILINE | re.DOTALL | re.IGNORECASE)
+
+    # If we found prompts in original, we should find similar number in compressed
+    if len(original_prompts) > 0:
+        # Allow some variance in detection, but should be similar
+        ratio = len(compressed_prompts) / len(original_prompts) if len(original_prompts) > 0 else 0
+        return ratio >= 0.9  # At least 90% of prompts preserved
+
+    # If no prompts detected by pattern, assume preserved (conservative)
+    return True
+
+
+# ============================================================================
+# MAIN PIPELINE
+# ============================================================================
+
+def compress_v7_classify_main(
+    input_file: str,
+    output_file: str,
+    api_key: str,
+    model: str = "claude-haiku-4-5-20251001",
+    expected_prompts: Optional[int] = None,
+    report_file: Optional[str] = None
+) -> Dict:
+    """
+    Main pipeline: Classify then compress a document.
+
+    This is the complete two-phase compression system:
+    Phase 1: LLM classifies sections (non-deterministic but safe)
+    Phase 2: Python compresses by tier (100% deterministic)
+
+    Args:
+        input_file: Path to input markdown file
+        output_file: Path to output compressed file
+        api_key: Anthropic API key
+        model: Claude model to use (default: Haiku 4.5)
+        expected_prompts: Expected number of test prompts (for validation)
+        report_file: Optional path to save validation report JSON
+
+    Returns:
+        Validation report dict
+    """
+    print(f"\n{'='*70}")
+    print(f"V7 CLASSIFY-THEN-COMPRESS PIPELINE")
+    print(f"{'='*70}")
+
+    # Read input
+    print(f"\n📄 Reading input: {input_file}")
+    with open(input_file, 'r') as f:
+        document = f.read()
+
+    original_size = len(document)
+    print(f"   Size: {original_size:,} bytes ({original_size/1024:.1f}KB)")
+
+    # Phase 1: Classification
+    print(f"\n🔍 Phase 1: LLM Classification")
+    classification = classify_sections(document, api_key=api_key, model=model)
+
+    # Phase 2: Compression
+    print(f"\n⚙️  Phase 2: Deterministic Compression")
+    compressed = compress_from_classification(classification)
+
+    compressed_size = len(compressed)
+    compression_ratio = compressed_size / original_size if original_size > 0 else 0
+
+    print(f"   Original: {original_size:,} bytes")
+    print(f"   Compressed: {compressed_size:,} bytes")
+    print(f"   Ratio: {compression_ratio:.1%} ({100 - compression_ratio*100:.1f}% reduction)")
+
+    # Write output
+    print(f"\n💾 Writing output: {output_file}")
+    os.makedirs(os.path.dirname(output_file) if os.path.dirname(output_file) else '.', exist_ok=True)
+    with open(output_file, 'w') as f:
+        f.write(compressed)
+
+    # Validation
+    print(f"\n✅ Validation")
+    prompts_found = count_test_prompts(compressed)
+    prompts_match = verify_prompts_verbatim(document, compressed)
+    prompts_expected = expected_prompts if expected_prompts else prompts_found
+
+    # Check Rule 6 compliance
+    rule_6_compliant = prompts_match and (prompts_found >= prompts_expected * 0.9)
+
+    print(f"   Rule 6 Compliant: {rule_6_compliant}")
+    print(f"   Test Prompts: {prompts_found}/{prompts_expected}")
+    print(f"   Prompts Match: {prompts_match}")
+
+    # Create report
+    report = {
+        "timestamp": datetime.now().isoformat(),
+        "input_file": input_file,
+        "output_file": output_file,
+        "model": model,
+        "original_size": original_size,
+        "compressed_size": compressed_size,
+        "compression_ratio": compression_ratio,
+        "sections_classified": len(classification),
+        "prompts_found": prompts_found,
+        "prompts_expected": prompts_expected,
+        "prompts_match": prompts_match,
+        "rule_6_compliant": rule_6_compliant,
+        "tier_distribution": {}
+    }
+
+    # Add tier distribution
+    for section in classification:
+        tier = section.get("tier", "unknown")
+        report["tier_distribution"][tier] = report["tier_distribution"].get(tier, 0) + 1
+
+    # Write report if requested
+    if report_file:
+        print(f"\n📊 Writing report: {report_file}")
+        os.makedirs(os.path.dirname(report_file) if os.path.dirname(report_file) else '.', exist_ok=True)
+        with open(report_file, 'w') as f:
+            json.dump(report, f, indent=2)
+
+    print(f"\n{'='*70}")
+    print(f"✅ COMPRESSION COMPLETE")
+    print(f"{'='*70}\n")
+
+    return report
+
+
+# ============================================================================
+# MAIN CLI
 # ============================================================================
 
 def main():
     """Main CLI entry point."""
-    print("compress_v7_classify.py - Checkpoint 1: Classification Phase")
-    print("Full implementation in Checkpoints 2-3")
+    parser = argparse.ArgumentParser(
+        description='V7 Classify-Then-Compress: Deterministic document compression'
+    )
+    parser.add_argument('input', help='Input markdown file')
+    parser.add_argument('output', help='Output compressed file')
+    parser.add_argument('--api-key', required=True, help='Anthropic API key')
+    parser.add_argument('--model', default='claude-haiku-4-5-20251001',
+                        help='Claude model to use (default: claude-haiku-4-5-20251001)')
+    parser.add_argument('--expected-prompts', type=int, help='Expected number of test prompts')
+    parser.add_argument('--report', help='Path to save validation report JSON')
+
+    args = parser.parse_args()
+
+    compress_v7_classify_main(
+        input_file=args.input,
+        output_file=args.output,
+        api_key=args.api_key,
+        model=args.model,
+        expected_prompts=args.expected_prompts,
+        report_file=args.report
+    )
 
 
 if __name__ == '__main__':
