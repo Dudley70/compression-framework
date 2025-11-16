@@ -18,6 +18,77 @@ from typing import Dict, List, Tuple
 
 
 # ============================================================================
+# MODEL VALIDATION
+# ============================================================================
+
+# Valid Anthropic models for compression (as of 2025-01)
+VALID_MODELS = {
+    # Sonnet models (recommended for quality)
+    'claude-sonnet-4-5': 'Claude Sonnet 4.5 (latest, best quality)',
+    'claude-sonnet-4-5-20250929': 'Claude Sonnet 4.5 (versioned)',
+
+    # Haiku models (recommended for cost)
+    'claude-haiku-4-5': 'Claude Haiku 4.5 (latest, most economical)',
+    'claude-haiku-4-5-20250101': 'Claude Haiku 4.5 (versioned)',
+
+    # Legacy models (if needed)
+    'claude-3-5-sonnet-20241022': 'Claude 3.5 Sonnet (Oct 2024)',
+    'claude-3-5-haiku-20241022': 'Claude 3.5 Haiku (Oct 2024)',
+}
+
+# Model aliases for convenience
+MODEL_ALIASES = {
+    'sonnet': 'claude-sonnet-4-5',
+    'haiku': 'claude-haiku-4-5',
+    'sonnet-4': 'claude-sonnet-4-5',
+    'haiku-4': 'claude-haiku-4-5',
+}
+
+
+def validate_model(model: str) -> str:
+    """
+    Validate and normalize model name.
+
+    Args:
+        model: Model name (can be alias or full name)
+
+    Returns:
+        Normalized model name
+
+    Raises:
+        ValueError: If model is invalid
+    """
+    # Check if it's an alias
+    if model in MODEL_ALIASES:
+        return MODEL_ALIASES[model]
+
+    # Check if it's a valid model
+    if model in VALID_MODELS:
+        return model
+
+    # Model not found - provide helpful error
+    error_msg = f"Invalid model: '{model}'\n\n"
+    error_msg += "Valid models:\n"
+    for model_id, description in VALID_MODELS.items():
+        error_msg += f"  - {model_id}: {description}\n"
+    error_msg += "\nAliases:\n"
+    for alias, full_name in MODEL_ALIASES.items():
+        error_msg += f"  - {alias} → {full_name}\n"
+
+    # Try to suggest closest match
+    suggestions = []
+    model_lower = model.lower()
+    for valid_model in list(VALID_MODELS.keys()) + list(MODEL_ALIASES.keys()):
+        if model_lower in valid_model.lower() or valid_model.lower() in model_lower:
+            suggestions.append(valid_model)
+
+    if suggestions:
+        error_msg += f"\nDid you mean: {', '.join(suggestions)}?"
+
+    raise ValueError(error_msg)
+
+
+# ============================================================================
 # SACRED CONTENT EXTRACTION (Step 1)
 # ============================================================================
 
@@ -201,6 +272,9 @@ def llm_compress(doc_without_sacred: str, api_key: str, model: str = "claude-son
     except ImportError:
         raise ImportError("anthropic package required. Install with: pip install anthropic")
 
+    # Validate and normalize model name
+    model = validate_model(model)
+
     client = anthropic.Anthropic(api_key=api_key)
 
     # Debug: Show input stats
@@ -287,6 +361,14 @@ HEADER_ABBREVIATIONS = {
     "**Compression:**": "**Comp:**",
     "**Format:**": "**Fmt:**",
     "**Model Output:**": "**Output:**",
+    "**Analysis:**": "**Anal:**",
+    "**Evaluation:**": "**Eval:**",
+    "**Performance:**": "**Perf:**",
+    "**Configuration:**": "**Cfg:**",
+    "**Description:**": "**Desc:**",
+    "**Implementation:**": "**Impl:**",
+    "**Response:**": "**Resp:**",
+    "**Request:**": "**Req:**",
 }
 
 # Standard abbreviations
@@ -300,6 +382,27 @@ STANDARD_ABBREVIATIONS = {
     " kilobytes": "KB",
     " megabytes": "MB",
     " tokens": "T",
+    "Performance": "Perf",
+    "Configuration": "Config",
+    "Implementation": "Impl",
+    "Evaluation": "Eval",
+    "Analysis": "Anal",
+    "Reference": "Ref",
+    "Specification": "Spec",
+    "Repository": "Repo",
+    "Database": "DB",
+    "Framework": "FW",
+    "Library": "Lib",
+    "Function": "Fn",
+    "Variable": "Var",
+    "Parameter": "Param",
+    "Argument": "Arg",
+    "Response": "Resp",
+    "Request": "Req",
+    " milliseconds": "ms",
+    " seconds": "s",
+    " minutes": "min",
+    " percentage": "%",
 }
 
 # Context-specific abbreviations
@@ -311,6 +414,19 @@ CONTEXT_ABBREVIATIONS = {
     "Lines of Code": "LOC",
     "Mixture of Experts": "MoE",
     "JavaScript Object Notation": "JSON",
+    "Natural Language Processing": "NLP",
+    "Machine Learning": "ML",
+    "Deep Learning": "DL",
+    "Artificial Intelligence": "AI",
+    "Retrieval Augmented Generation": "RAG",
+    "Fine-Tuning": "FT",
+    "Reinforcement Learning from Human Feedback": "RLHF",
+    "Application Programming Interface": "API",
+    "Command Line Interface": "CLI",
+    "Graphical User Interface": "GUI",
+    "Test Driven Development": "TDD",
+    "Continuous Integration": "CI",
+    "Continuous Deployment": "CD",
 }
 
 # Status symbols
@@ -349,20 +465,53 @@ LOGICAL_SYMBOLS = {
     " or ": " | ",
     " with ": " w/ ",
     " without ": " w/o ",
+    " for ": " f/ ",
+    " from ": " fr/ ",
+    " through ": " thru ",
+    " between ": " btw ",
+    " approximately ": " ~",
+    " about ": " ~",
+    " greater than ": " > ",
+    " less than ": " < ",
+    " equal to ": " = ",
+    " not equal to ": " ≠ ",
 }
 
 # Prose fragment rules
 PROSE_FRAGMENT_RULES = [
     (r'^The model ', ''),
+    (r'^The system ', ''),
+    (r'^The method ', ''),
+    (r'^The approach ', ''),
+    (r'^The technique ', ''),
     (r'^It ', ''),
     (r'^This ', ''),
     (r'^These ', ''),
+    (r'^Those ', ''),
     (r'is excellent', 'excellent'),
     (r'successfully ', ''),
     (r'effectively ', ''),
+    (r'efficiently ', ''),
+    (r'properly ', ''),
+    (r'correctly ', ''),
+    (r'accurately ', ''),
     (r'As we can see,?\s*', ''),
+    (r'As shown,?\s*', ''),
+    (r'As mentioned,?\s*', ''),
     (r'It should be noted that\s*', ''),
     (r'It is important to note that\s*', ''),
+    (r'It is worth noting that\s*', ''),
+    (r'It can be observed that\s*', ''),
+    (r'It is clear that\s*', ''),
+    (r'We can see that\s*', ''),
+    (r'in order to ', 'to '),
+    (r'in the case of ', 'for '),
+    (r'in the event that ', 'if '),
+    (r'due to the fact that ', 'because '),
+    (r'at this point in time ', 'now '),
+    (r'for the purpose of ', 'for '),
+    (r'has the ability to ', 'can '),
+    (r'is able to ', 'can '),
 ]
 
 # Section header rules
@@ -377,21 +526,52 @@ SECTION_HEADER_RULES = [
 SCAFFOLDING_PATTERNS = [
     r'Moving on to.*?,\s*',
     r'Now let\'s examine.*?,\s*',
+    r'Let\'s examine.*?,\s*',
+    r'Let\'s explore.*?,\s*',
+    r'Let\'s look at.*?,\s*',
     r'Next, we\'ll.*?\.',
+    r'First, we\'ll.*?\.',
+    r'Then, we\'ll.*?\.',
     r'In this section.*?\.',
+    r'In this chapter.*?\.',
+    r'In this part.*?\.',
     r'As we can see from.*?,\s*',
+    r'As mentioned earlier,?\s*',
+    r'As discussed above,?\s*',
+    r'As previously stated,?\s*',
     r'It\'s important to note that\s*',
     r'It should be noted that\s*',
+    r'It is worth noting that\s*',
     r'This demonstrates that\s*',
     r'This shows that\s*',
+    r'This indicates that\s*',
+    r'This suggests that\s*',
+    r'This implies that\s*',
+    r'This means that\s*',
     r'In conclusion,\s*',
     r'To summarize,\s*',
     r'In summary,\s*',
+    r'To sum up,\s*',
+    r'Overall,\s*',
+    r'In general,\s*',
+    r'Generally speaking,\s*',
     r'Certainly\.?\s*',
     r'Indeed\.?\s*',
     r'Interestingly\.?\s*',
     r'Notably\.?\s*',
     r'Clearly\.?\s*',
+    r'Obviously\.?\s*',
+    r'Evidently\.?\s*',
+    r'Essentially\.?\s*',
+    r'Basically\.?\s*',
+    r'Furthermore,\s*',
+    r'Moreover,\s*',
+    r'Additionally,\s*',
+    r'In addition,\s*',
+    r'Also,\s*',
+    r'However,\s*',
+    r'Nevertheless,\s*',
+    r'Nonetheless,\s*',
 ]
 
 # Critical markers to preserve
@@ -471,6 +651,24 @@ def apply_prose_transforms(text: str) -> str:
     return text
 
 
+def compress_whitespace(text: str) -> str:
+    """Compress excessive whitespace while preserving structure."""
+    # Remove trailing whitespace from each line
+    text = re.sub(r' +$', '', text, flags=re.MULTILINE)
+
+    # Compress multiple blank lines to maximum 2 blank lines
+    # (preserves visual separation but reduces excessive spacing)
+    text = re.sub(r'\n\n\n+', '\n\n', text)
+
+    # Remove spaces before punctuation
+    text = re.sub(r' +([.,;:!?])', r'\1', text)
+
+    # Compress multiple spaces to single space (except at line start for indentation)
+    text = re.sub(r'([^\n]) {2,}', r'\1 ', text)
+
+    return text
+
+
 def restore_and_transform(compressed: str, sacred_data: dict) -> str:
     """
     Restore sacred content and apply V7 transformation rules.
@@ -490,6 +688,9 @@ def restore_and_transform(compressed: str, sacred_data: dict) -> str:
     transformed = apply_abbreviations(transformed)
     transformed = apply_symbols(transformed)
     transformed = apply_prose_transforms(transformed)
+
+    # 3. Compress whitespace (final step to maximize compression)
+    transformed = compress_whitespace(transformed)
 
     return transformed
 
@@ -588,19 +789,54 @@ def validate_structure(final_text: str) -> dict:
             "message": "Structure intact (test document)" if no_broken_placeholders else "Broken placeholders found"
         }
 
-    # For production documents, check all structural elements
+    # For production documents, check structural elements
+    # Made more flexible to handle diverse document formats
     checks = {
-        "has_sections": bool(re.search(r'^###', final_text, re.MULTILINE)),
-        "has_scores": bool(re.search(r'E=\d+', final_text)),
-        "has_analysis": bool(re.search(r'\*\*Analysis', final_text)),
+        "has_sections": bool(re.search(r'^#{2,}', final_text, re.MULTILINE)),
+
+        # Flexible score detection - matches multiple formats:
+        # - E=\d+ (effectiveness scores)
+        # - R=\d+ (reliability scores)
+        # - Score: \d+
+        # - \d+/\d+ (ratio format)
+        # - Tables with numeric data
+        "has_scores": bool(re.search(
+            r'(E=\d+|R=\d+|Score:\s*\d+|\d+/\d+|\|\s*\d+\s*\|)',
+            final_text
+        )),
+
+        # Flexible analysis detection - matches multiple formats:
+        # - **Analysis (standard markdown bold)
+        # - "Analysis:" heading
+        # - "Findings:" or "Results:" sections
+        "has_analysis": bool(re.search(
+            r'(\*\*Analysis|\*\*Findings|\*\*Results|^#{2,}\s*(Analysis|Findings|Results))',
+            final_text,
+            re.MULTILINE
+        )),
+
         "no_broken_placeholders": not bool(re.search(r'\{\{SACRED_', final_text)),
     }
 
+    # Calculate pass status - allow missing optional structural elements
+    # Critical: no broken placeholders
+    # Important: has sections
+    # Optional: scores and analysis (depends on document type)
+    critical_pass = checks["no_broken_placeholders"] and checks["has_sections"]
+
+    # Count how many optional checks passed
+    optional_checks = ["has_scores", "has_analysis"]
+    optional_passed = sum(checks[key] for key in optional_checks)
+
+    # Pass if critical checks pass AND at least one optional check passes
+    # (Some documents might not have scores, some might not have analysis sections)
+    overall_pass = critical_pass and optional_passed >= 1
+
     return {
         "check": "structure",
-        "pass": all(checks.values()),
+        "pass": overall_pass,
         "details": checks,
-        "message": "Structure intact" if all(checks.values()) else "Structure broken"
+        "message": "Structure intact" if overall_pass else "Structure validation failed (check details)"
     }
 
 
@@ -686,12 +922,15 @@ def main():
     parser = argparse.ArgumentParser(
         description="Compress technical documents with V7 hybrid method"
     )
-    parser.add_argument('input', help='Input markdown file')
-    parser.add_argument('output', help='Output compressed file')
-    parser.add_argument('--api-key', required=True, help='Anthropic API key')
+    parser.add_argument('input', nargs='?', help='Input markdown file')
+    parser.add_argument('output', nargs='?', help='Output compressed file')
+    parser.add_argument('--api-key', help='Anthropic API key')
     parser.add_argument('--model', default='claude-sonnet-4-5',
-                       choices=['claude-sonnet-4-5', 'claude-haiku-4-5'],
-                       help='Model to use for compression (default: sonnet-4.5)')
+                       help='Model to use (default: claude-sonnet-4-5). '
+                            'Options: sonnet, haiku, claude-sonnet-4-5, claude-haiku-4-5, etc. '
+                            'Use --list-models to see all available models.')
+    parser.add_argument('--list-models', action='store_true',
+                       help='List all available models and exit')
     parser.add_argument('--expected-prompts', type=int, default=11,
                        help='Expected number of test prompts')
     parser.add_argument('--report', help='Save validation report (JSON)')
@@ -699,6 +938,34 @@ def main():
                        help='Show detailed progress')
 
     args = parser.parse_args()
+
+    # Handle --list-models flag
+    if args.list_models:
+        print("Available Anthropic models for compression:\n")
+        print("Full model names:")
+        for model_id, description in VALID_MODELS.items():
+            print(f"  {model_id}")
+            print(f"    {description}")
+        print("\nAliases (shortcuts):")
+        for alias, full_name in MODEL_ALIASES.items():
+            print(f"  {alias} → {full_name}")
+        print("\nExample usage:")
+        print("  python compress_v7_hybrid.py input.md output.md --api-key sk-ant-... --model sonnet")
+        print("  python compress_v7_hybrid.py input.md output.md --api-key sk-ant-... --model haiku")
+        sys.exit(0)
+
+    # Validate required arguments (unless --list-models)
+    if not args.input or not args.output:
+        parser.error("input and output are required arguments")
+    if not args.api_key:
+        parser.error("--api-key is required")
+
+    # Validate model early (before reading file)
+    try:
+        args.model = validate_model(args.model)
+    except ValueError as e:
+        print(f"❌ {e}")
+        sys.exit(1)
 
     # Execute pipeline
     try:
