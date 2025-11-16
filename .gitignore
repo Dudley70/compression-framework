@@ -55,6 +55,9 @@ validation_report.json
 *.session[0-9]*
 *.update
 
+# Test results (temporary outputs)
+test_data/results/
+
 # Temporary
 /scratch/
 /temp/
